@@ -2,6 +2,8 @@
 *.elf
 *.map
 *.d
+**/UMTDLL/UMTDLL
+**/UMTDLL/x64
 **/*.X/nbproject/private
 **/*.X/nbproject/Makefile-*
 **/*.X/nbproject/Package-*
