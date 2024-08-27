@@ -2,10 +2,10 @@
 *.elf
 *.map
 *.d
-**/nbproject/private
-**/nbproject/Makefile-*
-**/nbproject/Package-*
-**/nbproject/project.properties
+**/*.X/nbproject/private
+**/*.X/nbproject/Makefile-*
+**/*.X/nbproject/Package-*
+**/*.X/nbproject/project.properties
 **/*.X/debug
 **/*.X/dist
 **/*.X/build
