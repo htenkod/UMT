@@ -63,16 +63,16 @@ COMMANDS_DATA commandsData = {
                         {0, GPIO, 0, 0xBF860000, _PORTA_RA14_MASK},                             //7
                         {0, GPIO, 0, 0xBF860600, _PORTG_RG6_MASK},                       		//8
                         {0, RESERVED, 0, 0, 0},                                                 //9
-                        {0, GPIO, 0, 0xBF860100, _PORTB_RB14_MASK},                      		//10
+                        {0, GPIO | AN, 0, 0xBF860100, _PORTB_RB14_MASK, 0, ADCHS_CH9},             //10
                         {0, GPIO, 0, 0xBF860300, _PORTD_RD0_MASK},                              //11
                         {0, GPIO, 0, 0xBF860500, _PORTF_RF2_MASK},                              //12
                         {0, GPIO, 0, 0xBF860800, _PORTJ_RJ13_MASK},                             //13
                         {0, RESERVED, 0, 0, 0},                                                 //14
-                        {0, GPIO, 0, 0xBF860100, _PORTB_RB3_MASK},                              //15
+                        {0, GPIO | AN, 0, 0xBF860100, _PORTB_RB3_MASK, 0, ADCHS_CH3},              //15
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK1_MASK},                              //16
                         {0, RESERVED, 0, 0, 0},                                                 //17
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK2_MASK},                              //18
-                        {0, GPIO | U_TX, 0, 0xBF860500, _PORTF_RF5_MASK, 0xBF801654},           //19 U1_Tx
+                        {0, GPIO | U_TX, 0, 0xBF860500, _PORTF_RF5_MASK, (const uint32_t)&RPF5R/*0xBF801654*/},           //19 U1_Tx
                         {0, RESERVED, 0, 0, 0},                                                 //20
                         {0, GPIO | U_RX, 0, 0xBF860500, _PORTF_RF4_MASK, 2},                    //21 U1_Rx
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK3_MASK},                              //22
@@ -296,7 +296,7 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     uint32_t pinVal = atoi(argv[2]);    
     
     //Check if GPIO support available
-    if(commandsData.pin_map[pinNum].support & GPIO)
+    if(!commandsData.pin_map[pinNum].inuse && (commandsData.pin_map[pinNum].support & GPIO))
     {
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x14)) = commandsData.pin_map[pinNum].gpio_mask;
                         
@@ -304,6 +304,8 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x28)) = commandsData.pin_map[pinNum].gpio_mask;
         else
             *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x24)) =  commandsData.pin_map[pinNum].gpio_mask;  
+        
+        commandsData.pin_map[pinNum].inuse = 1;
         
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
     }
@@ -339,8 +341,185 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     else
     {
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+    }       
+}
+
+void cmdPinReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 2 )
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinreset <pin> \r\n");
+        return;
+    }
+        
+    
+    uint32_t pinNum = atoi(argv[1]) - 1;
+    
+    //Check if GPIO support available
+    if(commandsData.pin_map[pinNum].inuse)
+    {                                
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x18)) = commandsData.pin_map[pinNum].gpio_mask;
+        
+        commandsData.pin_map[pinNum].inuse = 0;
+        
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");  
+        
+    }
+    else
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** FAIL ***\r\n");
+    }     
+}
+
+
+
+/* ADC Commands*/
+void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 2)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcup <adcpin>\r\n");
+        return;
     }
     
+    uint32_t adcpin = atoi(argv[1]) - 1;
+    
+    //Check if GPIO support available
+    if(!commandsData.pin_map[adcpin].inuse && commandsData.pin_map[adcpin].support & AN)
+    {
+        /* enable in use*/
+        commandsData.pin_map[adcpin].inuse = 1;
+                
+        /* Enable the Analog select bit*/
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[adcpin].gpio_reg + 0x08))) = commandsData.pin_map[adcpin].gpio_mask;        
+        
+        // Make it input by setting the TRIS register
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[adcpin].gpio_reg) + 0x18)) = commandsData.pin_map[adcpin].gpio_mask;       
+                
+        switch(commandsData.pin_map[adcpin].adc_channel)
+        {
+            case ADCHS_CH3:
+            {
+                /* ADC 3 */
+        
+                ADCANCONbits.ANEN3 = 1;      // Enable the clock to analog bias
+                while(ADCANCONbits.WKRDY3 == 0U) // Wait until ADC is ready
+                {
+                    /* Nothing to do */
+                }
+                ADCCON3bits.DIGEN3 = 1;      // Enable ADC
+            }
+            break;
+            
+            default:
+                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID PIN ***\r\n");
+                break;
+        }
+                
+        TMR3_Start();                    
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");           
+        
+    }
+    else
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+    }
+    
+    
+}
+
+
+void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 2)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcget <adcget>\r\n");
+        return;
+    }
+    
+    uint32_t adcpin = atoi(argv[1]) - 1;
+    
+    //Check if GPIO support available
+    if(commandsData.pin_map[adcpin].inuse && commandsData.pin_map[adcpin].support & AN)
+    {
+        if(ADCHS_ChannelResultIsReady(commandsData.pin_map[adcpin].adc_channel))
+        {
+            uint16_t adcCnt = ADCHS_ChannelResultGet(commandsData.pin_map[adcpin].adc_channel);
+            
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, "ADC Count = %d\r\n", adcCnt); 
+            
+        }
+    
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
+        
+    }
+    else
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+    }
+    
+    
+    
+    
+}
+
+/* I2C Commands*/
+void cmdI2cUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 3)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cup <scl pin> <sda pin>\r\n");
+        return;
+    }
+    
+}
+void cmdI2cWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 3)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cwr <adcpin>\r\n");
+        return;
+    }
+    
+}
+
+void cmdI2cRead (SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 3)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2crd <adcpin>\r\n");
+        return;
+    }
+    
+}
+void cmdI2cDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 3)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cdown <adcpin>\r\n");
+        return;
+    }
     
 }
 
@@ -349,9 +528,9 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
-    if(argc != 3)
+    if(argc < 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartup <txpin> <rxpin> [baud rate] [max size]\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartup <txpin> <rxpin> [baud rate] [rd size] [rd size]\r\n");
         return;
     }
         
@@ -359,25 +538,37 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     uint32_t txpin = atoi(argv[1]) - 1;
     uint32_t rxpin = atoi(argv[2]) - 1;
 
-	uint32_t baud = atoi(argv[3]);
+    
+    if(argc > 3)
+    {
+        uint32_t baud = atoi(argv[3]);
+    
+        UART_SERIAL_SETUP uSetup;
 
-	UART_SERIAL_SETUP uSetup;
+        uSetup.baudRate = baud;
+        uSetup.dataWidth = UART_DATA_8_BIT;
+        uSetup.parity = UART_PARITY_NONE;
+        uSetup.stopBits = 1;
+        
+        if(argc > 4)
+            uSetup.rdBuffSz = atoi(argv[4]);
+        
+        if(argc > 5)
+            uSetup.wrBuffSz = atoi(argv[5]);
 
-	uSetup.baudRate = baud;
-	uSetup.dataWidth = UART_DATA_8_BIT;
-	uSetup.parity = UART_PARITY_NONE;
-	uSetup.stopBits = 1;	
+        UART1_SerialSetup(&uSetup, 0);
+    }
 	
     //Check if GPIO support available
     if(commandsData.pin_map[txpin].support & U_TX &&
-            commandsData.pin_map[rxpin].support & U_RX)
+            commandsData.pin_map[rxpin].support & U_RX && !commandsData.pin_map[txpin].inuse && !commandsData.pin_map[rxpin].inuse)
     {
         // make PPS for UART2
         /* Unlock system for PPS configuration */
         SYSKEY = 0x00000000U;
         SYSKEY = 0xAA996655U;
         SYSKEY = 0x556699AAU;
-
+                
         CFGCONbits.IOLOCK = 0U;
         // output pin
         
@@ -395,8 +586,13 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         CFGCONbits.IOLOCK = 1U;
 
         SYSKEY = 0x00000000U;
-        UART1_SerialSetup(&uSetup, 0);
+        
 
+        /* enable in use*/
+        commandsData.pin_map[txpin].inuse = 1;
+        
+        commandsData.pin_map[rxpin].inuse = 1;
+        
         
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");           
         
@@ -464,12 +660,27 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 
 static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
 {
-    {"pinset",   cmdPinSet,   ": sets the given pin state\r\nExample:- pinset <pin> <0/1>"},
-    {"pinget",   cmdPinGet,   ": gets the given pin state\r\nExample:- pinget <pin>"},   
-    {"uartup",   cmdUartUp,   ": writes to the given UART\r\nExample:- uartUp <txpin> <rxpin>"},   
-    {"uartdown", cmdUartDown,   ": writes to the given UART\r\nExample:- uartDown <txpin> <rxpin>"},   
-    {"uartrd",   cmdUartread,   ": writes to the given UART\r\nExample:- uartrd <idx>"},   
-    {"uartwr",   cmdUartWrite,   ": writes to the given UART\r\nExample:- uartwr <idx>"},   
+    /* GPIO Commands */
+    {"pinset",   cmdPinSet,   ": Sets the given pin state\r\nExample:- pinset <pin> <0/1>\r\n"},
+    {"pinget",   cmdPinGet,   ": Gets the given pin state\r\nExample:- pinget <pin>\r\n"},   
+    {"pinreset",   cmdPinReset,   ": Resets the given pin state\r\nExample:- pinreset <pin>\r\n"},   
+    
+    /* UART Commands */
+    {"uartup",   cmdUartUp,   ": Brings up the given UART\r\nExample:- uartUp <txpin> <rxpin> [baud rate] [max size]\r\n"},   
+    {"uartdown", cmdUartDown,   ": Brings down the given UART\r\nExample:- uartDown <txpin> <rxpin>\r\n"},   
+    {"uartrd",   cmdUartread,   ": Reads from the given UART\r\nExample:- uartrd <idx>\r\n"},   
+    {"uartwr",   cmdUartWrite,   ": Writes to the given UART\r\nExample:- uartwr <idx> <data>\r\n"},   
+    
+    /* ADC Commands */
+    {"adcup",   cmdAdcUp,   ": Brings Up the given ADC interface\r\nExample:- adcup <adcpin>\r\n"},   
+    {"adcget",   cmdAdcGet,   ": Reads the given ADC pin\r\nExample:- adcget <adcpin>\r\n"},   
+    /* I2C Commands */
+    {"i2cup",   cmdI2cUp,   ": Brings up the given UART\r\nExample:- i2cUp <scl pin> <sda pin>\r\n"},   
+    {"i2cdown", cmdI2cDown,   ": Brings down the given UART\r\nExample:- i2cDown <txpin> <rxpin>\r\n"},   
+    {"i2crd",   cmdI2cRead,   ": Reads from the given UART\r\nExample:- i2crd <idx>\r\n"},   
+    {"i2cwr",   cmdI2cWrite,   ": Writes to the given UART\r\nExample:- i2cwr <idx> <data>\r\n"},   
+    
+    
 };
 
 // *****************************************************************************

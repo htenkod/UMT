@@ -52,11 +52,11 @@
 // *****************************************************************************
 
 
-
-
 void ADCHS_Initialize(void)
 {
     ADCCON1bits.ON = 0;
+    ADC3CFG = DEVADC3;
+    ADC3TIME = 0x3010001U;
 
 
     ADCCON1 = 0x600000U;
@@ -65,7 +65,7 @@ void ADCHS_Initialize(void)
 
     ADCTRGMODE = 0x0U;
 
-    ADCTRG1 = 0x0U; 
+    ADCTRG1 = 0x6000000U; 
     ADCTRG2 = 0x0U; 
     ADCTRG3 = 0x0U; 
     
@@ -101,7 +101,16 @@ void ADCHS_Initialize(void)
     {
         /* Nothing to do */
     }
-
+//      its done at the command.c during adcup
+//    /* ADC 3 */
+//    ADCANCONbits.ANEN3 = 1;      // Enable the clock to analog bias
+//    while(ADCANCONbits.WKRDY3 == 0U) // Wait until ADC is ready
+//    {
+//        /* Nothing to do */
+//}
+//    ADCCON3bits.DIGEN3 = 1;      // Enable ADC
+//
+//
 
 
 }
@@ -213,12 +222,8 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel)
 }
 
 
-
-
-
 bool ADCHS_EOSStatusGet(void)
 {
     return (bool)(ADCCON2bits.EOSRDY);
 }
-
 

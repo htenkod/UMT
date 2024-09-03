@@ -282,6 +282,8 @@ void SYS_Initialize ( void* data )
 
 	UART2_Initialize();
 
+    TMR3_Initialize();
+
 
 
     /* MISRAC 2012 deviation block start */

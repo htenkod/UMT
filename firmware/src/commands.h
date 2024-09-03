@@ -118,6 +118,7 @@ typedef struct
     const uint32_t gpio_reg;
     const uint32_t gpio_mask;
     const uint32_t pps_reg_val;
+    uint32_t    adc_channel;
 }PIN_MAP_t;
 
 
@@ -154,7 +155,10 @@ Function 1  | Function 2    |   Pin     |   Pin     |   Function 2  | Function 1
 
     
               
-            
+/*ADC MACROs*/            
+
+#define ADC_VREF                (3.3f)
+#define ADC_MAX_COUNT           (4095)
             
             
             

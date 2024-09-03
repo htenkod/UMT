@@ -441,6 +441,21 @@ UMTDLL_DECLDIR HRESULT UMT_GetDeviceInfo(UINT32 devIdx, DEVICE_DATA_t *deviceInf
 }
 
 
+static HRESULT UMT_CheckStatus(CHAR *response)
+{
+    if (!strstr(response, SUCCUSS))
+    {
+        return S_OK;
+    }
+    else if (!strstr(response, FAILURE))
+    {
+        return -1;
+    }
+
+    return -2;
+}
+
+
 UMTDLL_DECLDIR HRESULT UMT_SetGPIO(DEVICE_DATA_t* UMT_Handle, UCHAR pinNum, UCHAR highLow)
 {
     const char* cmdFmt = "pinset %d %d\r\n";
@@ -451,19 +466,192 @@ UMTDLL_DECLDIR HRESULT UMT_SetGPIO(DEVICE_DATA_t* UMT_Handle, UCHAR pinNum, UCHA
 
     sprintf_s(localBuf, cmdFmt, pinNum, highLow);
 
-    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, strlen(localBuf), &cbSent))
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return S_FALSE;
 
     /* Sent complete command bytes */
-    if (cbSent == strlen(localBuf))
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }    
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+UMTDLL_DECLDIR HRESULT UMT_GetGPIO(DEVICE_DATA_t* UMT_Handle, UCHAR pinNum)
+{
+    const char* cmdFmt = "pinget %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+
+    sprintf_s(localBuf, cmdFmt, pinNum);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
     {
         if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
             return S_FALSE;
 
     }
 
-        
+    return UMT_CheckStatus(localBuf);
 
-    return cbSent;
 }
 
+//wrBuffSz and rdBuffSz can be set to 0 to use default values
+UMTDLL_DECLDIR HRESULT UMT_UART_Up(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UCHAR rxPin, UINT32 baud, UINT32 rdBuffSz, UINT32 wdBuffSz)
+{
+    const char* cmdFmt = "uartup %d %d %d %d %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    // configure min buff size
+    if (wdBuffSz < 512)
+        wdBuffSz = 512;
+
+    // configure min buff size
+    if (rdBuffSz < 512)
+        rdBuffSz = 512;
+
+    sprintf_s(localBuf, cmdFmt, txPin, rxPin, baud, rdBuffSz, wdBuffSz);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+UMTDLL_DECLDIR HRESULT UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT16 numOfbytes, UCHAR* rdBuff)
+{
+    const char* cmdFmt = "uartrd %d %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, cmdFmt, idx, numOfbytes);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+    }
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+UMTDLL_DECLDIR HRESULT UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR *wrBuff)
+{
+    const char* cmdFmt = "uartwr %s\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, cmdFmt, wrBuff);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+
+
+UMTDLL_DECLDIR HRESULT UMT_ADC_Up(DEVICE_DATA_t* UMT_Handle, UCHAR adcPin)
+{
+    const char* cmdFmt = "adcup %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, cmdFmt, adcPin);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+
+
+UMTDLL_DECLDIR HRESULT UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UINT16 *adcCount)
+{
+    const char* cmdFmt = "adcget %d\r\n";
+    #define ADC_STRING "ADC Count ="
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, cmdFmt, txPin);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    CHAR* adcCntPtr = strstr(localBuf, ADC_STRING);
+    if (adcCntPtr != NULL)
+    {
+        UINT32 adcVal = 0;
+        adcCntPtr += sizeof(ADC_STRING);
+        while (*adcCntPtr != '\r')
+        {
+            adcVal *= 10;
+            adcVal += *adcCntPtr - '0';
+            adcCntPtr++;
+        }
+        *adcCount = adcVal;
+    }
+    else
+    {
+        return S_FALSE;
+    }    
+
+    return UMT_CheckStatus(localBuf);
+}
