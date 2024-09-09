@@ -74,7 +74,7 @@
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <IncludePath>C:\Users\C21415\work\Experiments\unifiedHw\UMTDLL\libusb-1.0.27\include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ShortProjectName)temp\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ShortProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>C:\Users\C21415\work\Experiments\unifiedHw\UMTDLL\libusb-1.0.27\include;$(ExternalIncludePath)</ExternalIncludePath>
