@@ -304,9 +304,7 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x28)) = commandsData.pin_map[pinNum].gpio_mask;
         else
             *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x24)) =  commandsData.pin_map[pinNum].gpio_mask;  
-        
-        commandsData.pin_map[pinNum].inuse = 1;
-        
+                        
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
     }
     else
