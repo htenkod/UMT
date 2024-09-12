@@ -539,17 +539,19 @@ UMTDLL_DECLDIR HRESULT UMT_UART_Up(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UCHAR
 
 }
 
-UMTDLL_DECLDIR HRESULT UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT16 numOfbytes, UCHAR* rdBuff)
+UMTDLL_DECLDIR HRESULT UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT16 numOfbytes, CHAR* rdBuff)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
     ULONG cbSent = 0;
     CHAR localBuf[512];
 
-    sprintf_s(localBuf, cmdFmt, idx, numOfbytes);
+    sprintf_s(localBuf, 512, cmdFmt, idx, numOfbytes);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return S_FALSE;
+
+    memset(localBuf, 0, sizeof(localBuf));
 
     /* Sent complete command bytes */
     if (cbSent == (ULONG)strlen(localBuf))
@@ -557,6 +559,9 @@ UMTDLL_DECLDIR HRESULT UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT
         if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
             return S_FALSE;
     }
+
+    sprintf_s(rdBuff, 512, "%s", localBuf);
+
 
     return UMT_CheckStatus(localBuf);
 
