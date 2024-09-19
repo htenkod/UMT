@@ -546,7 +546,7 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         uSetup.baudRate = baud;
         uSetup.dataWidth = UART_DATA_8_BIT;
         uSetup.parity = UART_PARITY_NONE;
-        uSetup.stopBits = 1;
+        uSetup.stopBits = 0; // 0 -> 1 stop bit
         
         if(argc > 4)
             uSetup.rdBuffSz = atoi(argv[4]);
