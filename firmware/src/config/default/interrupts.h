@@ -58,6 +58,7 @@
 // *****************************************************************************
 
 void CORE_TIMER_InterruptHandler( void );
+void TIMER_2_InterruptHandler( void );
 void UART1_FAULT_InterruptHandler( void );
 void UART1_RX_InterruptHandler( void );
 void UART1_TX_InterruptHandler( void );
@@ -66,6 +67,7 @@ void DRV_USBHS_DMAInterruptHandler( void );
 void UART2_FAULT_InterruptHandler( void );
 void UART2_RX_InterruptHandler( void );
 void UART2_TX_InterruptHandler( void );
+void SQI1_InterruptHandler( void );
 
 
 

@@ -60,34 +60,22 @@
 // Section: RTOS "Tasks" Routine
 // *****************************************************************************
 // *****************************************************************************
-TaskHandle_t xSYS_CMD_Tasks;
-void lSYS_CMD_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-        SYS_CMD_Tasks();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-
 static void F_USB_DEVICE_Tasks(  void *pvParameters  )
 {
     while(true)
     {
                 /* USB Device layer tasks routine */
         USB_DEVICE_Tasks(sysObj.usbDevObject0);
-        vTaskDelay(10U / portTICK_PERIOD_MS);
+        vTaskDelay(1U / portTICK_PERIOD_MS);
     }
 }
 
-static void F_DRV_USBHS_Tasks(  void *pvParameters  )
+static void lDRV_MEMORY_0_Tasks(  void *pvParameters  )
 {
     while(true)
     {
-                 /* USB FS Driver Task Routine */
-        DRV_USBHS_Tasks(sysObj.drvUSBHSObject);
-        vTaskDelay(10U / portTICK_PERIOD_MS);
+        DRV_MEMORY_Tasks(sysObj.drvMemory0);
+        vTaskDelay(DRV_MEMORY_RTOS_DELAY_IDX0 / portTICK_PERIOD_MS);
     }
 }
 
@@ -102,14 +90,14 @@ static void lCOMMANDS_Tasks(  void *pvParameters  )
         vTaskDelay(10U / portTICK_PERIOD_MS);
     }
 }
-/* Handle for the TEST_Tasks. */
-TaskHandle_t xTEST_Tasks;
+/* Handle for the FS_Tasks. */
+TaskHandle_t xFS_Tasks;
 
-static void lTEST_Tasks(  void *pvParameters  )
+static void lFS_Tasks(  void *pvParameters  )
 {   
     while(true)
     {
-        TEST_Tasks();
+        FS_Tasks();
         vTaskDelay(5U / portTICK_PERIOD_MS);
     }
 }
@@ -124,6 +112,38 @@ static void lUSB_Tasks(  void *pvParameters  )
         vTaskDelay(5U / portTICK_PERIOD_MS);
     }
 }
+
+TaskHandle_t xSYS_CMD_Tasks;
+void lSYS_CMD_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+        SYS_CMD_Tasks();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+
+static void F_DRV_USBHS_Tasks(  void *pvParameters  )
+{
+    while(true)
+    {
+                 /* USB FS Driver Task Routine */
+        DRV_USBHS_Tasks(sysObj.drvUSBHSObject);
+        vTaskDelay(10U / portTICK_PERIOD_MS);
+    }
+}
+
+
+static void lSYS_FS_Tasks(  void *pvParameters  )
+{
+    while(true)
+    {
+        SYS_FS_Tasks();
+        vTaskDelay(10U / portTICK_PERIOD_MS);
+    }
+}
+
 
 
 
@@ -145,6 +165,7 @@ void SYS_Tasks ( void )
 {
     /* Maintain system services */
     
+
     (void) xTaskCreate( lSYS_CMD_Tasks,
         "SYS_CMD_TASKS",
         SYS_CMD_RTOS_STACK_SIZE,
@@ -155,10 +176,26 @@ void SYS_Tasks ( void )
 
 
 
+    (void) xTaskCreate( lSYS_FS_Tasks,
+        "SYS_FS_TASKS",
+        SYS_FS_STACK_SIZE,
+        (void*)NULL,
+        SYS_FS_PRIORITY,
+        (TaskHandle_t*)NULL
+    );
+
 
 
     /* Maintain Device Drivers */
-    
+        (void)xTaskCreate( lDRV_MEMORY_0_Tasks,
+        "DRV_MEM_0_TASKS",
+        DRV_MEMORY_STACK_SIZE_IDX0,
+        (void*)NULL,
+        DRV_MEMORY_PRIORITY_IDX0,
+        (TaskHandle_t*)NULL
+    );
+
+
 
     /* Maintain Middleware & Other Libraries */
         /* Create OS Thread for USB_DEVICE_Tasks. */
@@ -190,13 +227,13 @@ void SYS_Tasks ( void )
                 1,
                 &xCOMMANDS_Tasks);
 
-    /* Create OS Thread for TEST_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lTEST_Tasks,
-                "TEST_Tasks",
+    /* Create OS Thread for FS_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lFS_Tasks,
+                "FS_Tasks",
                 256,
                 NULL,
                 1,
-                &xTEST_Tasks);
+                &xFS_Tasks);
 
     /* Create OS Thread for USB_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lUSB_Tasks,

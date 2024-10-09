@@ -92,6 +92,16 @@ void CLK_Initialize( void )
     OSCCONbits.FRCDIV = 1;
 
 
+    /* Set up Reference Clock 2 */
+    /* REFO2CON register */
+    /* ROSEL =  SYSCLK */
+    /* DIVSWEN = 1 */
+    /* RODIV = 2 */
+    REFO2CON = 0x20200;
+
+    /* Enable oscillator (ON bit) */
+    REFO2CONSET = 0x00008000;
+
   
 
     /* Peripheral Module Disable Configuration */
@@ -101,9 +111,9 @@ void CLK_Initialize( void )
     PMD1 = 0x1000U;
     PMD2 = 0x3U;
     PMD3 = 0x1ff01ffU;
-    PMD4 = 0x1faU;
+    PMD4 = 0x1f8U;
     PMD5 = 0x301f3f3cU;
-    PMD6 = 0x10830001U;
+    PMD6 = 0x10030001U;
     PMD7 = 0x500000U;
 
     CFGCONbits.PMDLOCK = 1;

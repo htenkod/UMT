@@ -75,6 +75,11 @@ typedef enum
 } COMMANDS_STATES;
 
 
+
+/* Maximum device contexts, can be UART/I2C/SPI etc..*/
+#define UMT_DEV_MAX         10
+#define UMT_DEV_PIN_MAX		10
+
 #define TESTBUS_40PIN
 
 #ifndef TESTBUS_40PIN
@@ -109,6 +114,49 @@ typedef enum
 #define _PORTK_START_ADDR_	0xBF860900
 
 
+#define CLR         0x24
+#define SET         0x28
+
+typedef enum
+{
+    UMT_DEV_UART,
+    UMT_DEV_I2C,
+    UMT_DEV_TMOD
+    
+}UMT_DEV_TYPE_t;
+
+
+
+typedef enum
+{
+    JTAG_TAP_RESET,
+    JTAG_IR_SCAN,
+    JTAG_DR_SCAN,
+    JTAG_EXIT
+}JTAG_TMS_PULSE_t;
+
+
+typedef enum
+{
+    PIN_TCK = 0,
+    PIN_TMS,
+    PIN_TDO,
+    PIN_TDI,
+    PIN_PGC,
+    PIN_PGD,
+    PIN_MCLR    
+}TMOD_PINS;
+
+typedef enum
+{
+    TAP_STATE_IDLE,
+    TAP_STATE_IR_SCAN,
+    TAP_STATE_DR_SCAN,
+    TAP_STATE_IR_SHIFT,
+    TAP_STATE_DR_SHIFT,    
+    TAP_STATE_IR_EXIT,
+    TAP_STATE_EXIT,
+}TAP_STATE_t;
 
 typedef struct
 {
@@ -121,6 +169,39 @@ typedef struct
     uint32_t    adc_channel;
 }PIN_MAP_t;
 
+typedef struct
+{    
+    UMT_DEV_TYPE_t  devType;
+    uint32_t    pinCnt;                    
+    PIN_MAP_t   *pinLink[UMT_DEV_PIN_MAX];        
+}UMT_DEV_t;
+
+
+
+typedef struct 
+{
+    UMT_DEV_t   devList[UMT_DEV_MAX];
+    uint32_t    devCnt;    
+}UMT_CXT_t;
+
+//
+//typedef union {
+//  struct {    
+//    uint32_t DATA:32;
+//    uint32_t ADDR:30;
+//    uint32_t BE0:1;
+//    uint32_t BE1:1;
+//    uint32_t BE2:1;
+//    uint32_t BE3:1;
+//    uint32_t W:1;
+//    uint32_t CMD:2;
+//    uint32_t MODE:1;
+//    uint32_t STATUS:2;
+//  };
+//  struct {
+//    uint8_t ICD_B[9];
+//  };
+//} __ICDREGbits_t;
 
 /*
  TABLE 2-3: J12 CONNECTIONS
@@ -160,11 +241,8 @@ Function 1  | Function 2    |   Pin     |   Pin     |   Function 2  | Function 1
 #define ADC_VREF                (3.3f)
 #define ADC_MAX_COUNT           (4095)
             
-            
-            
-            
-            
-    
+
+#define PIN_SET_CLR(pPin, Offset) *((volatile uint32_t *)((volatile char *)(pPin.gpio_reg) +  Offset)) = pPin.gpio_mask;
 
 // *****************************************************************************
 /* Application Data

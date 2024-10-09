@@ -50,6 +50,81 @@
  * USB Device Function Driver Init Data
  **************************************************/
 
+/* MISRA C-2012 Rule 10.3, 11.1 and 11.8 deviated below. Deviation record ID -  
+   H3_USB_MISRAC_2012_R_10_3_DR_1, H3_USB_MISRAC_2012_R_11_1_DR_1 & H3_USB_MISRAC_2012_R_11_8_DR_1*/
+/***********************************************
+ * Sector buffer needed by for the MSD LUN.
+ ***********************************************/
+static uint8_t sectorBuffer[512 * USB_DEVICE_MSD_NUM_SECTOR_BUFFERS] USB_ALIGN;
+
+/***********************************************
+ * CBW and CSW structure needed by for the MSD
+ * function driver instance.
+ ***********************************************/
+static uint8_t msdCBW0[512] USB_ALIGN;
+static USB_MSD_CSW msdCSW0 USB_ALIGN;
+
+
+/*******************************************
+ * MSD Function Driver initialization
+ *******************************************/
+static USB_DEVICE_MSD_MEDIA_INIT_DATA USB_ALIGN  msdMediaInit0[1] =
+{
+    /* LUN 0 */ 
+    {
+        DRV_MEMORY_INDEX_0,
+        512,
+        sectorBuffer,
+        NULL,
+        0,
+        {
+            0x00,    // peripheral device is connected, direct access block device
+            0x80,   // removable
+            0x04,    // version = 00=> does not conform to any standard, 4=> SPC-2
+            0x02,    // response is in format specified by SPC-2
+            0x1F,    // additional length
+            0x00,    // sccs etc.
+            0x00,    // bque=1 and cmdque=0,indicates simple queueing 00 is obsolete,
+                     // but as in case of other device, we are just using 00
+            0x00,    // 00 obsolete, 0x80 for basic task queueing
+            {
+                'M','i','c','r','o','c','h','p'
+            },
+            {
+                'M','a','s','s',' ','S','t','o','r','a','g','e',' ',' ',' ',' '
+            },
+            {
+                '0','0','0','1'
+            }
+        },
+        {
+            DRV_MEMORY_IsAttached,
+            DRV_MEMORY_Open,
+            DRV_MEMORY_Close,
+            DRV_MEMORY_GeometryGet,
+            DRV_MEMORY_AsyncRead,
+            DRV_MEMORY_AsyncEraseWrite,
+            DRV_MEMORY_IsWriteProtected,
+            DRV_MEMORY_TransferHandlerSet,
+            NULL
+        }
+    },
+};
+  
+/**************************************************
+ * USB Device Function Driver Init Data
+ **************************************************/
+static const USB_DEVICE_MSD_INIT msdInit0 =
+{
+    .numberOfLogicalUnits = 1,
+    .msdCBW = (USB_MSD_CBW*)&msdCBW0,
+    .msdCSW = &msdCSW0,
+    .mediaInit = &msdMediaInit0[0]
+};
+
+/* MISRAC 2012 deviation block end */
+
+
 
 /**************************************************
  * USB Device Layer Function Driver Registration
@@ -57,9 +132,22 @@
  **************************************************/
 /* MISRA C-2012 Rule 10.3 deviated:2, 11.8 deviated:6 deviated below. Deviation record ID -  
    H3_USB_MISRAC_2012_R_10_3_DR_1 & H3_USB_MISRAC_2012_R_11_8_DR_1*/
-static const USB_DEVICE_FUNCTION_REGISTRATION_TABLE funcRegistrationTable[1] =
+static const USB_DEVICE_FUNCTION_REGISTRATION_TABLE funcRegistrationTable[2] =
 {
     
+    /* MSD Function 0 */
+    { 
+        .configurationValue = 1,    /* Configuration value */ 
+        .interfaceNumber = 1,       /* First interfaceNumber of this function */ 
+        .speed = USB_SPEED_HIGH|USB_SPEED_FULL,    /* Function Speed */ 
+        .numberOfInterfaces = 1,    /* Number of interfaces */
+        .funcDriverIndex = 0,  /* Index of MSD Function Driver */
+        .driver = (void*)USB_DEVICE_MSD_FUNCTION_DRIVER,    /* USB MSD function data exposed to device layer */
+        .funcDriverInit = (void*)&msdInit0    /* Function driver init data */
+    },
+
+
+
     /* Vendor Function 0 */
     { 
         .configurationValue = 1,    /* Configuration value */ 
@@ -126,12 +214,48 @@ static const uint8_t highSpeedConfigurationDescriptor[]=
 
     0x09,                                               // Size of this descriptor in bytes
     (uint8_t)USB_DESCRIPTOR_CONFIGURATION,                       // Descriptor Type
-    USB_DEVICE_16bitTo8bitArrange(46),                  //(23 Bytes)Size of the Configuration descriptor
-    1,                                                  // Number of interfaces in this configuration
+//    USB_DEVICE_16bitTo8bitArrange(69),                  //(46 Bytes)Size of the Configuration descriptor
+    0x45, 0x00,                                         //(46 Bytes)Size of the Configuration descriptor
+    2,                                                  // Number of interfaces in this configuration
     0x01,                                               // Index value of this configuration
     0x00,                                               // Configuration string index
     USB_ATTRIBUTE_DEFAULT | USB_ATTRIBUTE_SELF_POWERED, // Attributes
     50,                                                 // Maximum power consumption (mA) /2
+
+
+        /* Descriptor for Function 1 - MSD     */ 
+    
+    /* Interface Descriptor */
+
+    9,                              // Size of this descriptor in bytes
+    USB_DESCRIPTOR_INTERFACE,       // INTERFACE descriptor type
+    1,                              // Interface Number
+    0,                              // Alternate Setting Number
+    2,                              // Number of endpoints in this intf
+    USB_MSD_CLASS_CODE,             // Class code
+    USB_MSD_SUBCLASS_CODE_SCSI_TRANSPARENT_COMMAND_SET, // Subclass code
+    USB_MSD_PROTOCOL,               // Protocol code
+    0,                              // Interface string index
+
+    /* Endpoint Descriptor */
+
+    7,                          // Size of this descriptor in bytes
+    USB_DESCRIPTOR_ENDPOINT,    // Endpoint Descriptor
+    3  | USB_EP_DIRECTION_IN,    // EndpointAddress ( EP1 IN )
+    (uint8_t)USB_TRANSFER_TYPE_BULK,     // Attributes type of EP (BULK)
+    0x00,0x02,                  // Max packet size of this EP
+    0x00,                       // Interval (in ms)
+
+
+    7,                          // Size of this descriptor in bytes
+    USB_DESCRIPTOR_ENDPOINT,    // Endpoint Descriptor
+    3  | USB_EP_DIRECTION_OUT,   // EndpointAddress ( EP2 OUT )
+    (uint8_t)USB_TRANSFER_TYPE_BULK,     // Attributes type of EP (BULK)
+    0x00,0x02,                  // Max packet size of this EP
+    0x00,                       // Interval (in ms)
+    
+    
+
 
     /* Interface Descriptor */
 
@@ -202,12 +326,44 @@ static const uint8_t fullSpeedConfigurationDescriptor[]=
 
     0x09,                                                   // Size of this descriptor in bytes
     (uint8_t)USB_DESCRIPTOR_CONFIGURATION,                           // Descriptor Type
-    USB_DEVICE_16bitTo8bitArrange(46),                      //(23 Bytes)Size of the Configuration descriptor
-    1,                                                      // Number of interfaces in this configuration
+//    USB_DEVICE_16bitTo8bitArrange(69),                      //(46 Bytes)Size of the Configuration descriptor
+    0x45, 0x00,                                             //(69 Bytes)Size of the Configuration descriptor    
+    2,                                                      // Number of interfaces in this configuration
     0x01,                                                   // Index value of this configuration
     0x00,                                                   // Configuration string index
     USB_ATTRIBUTE_DEFAULT | USB_ATTRIBUTE_SELF_POWERED, // Attributes
     50,                                                 // Maximum power consumption (mA) /2
+    /* Descriptor for Function 1 - MSD     */ 
+    
+    /* Interface Descriptor */
+
+    9,                              // Size of this descriptor in bytes
+    USB_DESCRIPTOR_INTERFACE,       // INTERFACE descriptor type
+    1,                              // Interface Number
+    0,                              // Alternate Setting Number
+    2,                              // Number of endpoints in this intf
+    USB_MSD_CLASS_CODE,             // Class code
+    USB_MSD_SUBCLASS_CODE_SCSI_TRANSPARENT_COMMAND_SET, // Subclass code
+    USB_MSD_PROTOCOL,               // Protocol code
+    0,                              // Interface string index
+
+    /* Endpoint Descriptor */
+
+    7,                          // Size of this descriptor in bytes
+    USB_DESCRIPTOR_ENDPOINT,    // Endpoint Descriptor
+    3  | USB_EP_DIRECTION_IN,    // EndpointAddress ( EP1 IN )
+    (uint8_t)USB_TRANSFER_TYPE_BULK,     // Attributes type of EP (BULK)
+    0x40,0x00,                  // Max packet size of this EP
+    0x00,                       // Interval (in ms)
+
+
+    7,                          // Size of this descriptor in bytes
+    USB_DESCRIPTOR_ENDPOINT,    // Endpoint Descriptor
+    3  | USB_EP_DIRECTION_OUT,   // EndpointAddress ( EP2 OUT )
+    (uint8_t)USB_TRANSFER_TYPE_BULK,     // Attributes type of EP (BULK)
+    0x40,0x00,                  // Max packet size of this EP
+    0x00,                       // Interval (in ms)
+
     /* Interface Descriptor */
 
     0x09,                       // Size of this descriptor in bytes
@@ -417,7 +573,7 @@ const USB_DEVICE_INIT usbDevInitData =
 {
     /* Number of function drivers registered to this instance of the
        USB device layer */
-    .registeredFuncCount = 1,
+    .registeredFuncCount = 2,
 
     /* Function driver table registered to this instance of the USB device layer*/
     .registeredFunctions = (USB_DEVICE_FUNCTION_REGISTRATION_TABLE*)funcRegistrationTable,
@@ -435,10 +591,10 @@ const USB_DEVICE_INIT usbDevInitData =
     .usbDriverInterface = DRV_USBHS_DEVICE_INTERFACE,
 
     /* Specify queue size for vendor endpoint read */
-    .queueSizeEndpointRead = 10,
+    .queueSizeEndpointRead = 3,
 
     /* Specify queue size for vendor endpoint write */
-    .queueSizeEndpointWrite= 10
+    .queueSizeEndpointWrite= 3
 };
 // </editor-fold>
 

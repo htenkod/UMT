@@ -62,6 +62,7 @@ void GPIO_Initialize ( void )
 
     /* PORTA Initialization */
     ANSELBCLR = 0x0028U; /* Digital Mode Enable */
+    TRISBCLR = 0x20U; /* Direction Control */
     /* PORTB Initialization */
     ANSELBCLR = 0x7000U; /* Digital Mode Enable */
     CNPUBSET = 0x7000U; /* Pull-Up Enable */

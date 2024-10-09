@@ -68,6 +68,7 @@
 // *****************************************************************************
 // *****************************************************************************
 void CORE_TIMER_Handler (void);
+void TIMER_2_Handler (void);
 void UART1_FAULT_Handler (void);
 void UART1_RX_Handler (void);
 void UART1_TX_Handler (void);
@@ -76,6 +77,7 @@ void USB_DMA_Handler (void);
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
+void SQI1_Handler (void);
 
 
 // *****************************************************************************
@@ -89,6 +91,11 @@ void CORE_TIMER_Handler (void)
 }
 
 
+
+void TIMER_2_Handler (void)
+{
+    TIMER_2_InterruptHandler();
+}
 
 void UART1_FAULT_Handler (void)
 {
@@ -128,6 +135,11 @@ void UART2_RX_Handler (void)
 void UART2_TX_Handler (void)
 {
     UART2_TX_InterruptHandler();
+}
+
+void SQI1_Handler (void)
+{
+    SQI1_InterruptHandler();
 }
 
 

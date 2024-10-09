@@ -57,18 +57,18 @@
 // Section: RTOS "Tasks" Handles
 // *****************************************************************************
 // *****************************************************************************
-/* Declaration of SYS_COMMAND task handle */
-extern TaskHandle_t xSYS_CMD_Tasks;
-
 /* Declaration of  COMMANDS_Tasks task handle */
 extern TaskHandle_t xCOMMANDS_Tasks;
 
-/* Declaration of  TEST_Tasks task handle */
-extern TaskHandle_t xTEST_Tasks;
+/* Declaration of  FS_Tasks task handle */
+extern TaskHandle_t xFS_Tasks;
 
 /* Declaration of  USB_Tasks task handle */
 extern TaskHandle_t xUSB_Tasks;
 
+
+/* Declaration of SYS_COMMAND task handle */
+extern TaskHandle_t xSYS_CMD_Tasks;
 
 
 
