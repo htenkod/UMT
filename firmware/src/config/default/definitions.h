@@ -60,8 +60,8 @@
 #include "peripheral/adchs/plib_adchs.h"
 #include "peripheral/uart/plib_uart1.h"
 #include "peripheral/uart/plib_uart2.h"
+#include "peripheral/tmr/plib_tmr5.h"
 #include "peripheral/tmr/plib_tmr2.h"
-#include "peripheral/tmr/plib_tmr3.h"
 #include "peripheral/sqi/plib_sqi1.h"
 #include "system/int/sys_int.h"
 #include "system/cache/sys_cache.h"
@@ -238,8 +238,9 @@ typedef struct
 // *****************************************************************************
 // *****************************************************************************
 
-extern const USB_DEVICE_INIT usbDevInitData; 
+extern const USB_DEVICE_INIT usbDevInitData_run; 
 
+extern const USB_DEVICE_INIT usbDevInitData_setup;
 
 
 extern SYSTEM_OBJECTS sysObj;

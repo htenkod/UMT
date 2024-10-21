@@ -117,14 +117,14 @@ uint32_t TMR2_FrequencyGet(void)
 
 void __attribute__((used)) TIMER_2_InterruptHandler (void)
 {
-    uint32_t status  = 0U;
-    status = IFS0bits.T2IF;
+//    uint32_t status  = 0U;
+//    status = IFS0bits.T2IF;
+    
     IFS0CLR = _IFS0_T2IF_MASK;
-
     if((tmr2Obj.callback_fn != NULL))
     {
         uintptr_t context = tmr2Obj.context;
-        tmr2Obj.callback_fn(status, context);
+        tmr2Obj.callback_fn(context);        
     }
 }
 

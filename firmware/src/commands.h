@@ -114,8 +114,8 @@ typedef enum
 #define _PORTK_START_ADDR_	0xBF860900
 
 
-#define CLR         0x24
-#define SET         0x28
+#define CLR         0x34
+#define SET         0x38
 
 typedef enum
 {
@@ -173,7 +173,8 @@ typedef struct
 {    
     UMT_DEV_TYPE_t  devType;
     uint32_t    pinCnt;                    
-    PIN_MAP_t   *pinLink[UMT_DEV_PIN_MAX];        
+    uint32_t    devId;
+    PIN_MAP_t   *pinLink[UMT_DEV_PIN_MAX];   
 }UMT_DEV_t;
 
 
@@ -268,6 +269,8 @@ typedef struct
 
 } COMMANDS_DATA;
 
+
+extern UMT_CXT_t gUmtCxt;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Routines

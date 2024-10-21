@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    plib_tmr3.h
+    plib_tmr5.h
 
   Summary:
     Data Type definition of the Timer Peripheral Interface Plib.
@@ -41,8 +41,8 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
 
-#ifndef PLIB_TMR3_H
-#define PLIB_TMR3_H
+#ifndef PLIB_TMR5_H
+#define PLIB_TMR5_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -72,22 +72,25 @@
 
 
 // *****************************************************************************
-void TMR3_Initialize(void);
+void TMR5_Initialize(void);
 
-void TMR3_Start(void);
+void TMR5_Start(void);
 
-void TMR3_Stop(void);
+void TMR5_Stop(void);
 
-void TMR3_PeriodSet(uint16_t period);
+void TMR5_PeriodSet(uint16_t period);
 
-uint16_t TMR3_PeriodGet(void);
+uint16_t TMR5_PeriodGet(void);
 
-uint16_t TMR3_CounterGet(void);
+uint16_t TMR5_CounterGet(void);
 
-uint32_t TMR3_FrequencyGet(void);
+uint32_t TMR5_FrequencyGet(void);
 
+void TMR5_InterruptEnable(void);
 
-bool TMR3_PeriodHasExpired(void);
+void TMR5_InterruptDisable(void);
+
+void TMR5_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context );
 
 
 // DOM-IGNORE-BEGIN
@@ -97,4 +100,4 @@ bool TMR3_PeriodHasExpired(void);
 #endif
 // DOM-IGNORE-END
 
-#endif /* PLIB_TMR3_H */
+#endif /* PLIB_TMR5_H */

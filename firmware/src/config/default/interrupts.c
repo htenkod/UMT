@@ -69,6 +69,7 @@
 // *****************************************************************************
 void CORE_TIMER_Handler (void);
 void TIMER_2_Handler (void);
+void TIMER_5_Handler (void);
 void UART1_FAULT_Handler (void);
 void UART1_RX_Handler (void);
 void UART1_TX_Handler (void);
@@ -95,6 +96,11 @@ void CORE_TIMER_Handler (void)
 void TIMER_2_Handler (void)
 {
     TIMER_2_InterruptHandler();
+}
+
+void TIMER_5_Handler (void)
+{
+    TIMER_5_InterruptHandler();
 }
 
 void UART1_FAULT_Handler (void)

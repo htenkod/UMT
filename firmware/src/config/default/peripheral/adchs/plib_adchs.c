@@ -52,6 +52,8 @@
 // *****************************************************************************
 
 
+
+
 void ADCHS_Initialize(void)
 {
     ADCCON1bits.ON = 0;
@@ -65,7 +67,7 @@ void ADCHS_Initialize(void)
 
     ADCTRGMODE = 0x0U;
 
-    ADCTRG1 = 0x6000000U; 
+    ADCTRG1 = 0x7000000U; 
     ADCTRG2 = 0x0U; 
     ADCTRG3 = 0x0U; 
     
@@ -222,8 +224,12 @@ uint16_t ADCHS_ChannelResultGet(ADCHS_CHANNEL_NUM channel)
 }
 
 
+
+
+
 bool ADCHS_EOSStatusGet(void)
 {
     return (bool)(ADCCON2bits.EOSRDY);
 }
+
 

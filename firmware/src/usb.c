@@ -566,7 +566,7 @@ static const SYS_CMD_API sysUSBVendorApi =
 
 void USB_Initialize ( void )
 {
-    extern USB_STR_DESCR_t sd003;
+    extern USB_STR_DESCR_t sd003_run;
     const char hexMap[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     /* Place the App state machine in its initial state. */
     usbData.state = USB_STATE_INIT;
@@ -581,15 +581,15 @@ void USB_Initialize ( void )
     usbData.altSetting = 0;
     
     
-    sd003.string[4] = hexMap[(DEVSN0 >> 12) & 0xF];
-    sd003.string[5] = hexMap[(DEVSN0 >> 8) & 0xF];
-    sd003.string[6] = hexMap[(DEVSN0 >> 4) & 0xF];
-    sd003.string[7] = hexMap[DEVSN0 & 0xF];
+    sd003_run.string[4] = hexMap[(DEVSN0 >> 12) & 0xF];
+    sd003_run.string[5] = hexMap[(DEVSN0 >> 8) & 0xF];
+    sd003_run.string[6] = hexMap[(DEVSN0 >> 4) & 0xF];
+    sd003_run.string[7] = hexMap[DEVSN0 & 0xF];
 
-    sd003.string[8] = hexMap[(DEVSN1 >> 12) & 0xF];
-    sd003.string[9] = hexMap[(DEVSN1 >> 8) & 0xF];
-    sd003.string[10] = hexMap[(DEVSN1 >> 4) & 0xF];
-    sd003.string[11] = hexMap[DEVSN1 & 0xF];
+    sd003_run.string[8] = hexMap[(DEVSN1 >> 12) & 0xF];
+    sd003_run.string[9] = hexMap[(DEVSN1 >> 8) & 0xF];
+    sd003_run.string[10] = hexMap[(DEVSN1 >> 4) & 0xF];
+    sd003_run.string[11] = hexMap[DEVSN1 & 0xF];
 
 
 	 /* Initialize instance object */

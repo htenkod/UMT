@@ -52,43 +52,6 @@
 */
 UMT_CXT_t gUmtCxt;
 
-//
-// Only TMS
-//static uint8_t TAP_RST_5BIT[2][12] = {
-//                    {SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR}, // TMS                    
-//};
-
-// TMS and TDO
-#define IR_4BIT_OFFSET  11
-static uint8_t TAP_IR_4BIT[2][20] = {
-                    {CLR, CLR, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
-                    };
-
-// TMS and TDO
-
-#define DR_8BIT_OFFSET  21
-static uint32_t TAP_DR_8BIT[2][28] = {                    
-                    {CLR, CLR, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
-                    };
-
-#define DR_32BIT_OFFSET  76-6-1
-static uint32_t TAP_DR_32BIT[2][76] = {                    
-                    {CLR, CLR, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
-                    };
-
-
-#define ICDREG_72BIT_OFFSET  156-6-1
-static uint32_t ICDREG_72BIT[2][156] = {                    
-                    {CLR, CLR, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
-                    };
-
-
-
-
 void Word2ByteSteam(uint32_t word, int8_t *bs)
 {   
     for(int i = 0; word>0; i++) 
@@ -380,7 +343,7 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     {                                
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x18)) = commandsData.pin_map[pinNum].gpio_mask;
         
-        bool pin_state = *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x30)) & commandsData.pin_map[pinNum].gpio_mask ;
+        bool pin_state = *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x20)) & commandsData.pin_map[pinNum].gpio_mask ;
         
         (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** %d ***\r\n", pin_state);   
     }
@@ -468,7 +431,7 @@ void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
                 break;
         }
                 
-        TMR3_Start();                    
+        TMR5_Start();                    
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");           
         
     }
@@ -707,205 +670,6 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
 }
 
-void Inject_TDO(uintptr_t context)
-{
-    uint32_t *devIdx = (uint32_t *)((uint32_t *)context)[0];
-    uint32_t *pattern = (uint32_t *)((uint32_t *)context)[1];
-    uint32_t *length =  (uint32_t *)((uint32_t *)context)[2];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx]; 
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-
-    if(*length)
-    {     
-        (*length)--;
-        //keep inverting the clock
-        *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + 0x2C))) = tckPin->gpio_mask;              
-        *((volatile uint32_t *)((volatile char *)(tdoPin->gpio_reg) + pattern[*length])) =  tdoPin->gpio_mask;          
-    }   
-    
-}
-
-/* TMOD Commands*/
-void Inject_TMS(uintptr_t context)
-{
-    uint32_t *devIdx = (uint32_t *)((uint32_t *)context)[0];
-    uint32_t *pattern = (uint32_t *)((uint32_t *)context)[1];
-    uint32_t *length =  (uint32_t *)((uint32_t *)context)[2];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx]; 
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-
-    if(*length)
-    {     
-        (*length)--;
-        //keep inverting the clock
-        *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + 0x2C))) = tckPin->gpio_mask;              
-        *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + pattern[*length])) =  tmsPin->gpio_mask;          
-    }   
-    
-}
-
-void Inject_TMOD12(uintptr_t context)
-{
-    uint32_t *devIdx = (uint32_t *)((uint32_t *)context)[0];
-    uint32_t *pattern = (uint32_t *)((uint32_t *)context)[1];
-    uint32_t *length = (uint32_t *)((uint32_t *)context)[2];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *pgcPin = tmodDev->pinLink[PIN_PGC];
-    PIN_MAP_t *pgdPin = tmodDev->pinLink[PIN_PGD];
-               
-    
-    // each bit is transmitted twice on the clock sizof(uint32_t) * 2
-    if(*length)
-    {     
-        (*length)--;                           
-        //keep inverting the clock
-        *((volatile uint32_t *)((volatile char *)(pgcPin->gpio_reg + 0x2C))) = pgcPin->gpio_mask;              
-        *((volatile uint32_t *)((volatile char *)(pgdPin->gpio_reg) + pattern[*length])) =  pgdPin->gpio_mask;          
-    }   
-}
-
-void Inject_IR(uintptr_t context)
-{            
-//    static uint32_t capture_ir[] = {SET, SET, SET, SET, CLR, CLR};
-//    static uint32_t exit_irdr[] = {SET, SET, CLR, CLR};
-//    
-//    static uint32_t idx = 0;
-//    static uint32_t state = TAP_STATE_IR_SCAN;
-//    
-    uint32_t *devIdx = (uint32_t *)((uint32_t *)context)[0];
-    uint32_t *length = (uint32_t *)((uint32_t *)context)[1];
-//    uint32_t **pattern = (uint32_t **)((uint32_t *)context)[1];   
-//    uint32_t *length = (uint32_t *)((uint32_t *)context)[2];
-//    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-                  
-    // clock line
-    *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + 0x2C))) = tckPin->gpio_mask;
-    
-     // each bit is transmitted twice on the clock sizof(uint32_t) * 2
-    if(*length)
-    {     
-        (*length)--;                           
-        //keep inverting the clock                      
-        *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + TAP_IR_4BIT[0][*length])) =  tmsPin->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(tdoPin->gpio_reg) + TAP_IR_4BIT[1][*length])) =  tdoPin->gpio_mask;          
-    }   
-//    
-//    if(!*length)
-//        return;    
-//    
-//    
-//    switch(state)
-//    {
-//        case TAP_STATE_IR_SCAN:
-//        {
-//            idx = 0;            
-//            *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + capture_ir[idx++])) =  tmsPin->gpio_mask; 
-//            if(idx > 5)
-//                state = TAP_STATE_IR_SHIFT;
-//           
-//        }
-//        break;
-//            
-//        case TAP_STATE_IR_SHIFT:                                
-//        {
-//            idx = 0;
-//            *((volatile uint32_t *)((volatile char *)(tdiPin->gpio_reg) + pattern[idx++])) =  tdiPin->gpio_mask; 
-//            if(idx > *length)
-//                state = TAP_STATE_IR_EXIT;
-//        }
-//        break;
-//            
-//        case TAP_STATE_IR_EXIT:                    
-//        {
-//            idx = 0;
-//            *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + exit_irdr[idx++])) =  tmsPin->gpio_mask; 
-//            if(idx > 3)
-//                state = TAP_STATE_EXIT;    
-//        }
-//        break;
-//        
-//        case TAP_STATE_EXIT:
-//        {
-//            state = TAP_STATE_IDLE;            
-//        }
-//        break;
-//        
-//        default:
-//        {
-//            // Completed the Transfer
-////            *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + SET))) = tckPin->gpio_mask;
-//            *length = 0;
-//            idx = 0;
-//            state = TAP_STATE_IR_SCAN;
-//            
-//        }
-//        break;
-//    }
-       
-}
-
-void Inject_DR(uintptr_t context)
-{               
-    uint32_t *devIdx = (uint32_t *)((uint32_t *)context)[0];
-    uint32_t *length = (uint32_t *)((uint32_t *)context)[1];
-    uint32_t *tmsSteam = (uint32_t *)((uint32_t *)context)[2];
-    uint32_t *tdiSteam = (uint32_t *)((uint32_t *)context)[3];
-
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-                  
-    // clock line, keep inverting the clock                      
-    *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + 0x2C))) = tckPin->gpio_mask;
-        
-    if(*length)
-    {     
-        (*length)--;                           
-        *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + tmsSteam[*length])) =  tmsPin->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(tdoPin->gpio_reg) + tdiSteam[*length])) =  tdoPin->gpio_mask;          
-    }   
-          
-}
-
-void TriggerTDO(uint32_t devId, uint32_t *pattern, uint32_t bits)
-{
-    volatile uint32_t devIdx = devId;
-    volatile uint32_t length = bits;
-    volatile uint32_t *tmrCxt[3] = {&devIdx, pattern, &length};
-
-    SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_TDO, (uintptr_t)tmrCxt, 10, SYS_TIME_PERIODIC);
-    //wait for pattern complete
-    while(length > 0);    
-
-    SYS_TIME_TimerDestroy(triggerTmr);
-}
-
-
-
-void TriggerTMS(uint32_t devId, uint32_t *pattern, uint32_t bits)
-{
-    volatile uint32_t devIdx = devId;
-    volatile uint32_t length = bits;
-    volatile uint32_t *tmrCxt[3] = {&devIdx, pattern, &length};
-
-    SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_TMS, (uintptr_t)tmrCxt, 10, SYS_TIME_PERIODIC);
-    //wait for pattern complete
-    while(length > 0);    
-
-    SYS_TIME_TimerDestroy(triggerTmr);
-}
-
-
 void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
@@ -942,10 +706,10 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + 0x14)) = commandsData.pin_map[mclrPin].gpio_mask;
 
 //        configure the default states 
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tckPin].gpio_reg) + SET)) =  commandsData.pin_map[tckPin].gpio_mask;  
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tckPin].gpio_reg) + CLR)) =  commandsData.pin_map[tckPin].gpio_mask;  
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tmsPin].gpio_reg) + CLR)) =  commandsData.pin_map[tmsPin].gpio_mask;  
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdoPin].gpio_reg) + CLR)) =  commandsData.pin_map[tdoPin].gpio_mask;
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgcPin].gpio_reg) + SET)) =  commandsData.pin_map[pgcPin].gpio_mask; 
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgcPin].gpio_reg) + CLR)) =  commandsData.pin_map[pgcPin].gpio_mask; 
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgdPin].gpio_reg) + CLR)) =  commandsData.pin_map[pgdPin].gpio_mask;   
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + SET)) = commandsData.pin_map[mclrPin].gpio_mask;
         
@@ -968,35 +732,16 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         gUmtCxt.devList[devIdx].pinCnt = pinIdx;
         gUmtCxt.devCnt = (devIdx + 1);
         
-        //0x5B98207C
-        static uint32_t tmod12_pattern[] = {CLR, CLR, SET, SET, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, SET, SET, 
-        SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, 
-        SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR};
-                       
-        volatile uint32_t length = 0x40;        
-        volatile uint32_t *tmod12Cxt[3] = {&devIdx, tmod12_pattern, &length};
-    
-        // set the MCLR LOW
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + CLR)) = commandsData.pin_map[mclrPin].gpio_mask;
-          
-//        SYS_TIME_HANDLE dealyTmr = 0;
-//        SYS_TIME_DelayUS(10, &dealyTmr);
+        if(TMOD_TAP_Init(devIdx) == 0)
+        {
+            gUmtCxt.devList[devIdx].devType = UMT_DEV_TMOD;
         
-        SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_TMOD12, (uintptr_t)tmod12Cxt, 1, SYS_TIME_PERIODIC);
-        
-        //Wait until we send complete pattern
-        while(length > 0);
-        
-        // set the MCLR HIGH
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + SET)) = commandsData.pin_map[mclrPin].gpio_mask;
-        
-        
-//        SYS_TIME_DelayUS(10, &dealyTmr);        
-        SYS_TIME_TimerDestroy(triggerTmr);
-//        SYS_TIME_TimerDestroy(dealyTmr);
-        
-        
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);  
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx); 
+        }
+        else
+        {
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n"); 
+        }
     }
     else
     {
@@ -1005,234 +750,52 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
 }
 
-void cmdTapReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+void cmdTapDevId(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
     if(argc != 2)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taprst <idx>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapdevid <idx>\r\n");
         return;
     }
-    
-    uint32_t devIdx  = atoi(argv[1]);               
-    if(gUmtCxt.devList[devIdx].devType == UMT_DEV_TMOD)
-    {                          
-        
-        static uint32_t tap_reset[12] = {CLR, CLR, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET};     
-        
-        TriggerTMS(devIdx, tap_reset, 12);
-        
-        
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);  
+                    
+    if(gUmtCxt.devList[atoi(argv[1])].devType == UMT_DEV_TMOD)
+    {   
+
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", gUmtCxt.devList[atoi(argv[1])].devId );  
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** DEV MISMATCH ***\r\n");
-    }
-    
-    
-}
-
-void cmdTapIr(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
-{
-    const void* cmdIoParam = pCmdIO->cmdIoParam;        
-    //requires both pin# and value
-    if(argc != 4)
-    {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapir <idx> <word> <bits>\r\n");
-        return;
-    }
-    
-    uint32_t devIdx  = atoi(argv[1]);                   
-    uint32_t cmd  = atoi(argv[2]);
-    volatile uint32_t length  = (atoi(argv[3]) * 2);
-    
-    if(gUmtCxt.devList[devIdx].devType == UMT_DEV_TMOD)
-    {                    
-        //    transfer 5 1's and last 0        
-//        uint32_t irSteam[10];        
-        
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET] = (cmd & 1)?(SET):(CLR);    
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-1] = (cmd & 1)?(SET):(CLR);
-        cmd = cmd >> 1; // bit 0
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-2] = (cmd & 1)?(SET):(CLR);    
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-3] = (cmd & 1)?(SET):(CLR);    
-        cmd = cmd >> 1; // bit 1
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-4] = (cmd & 1)?(SET):(CLR);    
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-5] = (cmd & 1)?(SET):(CLR);    
-        cmd = cmd >> 1; // bit 2
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-6] = (cmd & 1)?(SET):(CLR);    
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-7] = (cmd & 1)?(SET):(CLR);    
-        cmd = cmd >> 1; // bit 3
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-9] = (cmd & 1)?(SET):(CLR);    
-        TAP_IR_4BIT[1][IR_4BIT_OFFSET-10] = (cmd & 1)?(SET):(CLR);    
-//        
-//        
-//        
-//        
-//        for(int i = 13; i >= 0; i-=2)
-//        {
-//            TAP_IR_5BIT[1][i] = (cmd & 1)?(SET):(CLR);    
-//            TAP_IR_5BIT[1][i+1] = (cmd & 1)?(SET):(CLR);    
-//            cmd = (cmd >> 1);
-//            
-//        }
-        
-        
-        length = 20;
-                  
-//        static uint32_t capture_ir[] = {CLR, CLR, CLR, CLR, SET, SET, SET, SET};
-//        static uint32_t exit_irdr[] = {CLR, CLR, SET, SET, SET, SET};
-
-//        TriggerTMS(devIdx, capture_ir, 8);
-//        
-//        TriggerTDO(devIdx, irSteam, length);
-//        
-//        TriggerTMS(devIdx, exit_irdr, 6);
-                
-        volatile uint32_t *tapIrCxt[2] = {&devIdx, &length};
-        
-        SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_IR, (uintptr_t)tapIrCxt, 1, SYS_TIME_PERIODIC);
-        //Wait until we send complete pattern
-        while(length > 0);
-            
-        SYS_TIME_TimerDestroy(triggerTmr);
-     
-        
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);  
-    }
-    else
-    {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** DEV MISMATCH ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
     }
     
 }
 
-
-void cmdTapDr(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
     if(argc != 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapir <idx> <word> <bits>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapflash <idx> <addr> <filename>\r\n");
         return;
     }
     
-    uint32_t devIdx  = atoi(argv[1]);                   
-    uint32_t data  = atoi(argv[2]);
-    volatile uint32_t length  = (atoi(argv[3]) * 2) - 1;
-    
-    if(gUmtCxt.devList[devIdx].devType == UMT_DEV_TMOD)
-    {                                    
-//        uint32_t drSteam[64];        
-//        for(int i = length; i >= 0; i--)
-//        {
-//            drSteam[i] = (data & 1)?(SET):(CLR);    
-//            if(i & 1)
-//                data = (data >> 1);            
-//        } 
-        
-        volatile uint32_t *tmod12Cxt[4] = {&devIdx};
-        
-        if(data < 0x100)
-        {
-            length = 28;            
-            uint32_t idx = 0;
-            while(data)
-            {
-                TAP_DR_8BIT[1][DR_8BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);    
-                TAP_DR_8BIT[1][DR_8BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);
-                data = data >> 1; // bit 1
-            } 
-        
-            tmod12Cxt[0] = &devIdx;
-            tmod12Cxt[1] = &length;
-            tmod12Cxt[2] = TAP_DR_8BIT[0];
-            tmod12Cxt[3] = TAP_DR_8BIT[1];                
-        }
-        else
-        {
-            length = 76;            
-            uint32_t idx = 0;
-            while(data)
-            {
-                TAP_DR_32BIT[1][DR_32BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);    
-                TAP_DR_32BIT[1][DR_32BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);
-                data = data >> 1; // bit 1
-            }
-            
-            tmod12Cxt[0] = &devIdx;
-            tmod12Cxt[1] = &length;
-            tmod12Cxt[2] = TAP_DR_32BIT[0];
-            tmod12Cxt[3] = TAP_DR_32BIT[1];  
-        }
-        SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_DR, (uintptr_t)tmod12Cxt, 1, SYS_TIME_PERIODIC);        
-        //Wait until we send complete pattern
-        while(length > 0);
-        
-        SYS_TIME_TimerDestroy(triggerTmr);
-        
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);  
+    fsData.tapId = atoi(argv[1]);
+                    
+    if(TMOD_FLASH_Trigger(atoi(argv[1]), atoi(argv[2]), argv[3]) == 0)
+    {   
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** \r\n" );  
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** DEV MISMATCH ***\r\n");
-    }
-}
-
-
-void cmdIcdReg(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
-{
-    const void* cmdIoParam = pCmdIO->cmdIoParam;
-        
-    //requires both pin# and value
-    if(argc != 4)
-    {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapicd <idx> <addr> <data>\r\n");
-        return;
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
     }
     
-    uint32_t devIdx  = atoi(argv[1]);                   
-    uint32_t data  = atoi(argv[2]);
-    volatile uint32_t length  = (atoi(argv[3]) * 2) - 1;
-    
-    if(gUmtCxt.devList[devIdx].devType == UMT_DEV_TMOD)
-    {          
-        volatile uint32_t *tmod12Cxt[4] = {&devIdx};
-        
-        length = 28;            
-        uint32_t idx = 0;
-        while(data)
-        {
-            ICDREG_72BIT[1][ICDREG_72BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);    
-            ICDREG_72BIT[1][ICDREG_72BIT_OFFSET - idx++] = (data & 1)?(SET):(CLR);
-            data = data >> 1; // bit 1
-        } 
-
-        tmod12Cxt[0] = &devIdx;
-        tmod12Cxt[1] = &length;
-        tmod12Cxt[2] = ICDREG_72BIT[0];
-        tmod12Cxt[3] = ICDREG_72BIT[1];                
-        
-        
-        SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_DR, (uintptr_t)tmod12Cxt, 1, SYS_TIME_PERIODIC);        
-        //Wait until we send complete pattern
-        while(length > 0);
-        
-        SYS_TIME_TimerDestroy(triggerTmr);
-        
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);  
-    }
-    else
-    {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** DEV MISMATCH ***\r\n");
-    }
 }
-
 
 static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
 {
@@ -1258,11 +821,8 @@ static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
     
     /* TMOD Commands */
     {"tapup",   cmdTapUp,   ": Brings Up the TMOD interface pins\r\nExample:- tmodup <tck> <tdo> <tdi> <tms> <mclr>\r\n"},       
-    {"taprst",  cmdTapReset,": Triggers the TMOD patterns\r\nExample:- taprst <idx>\r\n"},  
-    {"tapir",   cmdTapIr,   ": Triggers the TMOD patterns\r\nExample:- tapir <idx> <word>\r\n"},  
-    {"tapdr",   cmdTapDr,   ": Triggers the TMOD patterns\r\nExample:- tapdr <idx> <word>\r\n"},  
-    {"icdreg",   cmdIcdReg,   ": Triggers the TMOD patterns\r\nExample:- tapicd <idx> <addr> <data>\r\n"},  
-    
+    {"tapdevid",   cmdTapDevId,   ": Triggers the TMOD patterns\r\nExample:- tapdevid <idx>\r\n"},   
+    {"tapflash",   cmdTapFlash,   ": Triggers the TMOD patterns\r\nExample:- tapflash <idx> <file name>\r\n"},   
     
 };
 

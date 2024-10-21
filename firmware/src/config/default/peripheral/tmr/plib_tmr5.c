@@ -5,10 +5,10 @@
     Microchip Technology Inc.
 
   File Name
-    plib_tmr3.c
+    plib_tmr5.c
 
   Summary
-    TMR3 peripheral library source file.
+    TMR5 peripheral library source file.
 
   Description
     This file implements the interface to the TMR peripheral library.  This
@@ -50,74 +50,100 @@
 // *****************************************************************************
 
 #include "device.h"
-#include "plib_tmr3.h"
+#include "plib_tmr5.h"
 #include "interrupts.h"
 
 
+volatile static TMR_TIMER_OBJECT tmr5Obj;
 
 
-void TMR3_Initialize(void)
+void TMR5_Initialize(void)
 {
     /* Disable Timer */
-    T3CONCLR = _T3CON_ON_MASK;
+    T5CONCLR = _T5CON_ON_MASK;
 
     /*
     SIDL = 0
-    TCKPS =7
+    TCKPS =0
     T32   = 0
     TCS = 0
     */
-    T3CONSET = 0x70;
+    T5CONSET = 0x0;
 
     /* Clear counter */
-    TMR3 = 0x0;
+    TMR5 = 0x0;
 
     /*Set period */
-    PR3 = 58592U;
+    PR5 = 65535U;
 
+    /* Enable TMR Interrupt */
+    IEC0SET = _IEC0_T5IE_MASK;
 
 }
 
 
-void TMR3_Start(void)
+void TMR5_Start(void)
 {
-    T3CONSET = _T3CON_ON_MASK;
+    T5CONSET = _T5CON_ON_MASK;
 }
 
 
-void TMR3_Stop (void)
+void TMR5_Stop (void)
 {
-    T3CONCLR = _T3CON_ON_MASK;
+    T5CONCLR = _T5CON_ON_MASK;
 }
 
-void TMR3_PeriodSet(uint16_t period)
+void TMR5_PeriodSet(uint16_t period)
 {
-    PR3  = period;
+    PR5  = period;
 }
 
-uint16_t TMR3_PeriodGet(void)
+uint16_t TMR5_PeriodGet(void)
 {
-    return (uint16_t)PR3;
+    return (uint16_t)PR5;
 }
 
-uint16_t TMR3_CounterGet(void)
+uint16_t TMR5_CounterGet(void)
 {
-    return (uint16_t)(TMR3);
-}
-
-
-uint32_t TMR3_FrequencyGet(void)
-{
-    return (390625);
+    return (uint16_t)(TMR5);
 }
 
 
-
-bool TMR3_PeriodHasExpired(void)
+uint32_t TMR5_FrequencyGet(void)
 {
-    bool status;
-        status = (IFS0bits.T3IF != 0U);
-        IFS0CLR = _IFS0_T3IF_MASK;
+    return (100000000);
+}
 
-    return status;
+
+void __attribute__((used)) TIMER_5_InterruptHandler (void)
+{
+//    uint32_t status  = 0U;
+//    status = IFS0bits.T5IF;
+    IFS0CLR = _IFS0_T5IF_MASK;
+
+    if((tmr5Obj.callback_fn != NULL))
+    {
+        uintptr_t context = tmr5Obj.context;
+        tmr5Obj.callback_fn(context);
+    }
+}
+
+
+void TMR5_InterruptEnable(void)
+{
+    IEC0SET = _IEC0_T5IE_MASK;
+}
+
+
+void TMR5_InterruptDisable(void)
+{
+    IEC0CLR = _IEC0_T5IE_MASK;
+}
+
+
+void TMR5_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
+{
+    /* Save callback_fn and context in local memory */
+    tmr5Obj.callback_fn = callback_fn;
+    tmr5Obj.context = context;
 }

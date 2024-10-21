@@ -66,7 +66,7 @@ static void F_USB_DEVICE_Tasks(  void *pvParameters  )
     {
                 /* USB Device layer tasks routine */
         USB_DEVICE_Tasks(sysObj.usbDevObject0);
-        vTaskDelay(1U / portTICK_PERIOD_MS);
+        vTaskDelay(10U / portTICK_PERIOD_MS);
     }
 }
 
@@ -87,7 +87,7 @@ static void lCOMMANDS_Tasks(  void *pvParameters  )
     while(true)
     {
         COMMANDS_Tasks();
-        vTaskDelay(10U / portTICK_PERIOD_MS);
+        vTaskDelay(1U / portTICK_PERIOD_MS);
     }
 }
 /* Handle for the FS_Tasks. */
@@ -98,7 +98,7 @@ static void lFS_Tasks(  void *pvParameters  )
     while(true)
     {
         FS_Tasks();
-        vTaskDelay(5U / portTICK_PERIOD_MS);
+//        vTaskDelay(1U / portTICK_PERIOD_MS);
     }
 }
 /* Handle for the USB_Tasks. */
@@ -109,7 +109,7 @@ static void lUSB_Tasks(  void *pvParameters  )
     while(true)
     {
         USB_Tasks();
-        vTaskDelay(5U / portTICK_PERIOD_MS);
+        vTaskDelay(10U / portTICK_PERIOD_MS);
     }
 }
 
@@ -119,7 +119,7 @@ void lSYS_CMD_Tasks(  void *pvParameters  )
     while(1)
     {
         SYS_CMD_Tasks();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
+        vTaskDelay(1 / portTICK_PERIOD_MS);
     }
 }
 
@@ -230,7 +230,7 @@ void SYS_Tasks ( void )
     /* Create OS Thread for FS_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lFS_Tasks,
                 "FS_Tasks",
-                256,
+                1024,
                 NULL,
                 1,
                 &xFS_Tasks);

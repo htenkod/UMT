@@ -391,9 +391,9 @@ void SYS_Initialize ( void* data )
 
 	UART2_Initialize();
 
-    TMR2_Initialize();
+    TMR5_Initialize();
 
-    TMR3_Initialize();
+    TMR2_Initialize();
 
     SQI1_Initialize();
 
@@ -424,10 +424,15 @@ void SYS_Initialize ( void* data )
     SYS_CMD_Initialize((SYS_MODULE_INIT*)&sysCmdInit);
 
 
-
     /* Initialize the USB device layer */
-    sysObj.usbDevObject0 = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 , ( SYS_MODULE_INIT* ) & usbDevInitData);
-
+    if(SWITCH1_Get() == SWITCH1_STATE_PRESSED)
+    {
+        sysObj.usbDevObject0 = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 , ( SYS_MODULE_INIT* ) & usbDevInitData_setup);
+    }
+    else
+    {
+        sysObj.usbDevObject0 = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 , ( SYS_MODULE_INIT* ) & usbDevInitData_run);
+    }
 
     /* Initialize USB Driver */ 
     sysObj.drvUSBHSObject = DRV_USBHS_Initialize(DRV_USBHS_INDEX_0, (SYS_MODULE_INIT *) &drvUSBInit);    

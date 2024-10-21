@@ -109,10 +109,18 @@ typedef enum
     FS_IDLE,
 
     /* An app error has occurred */
-    FS_ERROR
+    FS_ERROR,
     /* TODO: Define states used by the application state machine. */
+            
+    FS_TMOD_FLASH
 
 } FS_STATES;
+
+typedef enum 
+{
+    ICDREG_OP_RD,
+    ICDREG_OP_WR,        
+}ICDREG_OP_t;
 
         
 #define FS_MOUNT_NAME          SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0
@@ -123,6 +131,27 @@ typedef enum
 #define FS_FILE_NAME               "newfile.txt"
 
 #define BUFFER_SIZE                (4096U)
+
+#define DUMMY_READ              0x00
+/* MCHP Commands*/
+#define MCHP_CMD_USER_ID        0x01
+#define MCHP_CMD_READ_STATUS    0x02
+#define MCHP_CMD_DEASSERT       0xD0
+#define MCHP_CMD_ASSERT         0xD1
+
+
+/* CHIP TAP Commands*/
+#define CHIP_TAP_HIGH_Z        0x00
+#define CHIP_TAP_ID_CODE       0x01
+#define CHIP_TAP_PRELOAD       0x02
+#define CHIP_TAP_ICDREG        0x03
+#define CHIP_TAP_SWTAP_CHIP    0x04            
+#define CHIP_TAP_SWTAP         0x05
+#define CHIP_TAP_EXTEST        0x06
+#define CHIP_TAP_MCHP_CMD      0x07
+#define CHIP_TAP_MCHP_STATUS   0x08
+#define CHIP_TAP_CHIPE_ERASE   0xFC
+
 // *****************************************************************************
 /* Application Data
 
@@ -143,16 +172,21 @@ typedef struct
 
     /* SYS_FS File handle */
     SYS_FS_HANDLE fileHandle;
+    
+    uint32_t    tapId;
+    
+    uint32_t flashAddr;
+    /* flashFile Name */
+    char fileName[256];
 
     /* Read Buffer */
-    uint8_t readBuffer[BUFFER_SIZE];
-
-    /* Write Buffer*/
-    uint8_t writeBuffer[BUFFER_SIZE];
+    uint32_t readBuffer[BUFFER_SIZE];
 
     SYS_FS_FSTAT fileStatus;
 
-    long fileSize;
+    uint32_t readCount;        
+    
+    bool triggerTmodFlash;
 
     bool diskMounted;
 
@@ -240,6 +274,21 @@ void FS_Initialize ( void );
  */
 
 void FS_Tasks( void );
+
+
+int32_t TMOD_TAP_Init(uint32_t devId);
+
+int32_t TMOD_TAP_Reset(uint32_t devId);
+
+uint32_t TMOD_TAP_IR(uint32_t devId, uint32_t iReg);
+
+uint32_t TMOD_TAP_DR(uint32_t devId, uint32_t dReg);
+
+uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t opMode, bool);
+
+int32_t TMOD_FLASH_Trigger(uint32_t devId, uint32_t sof, char *fileName);
+
+int32_t TMOD_Pattern(uint32_t devId);
 
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
