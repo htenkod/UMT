@@ -284,7 +284,7 @@ uint32_t TMOD_TAP_IR(uint32_t devId, uint32_t iReg);
 
 uint32_t TMOD_TAP_DR(uint32_t devId, uint32_t dReg);
 
-uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t opMode, bool);
+uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t opMode);
 
 int32_t TMOD_FLASH_Trigger(uint32_t devId, uint32_t sof, char *fileName);
 

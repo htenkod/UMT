@@ -695,12 +695,11 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             && !commandsData.pin_map[mclrPin].inuse && (commandsData.pin_map[mclrPin].support & GPIO))
     {
 //        configure pin direction
-//        input pins
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x18)) = commandsData.pin_map[tdiPin].gpio_mask;
-//        output pins        
+//        output pins                
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tckPin].gpio_reg) + 0x14)) = commandsData.pin_map[tckPin].gpio_mask;
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tmsPin].gpio_reg) + 0x14)) = commandsData.pin_map[tmsPin].gpio_mask;
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdoPin].gpio_reg) + 0x14)) = commandsData.pin_map[tdoPin].gpio_mask;
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x14)) = commandsData.pin_map[tdiPin].gpio_mask;        
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgcPin].gpio_reg) + 0x14)) = commandsData.pin_map[pgcPin].gpio_mask;
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgdPin].gpio_reg) + 0x14)) = commandsData.pin_map[pgdPin].gpio_mask;
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + 0x14)) = commandsData.pin_map[mclrPin].gpio_mask;
@@ -709,6 +708,7 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tckPin].gpio_reg) + CLR)) =  commandsData.pin_map[tckPin].gpio_mask;  
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tmsPin].gpio_reg) + CLR)) =  commandsData.pin_map[tmsPin].gpio_mask;  
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdoPin].gpio_reg) + CLR)) =  commandsData.pin_map[tdoPin].gpio_mask;
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + CLR)) =  commandsData.pin_map[tdiPin].gpio_mask;
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgcPin].gpio_reg) + CLR)) =  commandsData.pin_map[pgcPin].gpio_mask; 
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pgdPin].gpio_reg) + CLR)) =  commandsData.pin_map[pgdPin].gpio_mask;   
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[mclrPin].gpio_reg) + SET)) = commandsData.pin_map[mclrPin].gpio_mask;
@@ -732,16 +732,22 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         gUmtCxt.devList[devIdx].pinCnt = pinIdx;
         gUmtCxt.devCnt = (devIdx + 1);
         
+        TMOD_Pattern(devIdx);
+        
+//        input pins
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x18)) = commandsData.pin_map[tdiPin].gpio_mask;
+                
         if(TMOD_TAP_Init(devIdx) == 0)
         {
             gUmtCxt.devList[devIdx].devType = UMT_DEV_TMOD;
-        
+
             (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx); 
         }
         else
         {
             (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n"); 
         }
+        
     }
     else
     {

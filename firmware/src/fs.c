@@ -27,7 +27,6 @@
 // *****************************************************************************
 // *****************************************************************************
 #include "definitions.h"
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -94,7 +93,7 @@ static uint32_t CACHE_ALIGN IR_5BIT_STREAM[2][IR_5BIT_CMD_LEN] = {
 
 static uint32_t CACHE_ALIGN DR_8BIT_STREAM[3][DR_8BIT_CMD_LEN] = {                    
                     {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
+                    {CLR, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
                     {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
                     };
 
@@ -354,27 +353,86 @@ void FS_Tasks ( void )
             }
             else
             {    
-                switch(gUmtCxt.devList[fsData.tapId].devId)
+                switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
                 {
-                    case 0x9B8F053:
+                    case 0x09B8F053:
                     {
                         uint32_t secSz = readSz/sizeof(uint32_t);
                         remBytes = readSz % sizeof(uint32_t);
                         
                         //write first 16 bytes at address 0
                         if(!fsData.readCount)
+//                        if(0)
                         {
+                                                        
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0x00000000, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0xAA996655, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0x556699AA, ICDREG_OP_WR);
+                            //    
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44012400, 0x00700000, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44012400, 0x00000000, ICDREG_OP_RD);
+                            //    
+                            //    
+                            //    
+                            //    ''start sequence
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00000000, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00000002, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00004002, ICDREG_OP_WR);
+                            //    
+                            //    
+                            //    
+                            //    ''destination address
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000630, 0x00000000, ICDREG_OP_WR);
+                            //    
+                            //
+                            //    s
+                            //    ''DATA1
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000640, fsData.readBuffer[cnt++], ICDREG_OP_WR);
+                            //    
+                            //    
+                            //    ''DATA2
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000650, fsData.readBuffer[cnt++], ICDREG_OP_WR);
+                            //    
+                            //    ''DATA3
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000660, fsData.readBuffer[cnt++], ICDREG_OP_WR);
+                            //    
+                            //    ''DATA4
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000670, fsData.readBuffer[cnt++], ICDREG_OP_WR);
+                            //    
+                            //    
+                            //    ''transfer sequence
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x00000000, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0xAA996655, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x556699AA, ICDREG_OP_WR);
+                            //    
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x440006F0, 0x80000000, ICDREG_OP_WR);
+                            //    
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x00000000, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0xAA996655, ICDREG_OP_WR);
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x556699AA, ICDREG_OP_WR);
+                            //    
+                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x0000C002, ICDREG_OP_WR);
                             
-                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount, fsData.readBuffer[cnt++], ICDREG_OP_WR, false);   
-                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount+4, fsData.readBuffer[cnt++], ICDREG_OP_WR, false);   
-                                                       
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x00000, 0, ICDREG_OP_RD, true);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x00004, 0, ICDREG_OP_RD, false);
+//                            CORETIMER_DelayMs(5);
+//
+//    
+//    
+                            
+//                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount, fsData.readBuffer[cnt++], ICDREG_OP_WR);   
+//                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount+4, fsData.readBuffer[cnt++], ICDREG_OP_WR);   
+//                                                       
+//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
+//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
+//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
+//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
+                            
+                            
+                            
                         }
                         
                         for(cnt = 0; cnt < secSz; cnt++)
                         {
-                            TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt], ICDREG_OP_WR, false);                    
+                            TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt], ICDREG_OP_WR);                    
                         }                   
                         
                         
@@ -394,11 +452,29 @@ void FS_Tasks ( void )
                     {                           
                         volatile uint32_t word = (fsData.readBuffer[cnt] << remBytes);
                         word = word >> remBytes;
-                        TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), word, ICDREG_OP_WR, false); 
+                        TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), word, ICDREG_OP_WR); 
                     }
+                                                            
+//                    
+//                    CORETIMER_DelayMs(10);                    
+//                    CORETIMER_DelayMs(1);
+//                    TMOD_TAP_ICDREG(fsData.tapId, 0x20000000, 0x00000000, ICDREG_OP_RD);
+//                    CORETIMER_DelayMs(1);
+//                    TMOD_TAP_ICDREG(fsData.tapId, 0x20000000, 0x00000000, ICDREG_OP_RD);
+//                                        
+//                    CORETIMER_DelayMs(1);
+                
                     
-                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_ASSERT);
-                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+                     PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];
+                     
+                     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
+                     CORETIMER_DelayUs(100);
+                     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
+                     
+                     
+//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);
+//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_ASSERT);
+//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
                     
                     /* The test was successful. */
                     fsData.state = FS_CLOSE_FILE;
@@ -611,7 +687,7 @@ void Inject_ICD_REG(uintptr_t context)
           
 }
 
-uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t operation, bool reset)
+uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t op)
 {   
     volatile int32_t length = ICD_REG_LEN;                
 #if NO_DELAY
@@ -629,7 +705,7 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         
    
     idx = ICD_DATA_LSB_IDX;
-    if(operation == ICDREG_OP_WR)
+    if(op == ICDREG_OP_WR)
     {
         while(data)
         {
@@ -657,7 +733,7 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         ICD_REG_STREAM[1][idx++] = CLR; 
     } 
     
-    if(operation == ICDREG_OP_RD)
+    if(op == ICDREG_OP_RD)
     {
         ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = CLR;    
         ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = CLR;                
@@ -667,23 +743,7 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = SET;    
         ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = SET;                
     }
-    
-    if(reset)
-    {
-        
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 9)] = CLR;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 10)] = CLR;  
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 7)] = SET;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 8)] = SET;  
-    }
-    else
-    {
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 9)] = SET;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 10)] = SET;  
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 7)] = CLR;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 8)] = CLR; 
-    }
-    
+      
 #ifdef NO_DELAY    
     while(length)
     {
@@ -849,11 +909,13 @@ int32_t TMOD_TAP_Reset(uint32_t devId)
     
     for(int cnt = 0; cnt < length; cnt++)
     {        
+        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_reg) + SET)) = gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_mask;
         *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_reg) + SET)) = gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_mask;
         CORETIMER_DelayUs(1);
         *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_mask;                
     }
     *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_reg) + CLR)) = gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_mask;
+    *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_reg) + CLR)) = gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_mask;
 //        
 //    TMR2_CallbackRegister(Inject_RESET, (uintptr_t)tmrCxt);
 //    TMR2_Start();
@@ -875,11 +937,22 @@ int32_t TMOD_Pattern(uint32_t devId)
     tmrCxt[1] = &length;
     
     PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];
-        
+    
+    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;        
+    CORETIMER_DelayUs(25);
+    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
+    CORETIMER_DelayUs(25);
+    
     // set the MCLR LOW
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
-    CORETIMER_DelayMs(1);
+    CORETIMER_DelayUs(30);
     
+#ifdef NO_DELAY
+    TMR2_CallbackRegister(Inject_TMOD12, (uintptr_t)tmrCxt);
+    TMR2_Start();
+    while(length > 0);                
+    TMR2_Stop();
+#else        
     SYS_TIME_HANDLE handle = SYS_TIME_CallbackRegisterUS(Inject_TMOD12, (uintptr_t)tmrCxt, 10, SYS_TIME_PERIODIC);       
     if (handle != SYS_TIME_HANDLE_INVALID)
     {
@@ -891,18 +964,11 @@ int32_t TMOD_Pattern(uint32_t devId)
     {
         return -1;
     }
-//    TMR2_CallbackRegister(Inject_TMOD12, (uintptr_t)tmrCxt);
-//    TMR2_Start();
+#endif
     
-//    TMR2_Stop();
-    
-    // set the MCLR HIGH
-//    
-    CORETIMER_DelayMs(1);
+    CORETIMER_DelayUs(30);
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;
-    
-   
-//    SYS_TIME_TimerDestroy(dealyTmr);  
+    CORETIMER_DelayUs(30);
     
     return 0;
        
@@ -910,10 +976,20 @@ int32_t TMOD_Pattern(uint32_t devId)
 // Triger the TMOD12
 int32_t TMOD_TAP_Init(uint32_t devId)
 {
-    TMOD_Pattern(devId);
+//    TMOD_Pattern(devId);
     TMOD_TAP_Reset(devId);    
+    
     TMOD_TAP_IR(devId, CHIP_TAP_MCHP_CMD);    
-    TMOD_TAP_DR(devId, MCHP_CMD_DEASSERT);           
+    TMOD_TAP_DR(devId, CHIP_TAP_CHIPE_ERASE);
+    CORETIMER_DelayUs(10);
+    TMOD_TAP_DR(devId, MCHP_CMD_DEASSERT);
+    while(TMOD_TAP_DR(devId, DUMMY_READ) != 0x88);                
+    
+    
+    
+    
+//    TMOD_TAP_DR(devId, CHIP_TAP_CHIPE_ERASE);
+//    CORETIMER_DelayMs(100);    
 //    TMOD_TAP_IR(devId, 0x01);        
     TMOD_TAP_Reset(devId);    
     gUmtCxt.devList[devId].devId = TMOD_TAP_DR(devId, DUMMY_READ);                
@@ -922,17 +998,17 @@ int32_t TMOD_TAP_Init(uint32_t devId)
 //    TMOD_TAP_Reset(devId); 
 //    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
          
-    CORETIMER_DelayMs(10);
-    TMOD_TAP_ICDREG(devId, 0x20000000, 0xABCD1234, ICDREG_OP_WR, false);
-    CORETIMER_DelayMs(1);
-    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD, true);
-    CORETIMER_DelayMs(1);
-    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD, true);
-    
-    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD, false);
-    CORETIMER_DelayMs(1);
-
-    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD, false);
+//    CORETIMER_DelayMs(10);
+//    TMOD_TAP_ICDREG(devId, 0x20000000, 0xABCD1234, ICDREG_OP_WR);
+//    CORETIMER_DelayMs(1);
+//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
+//    CORETIMER_DelayMs(1);
+//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
+//    
+//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
+//    CORETIMER_DelayMs(1);
+//
+//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
     
     if(!gUmtCxt.devList[devId].devId)
         return -1;    
