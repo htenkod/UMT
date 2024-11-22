@@ -87,9 +87,11 @@
 #include "system/console/src/sys_console_uart_definitions.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "tmod.h"
 #include "commands.h"
 #include "fs.h"
 #include "usb.h"
+#include "rio0.h"
 
 
 

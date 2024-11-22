@@ -27,6 +27,7 @@
 // *****************************************************************************
 // *****************************************************************************
 #include "definitions.h"
+#include "tmod.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -51,79 +52,22 @@
 FS_DATA fsData;
 
 
+typedef union byteWord
+            {
+                uint32_t word;
+                struct {
+                    uint8_t b0;
+                    uint8_t b1;
+                    uint8_t b2;
+                    uint8_t b3;                                        
+                }bytes;                                
+            }BYTE_WORD_t;
+            
+
+BYTE_WORD_t readBytes;
+
 /* Work buffer used by littleFS file system during Format */
 uint8_t CACHE_ALIGN work[SYS_FS_FAT_MAX_SS];
-
-
-static volatile int32_t *tmrCxt[2];
-
-
-#define TMOD_TAP_DR_HDR    7
-#define TMOD_TAP_IR_HDR    9
-//
-// Only TMS
-//static uint8_t TAP_RST_5BIT[2][12] = {
-//                    {SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR}, // TMS                    
-//};
-
-// TMS and TDO
-//0x5B98207C
-#define TMOD12_PATTERN_LEN  64
-static const uint32_t TMOD12_PATTERN[TMOD12_PATTERN_LEN] = {/*0x7C*/CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR, /*20*/ CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR,
-        /*0x98*/CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, CLR, CLR, SET, SET, /*5B*/ SET, SET, SET, SET, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR};
-
-#define TAP_RESET_CMD_LEN 7
-static const uint32_t TAP_RESET[2][TAP_RESET_CMD_LEN] = {
-                {CLR, SET, SET, SET, SET, SET, SET},
-                {CLR, SET, SET, SET, SET, SET, SET}
-                }; 
-
-
-#define IR_5BIT_CMD_LEN  26
-#define IR_5BIT_CMD_IDX  IR_5BIT_CMD_LEN - TMOD_TAP_IR_HDR - 1
-
-static uint32_t CACHE_ALIGN IR_5BIT_STREAM[2][IR_5BIT_CMD_LEN] = {
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
-                    };
-
-
-#define DR_8BIT_CMD_LEN  30
-#define DR_8BIT_CMD_IDX  DR_8BIT_CMD_LEN - TMOD_TAP_DR_HDR -1
-
-static uint32_t CACHE_ALIGN DR_8BIT_STREAM[3][DR_8BIT_CMD_LEN] = {                    
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
-                    {CLR, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
-                    };
-
-
-#define DR_32BIT_CMD_LEN  78
-#define DR_32BIT_CMD_IDX  DR_32BIT_CMD_LEN - TMOD_TAP_DR_HDR - 1
-static uint32_t CACHE_ALIGN DR_32BIT_STREAM[3][DR_32BIT_CMD_LEN] = {                    
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
-                    };
-
-/*MSB First */
-
-#define ICD_REG_LEN     (158 + 20)// dummy 20 bits
-
-
-#define ICD_REG_HDR_LEN      (20 + TMOD_TAP_DR_HDR)
-
-
-#define ICD_ADDR_MSB_IDX     (ICD_REG_LEN - ICD_REG_HDR_LEN)
-#define ICD_ADDR_LSB_IDX     (ICD_ADDR_MSB_IDX - (60 + 1))
-
-#define ICD_DATA_MSB_IDX     (ICD_ADDR_MSB_IDX - 60)
-#define ICD_DATA_LSB_IDX     (ICD_DATA_MSB_IDX - (64))
-
-static uint32_t CACHE_ALIGN ICD_REG_STREAM[3][ICD_REG_LEN] = {                    
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS 
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}, // TDO
-                    };
 
 
 // *****************************************************************************
@@ -292,6 +236,7 @@ void FS_Tasks ( void )
             if(fsData.fileHandle == SYS_FS_HANDLE_INVALID)
             {
                 /* File open unsuccessful */
+                SYS_CONSOLE_PRINT("File %s not available!\r\n");
                 fsData.state = FS_ERROR;
             }
             else
@@ -322,7 +267,7 @@ void FS_Tasks ( void )
         case FS_DO_ANOTHER_FILE_SEEK:
         {
             /* Move file pointer to begining of file */
-            if(SYS_FS_FileSeek( fsData.fileHandle, 0, SYS_FS_SEEK_SET ) == -1)
+            if(SYS_FS_FileSeek( fsData.fileHandle, fsData.fwOffset, SYS_FS_SEEK_SET ) == -1)
             {
                 /* File seek caused an error */
                 fsData.state = FS_ERROR;
@@ -343,7 +288,6 @@ void FS_Tasks ( void )
             size_t numOfBytes = ((fsData.fileStatus.fsize - fsData.readCount) > BUFFER_SIZE)?BUFFER_SIZE:(fsData.fileStatus.fsize - fsData.readCount);
             
             size_t readSz = SYS_FS_FileRead(fsData.fileHandle, (void *)fsData.readBuffer, numOfBytes*sizeof(uint32_t));
-//            SYS_CONSOLE_PRINT("Read Size = %d\r\n", readSz);
             if(readSz < 0)
             {
                 /* There was an error while reading the file. Close the file
@@ -352,148 +296,204 @@ void FS_Tasks ( void )
                 fsData.state = FS_ERROR;
             }
             else
-            {    
+            {                    
+                remBytes = readSz % sizeof(uint32_t);                
+                
                 switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
                 {
-                    case 0x09B8F053:
+                    case CHIMERA_CHIP_ID:
                     {
                         uint32_t secSz = readSz/sizeof(uint32_t);
-                        remBytes = readSz % sizeof(uint32_t);
-                        
-                        //write first 16 bytes at address 0
+                        /* write first 16 bytes at address 0 */
                         if(!fsData.readCount)
-//                        if(0)
                         {
                                                         
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0x00000000, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0xAA996655, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x440000B0, 0x556699AA, ICDREG_OP_WR);
-                            //    
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44012400, 0x00700000, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44012400, 0x00000000, ICDREG_OP_RD);
-                            //    
-                            //    
-                            //    
-                            //    ''start sequence
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00000000, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00000002, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x00004002, ICDREG_OP_WR);
-                            //    
-                            //    
-                            //    
-                            //    ''destination address
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000630, 0x00000000, ICDREG_OP_WR);
-                            //    
-                            //
-                            //    s
-                            //    ''DATA1
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000640, fsData.readBuffer[cnt++], ICDREG_OP_WR);
-                            //    
-                            //    
-                            //    ''DATA2
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000650, fsData.readBuffer[cnt++], ICDREG_OP_WR);
-                            //    
-                            //    ''DATA3
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000660, fsData.readBuffer[cnt++], ICDREG_OP_WR);
-                            //    
-                            //    ''DATA4
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000670, fsData.readBuffer[cnt++], ICDREG_OP_WR);
-                            //    
-                            //    
-                            //    ''transfer sequence
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x00000000, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0xAA996655, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x556699AA, ICDREG_OP_WR);
-                            //    
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x440006F0, 0x80000000, ICDREG_OP_WR);
-                            //    
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x00000000, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0xAA996655, ICDREG_OP_WR);
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000620, 0x556699AA, ICDREG_OP_WR);
-                            //    
-                            TMOD_TAP_ICDREG(fsData.tapId, 0x44000600, 0x0000C002, ICDREG_OP_WR);
+                            wReg32(fsData.tapId, 0x440000B0, 0x00000000);
+                            wReg32(fsData.tapId, 0x440000B0, 0xAA996655);
+                            wReg32(fsData.tapId, 0x440000B0, 0x556699AA);                            
+                            wReg32(fsData.tapId, 0x44012400, 0x00700000);
+                            rReg32(fsData.tapId, 0x44012400);
                             
-//                            CORETIMER_DelayMs(5);
-//
-//    
-//    
-                            
-//                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount, fsData.readBuffer[cnt++], ICDREG_OP_WR);   
-//                            TMOD_TAP_ICDREG(fsData.tapId, fsData.readCount+4, fsData.readBuffer[cnt++], ICDREG_OP_WR);   
-//                                                       
-//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
-//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
-//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
-//                            TMOD_TAP_ICDREG(fsData.tapId, 0x01000000, 0, ICDREG_OP_RD);
-                            
-                            
-                            
+                            /* Start sequence */                            
+                            wReg32(fsData.tapId, 0x44000600, 0x00000000);
+                            wReg32(fsData.tapId, 0x44000600, 0x00000002);
+                            wReg32(fsData.tapId, 0x44000600, 0x00004002);
+                            /* destination address */
+                            wReg32(fsData.tapId, 0x44000630, 0x00000000);
+                            /* DATA0 */
+                            wReg32(fsData.tapId, 0x44000640, fsData.readBuffer[cnt++]);
+                            /* DATA1 */
+                            wReg32(fsData.tapId, 0x44000650, fsData.readBuffer[cnt++]);
+                            /* DATA2 */
+                            wReg32(fsData.tapId, 0x44000660, fsData.readBuffer[cnt++]);
+                            /* DATA3 */
+                            wReg32(fsData.tapId, 0x44000670, fsData.readBuffer[cnt++]);
+                            /* transfer sequence */
+                            wReg32(fsData.tapId, 0x44000620, 0x00000000);
+                            wReg32(fsData.tapId, 0x44000620, 0xAA996655);
+                            wReg32(fsData.tapId, 0x44000620, 0x556699AA);                            
+                            wReg32(fsData.tapId, 0x440006F0, 0x80000000);                           
+                            wReg32(fsData.tapId, 0x44000620, 0x00000000);
+                            wReg32(fsData.tapId, 0x44000620, 0xAA996655);
+                            wReg32(fsData.tapId, 0x44000620, 0x556699AA);                           
+                            wReg32(fsData.tapId, 0x44000600, 0x0000C002);
                         }
                         
                         for(cnt = 0; cnt < secSz; cnt++)
                         {
-                            TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt], ICDREG_OP_WR);                    
+                            wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);                    
                         }                   
-                        
-                        
 
                         fsData.readCount += readSz;
-                        fsData.flashAddr += readSz;
+                        fsData.flashAddr += readSz;   
+                        
+                        if ((fsData.fileStatus.fsize == fsData.readCount))
+                        {                 
+                            remBytes = (sizeof(uint32_t) - remBytes) * 8;
+                            if(remBytes)
+                            {                           
+                                volatile uint32_t word = (fsData.readBuffer[cnt] << remBytes);
+                                word = word >> remBytes;
+                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), word); 
+                            }
+
+                            PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];                     
+                            *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
+                            CORETIMER_DelayUs(100);
+                            *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
+
+                            /* The test was successful. */
+                            fsData.state = FS_CLOSE_FILE;
+                        }
+                        
+                        break; /*CHIMERA_CHIP_ID*/
+                    }
+                    
+                    case RIO0_CHIP_ID:
+                    {
+
+                        if (fsData.sramLoad)
+                        {                 
+                            SYS_CONSOLE_PRINT("SRAM Load %X\r\n", fsData.flashAddr);
+                            uint32_t secSz = readSz/sizeof(uint32_t);
+                            for(cnt = 0; cnt < secSz; cnt++)
+                            {
+                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);                                
+                            }              
+                            fsData.flashAddr += readSz; 
+                        }
+                        else
+                        {
+                            if(!fsData.readCount)
+                            {
+                                SYS_CONSOLE_PRINT("Firmware Image Size %d\r\n", fsData.readBuffer[RIO0_FW_IMG_SIZE_OFFSET]);
+                                SYS_CONSOLE_PRINT("Firmware Image Dest Addr 0x%X\r\n", fsData.readBuffer[RIO0_FW_ROM_DST_OFFSET] & 0x00FFFFFF);
+                            }
+                            
+                        
+                            uint32_t secSz = readSz/256;
+                            for(uint32_t blkNum = 0; blkNum < secSz; blkNum++)
+                            {                                                        
+                                RIO0_FLASH_PAGE_Write(fsData.tapId, fsData.flashAddr, (uint8_t *)&fsData.readBuffer[blkNum*64]);                             
+                                fsData.flashAddr += 256; 
+                            }                            
+                        }
+                        
+                        fsData.readCount += readSz;
+                        
+                        
+                        if ((fsData.fileStatus.fsize - fsData.fwOffset) == fsData.readCount)
+                        {
+                            SYS_CONSOLE_PRINT("Firmware load complete!\r\n");
+                            
+                            if (fsData.sramLoad)
+                            {
+                                fsData.flashAddr = 0x200;
+                                
+//                                EJTAG_Enter(fsData.tapId, false);
+                                
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C19A000);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x37390200);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x0320C008);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x00000000);
+//                                                                                               
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0);
+//                                /* DERET*/
+//                                EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);     
+                                 
+                                
+                            }
+                            else
+                            {
+                               PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];                     
+                                *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
+                                CORETIMER_DelayUs(100);
+                                *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
+                            }
+                            /* The test was successful. */
+                            fsData.state = FS_CLOSE_FILE;
+                        
+                        }
                         
                         break;
                     }
+                    
                 }
                         
                                 
-                if ((fsData.fileStatus.fsize == fsData.readCount))
-                {                 
-                    remBytes = (sizeof(uint32_t) - remBytes) * 8;
-                    if(remBytes)
-                    {                           
-                        volatile uint32_t word = (fsData.readBuffer[cnt] << remBytes);
-                        word = word >> remBytes;
-                        TMOD_TAP_ICDREG(fsData.tapId, fsData.flashAddr+(cnt*4), word, ICDREG_OP_WR); 
-                    }
-                                                            
-//                    
-//                    CORETIMER_DelayMs(10);                    
-//                    CORETIMER_DelayMs(1);
-//                    TMOD_TAP_ICDREG(fsData.tapId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//                    CORETIMER_DelayMs(1);
-//                    TMOD_TAP_ICDREG(fsData.tapId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//                                        
-//                    CORETIMER_DelayMs(1);
                 
-                    
-                     PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];
-                     
-                     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
-                     CORETIMER_DelayUs(100);
-                     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
-                     
-                     
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);
-//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_ASSERT);
-//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
-                    
-                    /* The test was successful. */
-                    fsData.state = FS_CLOSE_FILE;
-                }
             }
             break;
         }
+		case FS_RIO0_FLASH_ID:
+		{
 
+			
+            fsData.state = FS_IDLE;
+
+			break;
+		}
+
+		
         case FS_CLOSE_FILE:
         {
-            /* Close the file */
-            if (SYS_FS_FileClose(fsData.fileHandle) != 0)
+            
+        
+            readBytes.word = rReg32(fsData.tapId, fsData.flashAddr);                                
+            
+//            readBytes.word = EJTAG_Read(fsData.tapId, fsData.flashAddr);
+            
+            
+            extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );
+            
+            
+            UART2_Write(&readBytes.bytes.b0, 1);
+            UART2_Write(&readBytes.bytes.b1, 1);
+            UART2_Write(&readBytes.bytes.b2, 1);
+            UART2_Write(&readBytes.bytes.b3, 1);
+            
+            
+            
+            
+            fsData.flashAddr += 4;  
+            
+            
+            if (fsData.flashAddr - 0xA0000200 == fsData.readCount)
             {
-                fsData.state = FS_ERROR;
-            }
-            else
-            {
-                fsData.state = FS_IDLE;
-            }
+                /* Close the file */
+                if (SYS_FS_FileClose(fsData.fileHandle) != 0)
+                {
+                    fsData.state = FS_ERROR;
+                }
+                else
+                {
+                    fsData.state = FS_IDLE;
+                }
+            }            
+            
             break;
         }
 
@@ -518,28 +518,96 @@ void FS_Tasks ( void )
             LED1_On();
             if(fsData.triggerTmodFlash)
             {                
-                fsData.triggerTmodFlash = false;                                
-                fsData.state = FS_OPEN_FILE;
-                
+                fsData.triggerTmodFlash = false;   
+                fsData.state = FS_DEVICE_INIT;
             }
 
             break;
         }
+        
+        case FS_DEVICE_INIT:
+        {
+            switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
+            {
+                case CHIMERA_CHIP_ID:
+                {
+                    static int32_t timeout = 256;                                            
+
+                    /* Erase the CHIP */
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
+                    TMOD_TAP_DR(fsData.tapId, CHIP_TAP_CHIPE_ERASE);                        
+                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+                    while((timeout-- > 0) && (TMOD_TAP_DR(fsData.tapId, DUMMY_READ) != 0x88));   
+
+                    /* Enter the ICDREG mode */
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);                               
+                    /* write first 16 bytes at address 0 */                     
+                    break;
+                }
+
+                case RIO0_CHIP_ID:
+                {                    
+                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_EJTAG_SELECT);
+                    TMOD_TAP_Reset(fsData.tapId);
+                    
+                    TMOD_TAP_DR(fsData.tapId, CHIP_TAP_ALTRESET); 
+
+                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD); 
+                    
+                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+                    
+                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
+
+                    uint32_t chipId = rReg32(fsData.tapId, 0x1F800060);
+                    SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", chipId);
+
+                    wReg32(fsData.tapId, 0x00001000, 0xABCD1234);
+                    if(rReg32(fsData.tapId, 0x00001000) == 0xABCD1234)
+                    {
+                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                            
+                    }
+
+                    RIO0_SYS_Initialize(fsData.tapId);
+                    RIO0_FLASH_Initialize(fsData.tapId);                                                                                
+                    RIO0_FLASH_Reset(fsData.tapId);          
+                    volatile uint32_t flashId = RIO0_FLASH_ID_Read(fsData.tapId);
+                    while(flashId != 0x1C7015)
+                        flashId = RIO0_FLASH_ID_Read(fsData.tapId);
+                    
+                    
+
+                    RIO0_SYS_Initialize(fsData.tapId);
+                    RIO0_FLASH_Initialize(fsData.tapId);                         
+                    SYS_CONSOLE_PRINT("SPLLCON = 0x%X\r\n", rReg32(fsData.tapId, RIO0_SPLL_CON));
+                    SYS_CONSOLE_PRINT("SPI0BRG = 0x%X\r\n", rReg32(fsData.tapId, 0x1F801630));
+                    SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
+                    RIO0_FLASH_CHIP_Erase(fsData.tapId);
+
+                    break;
+                }
+            }
+            fsData.state = FS_OPEN_FILE;
+
+            /* End of Switch */
+            break;
+        }
 
         case FS_ERROR:
-        {
+        {            
             /* The application comes here when the demo has failed.*/
             break;
         }
         /* TODO: implement your application state machine.*/
 
-        case FS_TMOD_FLASH:
-        {
-            
-            
-            
-            break;
-        }
         /* The default state should never be executed. */
         default:
         {
@@ -550,481 +618,15 @@ void FS_Tasks ( void )
 }
 
 
-void Inject_TMOD12(uintptr_t context)
-{
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *pgcPin = tmodDev->pinLink[PIN_PGC];
-    PIN_MAP_t *pgdPin = tmodDev->pinLink[PIN_PGD];
-               
-    
-    // each bit is transmitted twice on the clock sizof(uint32_t) * 2
-    if(*length)
-    {     
-        //keep inverting the clock
-        *((volatile uint32_t *)((volatile char *)(pgcPin->gpio_reg) + 0x3C)) = pgcPin->gpio_mask;
-        (*length)--;                           
-        *((volatile uint32_t *)((volatile char *)(pgdPin->gpio_reg) + TMOD12_PATTERN[*length])) =  pgdPin->gpio_mask;                          
-    }   
-}
-
-void Inject_RESET(uintptr_t context)
-{     
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-    
-    if(*length)
-    {     
-        (*length)--;                                   
-        // clock line
-        *((volatile uint32_t *)((char *)(tckPin->gpio_reg + 0x3C))) = tckPin->gpio_mask;      
-        *((volatile uint32_t *)((char *)(tmsPin->gpio_reg) + TAP_RESET[0][*length])) =  tmsPin->gpio_mask;        
-        *((volatile uint32_t *)((char *)(tdoPin->gpio_reg) + TAP_RESET[1][*length])) =  tdoPin->gpio_mask;        
-    }   
-}
-
-
-void Inject_IR(uintptr_t context)
-{     
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];
-    
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-                      
-     // each bit is transmitted twice on the clock sizof(uint32_t) * 2
-    if(*length)
-    {     
-        (*length)--;                           
-        //keep inverting the clock                      
-        *((volatile uint32_t *)((volatile char *)tmsPin->gpio_reg + IR_5BIT_STREAM[0][*length])) =  tmsPin->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)tdoPin->gpio_reg + IR_5BIT_STREAM[1][*length])) =  tdoPin->gpio_mask;          
-        // clock line
-        *((volatile uint32_t *)((volatile char *)tckPin->gpio_reg + 0x2C)) = tckPin->gpio_mask;    
-        
-    }   
-}
-
-void Inject_8BIT_DR(uintptr_t context)
-{               
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];   
-
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-    PIN_MAP_t *tdiPin = tmodDev->pinLink[PIN_TDI];
-                          
-    if(*length)
-    {     
-        (*length)--;                           
-        *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + DR_8BIT_STREAM[0][*length])) =  tmsPin->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(tdoPin->gpio_reg) + DR_8BIT_STREAM[1][*length])) =  tdoPin->gpio_mask;                          
-        // clock line, keep inverting the clock                      
-        *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg + 0x3C))) = tckPin->gpio_mask;    
-        DR_8BIT_STREAM[2][*length] = *((volatile uint32_t *)((volatile char *)(tdiPin->gpio_reg) + 0x20)) & tdiPin->gpio_mask;
-        
-    }   
-          
-}
-
-void Inject_32BIT_DR(uintptr_t context)
-{               
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];    
-
-    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-    PIN_MAP_t *tdiPin = tmodDev->pinLink[PIN_TDI];
-                  
-    
-    if(*length)
-    {     
-        (*length)--;
-        *((volatile uint32_t *)((volatile char *)(tmsPin->gpio_reg) + DR_32BIT_STREAM[0][*length])) =  tmsPin->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(tdoPin->gpio_reg) + DR_32BIT_STREAM[1][*length])) =  tdoPin->gpio_mask;                          
-        // clock line, keep inverting the clock                      
-        *((volatile uint32_t *)((volatile char *)(tckPin->gpio_reg) + 0x3C)) = tckPin->gpio_mask;        
-        DR_32BIT_STREAM[2][*length] = *((volatile uint32_t *)((volatile char *)(tdiPin->gpio_reg) + 0x20)) & tdiPin->gpio_mask;
-        
-    }   
-          
-}
-
-void Inject_ICD_REG(uintptr_t context)
-{               
-    int32_t *devIdx = (int32_t *)((int32_t *)context)[0];
-    int32_t *length = (int32_t *)((int32_t *)context)[1];    
-
-//    UMT_DEV_t *tmodDev = &gUmtCxt.devList[*devIdx];
-//    PIN_MAP_t *tckPin = tmodDev->pinLink[PIN_TCK];
-//    PIN_MAP_t *tmsPin = tmodDev->pinLink[PIN_TMS];
-//    PIN_MAP_t *tdoPin = tmodDev->pinLink[PIN_TDO];
-//    PIN_MAP_t *tdiPin = tmodDev->pinLink[PIN_TDI];
-                  
-    // clock line, keep inverting the clock                      
-        
-    if(*length )
-    {
-        (*length)--;               
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[*devIdx].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][*length])) =  gUmtCxt.devList[*devIdx].pinLink[PIN_TMS]->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[*devIdx].pinLink[PIN_TDO]->gpio_reg) + ICD_REG_STREAM[1][*length])) =  gUmtCxt.devList[*devIdx].pinLink[PIN_TDO]->gpio_mask;                              
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[*devIdx].pinLink[PIN_TCK]->gpio_reg) + 0x2C)) = gUmtCxt.devList[*devIdx].pinLink[PIN_TCK]->gpio_mask;
-        //        ICD_REG_STREAM[2][*length] = *((volatile uint32_t *)((volatile char *)(tdiPin->gpio_reg) + 0x20)) & tdiPin->gpio_mask;
-    }   
-          
-}
-
-uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP_t op)
-{   
-    volatile int32_t length = ICD_REG_LEN;                
-#if NO_DELAY
-
-#else    
-    int32_t devIdx = devId;
-    tmrCxt[0] = &devIdx;
-    tmrCxt[1] = &length;           
-    SYS_TIME_HANDLE triggerTmr = 0;
-#endif    
-    uint32_t idx = 0 ; // 
-
-    if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
-        return -1;
-        
-   
-    idx = ICD_DATA_LSB_IDX;
-    if(op == ICDREG_OP_WR)
-    {
-        while(data)
-        {
-            ICD_REG_STREAM[1][idx++] = (data & 1)?(SET):(CLR);    
-            ICD_REG_STREAM[1][idx++] = (data & 1)?(SET):(CLR);
-            data = data >> 1; // bit 0
-        }
-    }
-    while(idx < ICD_DATA_MSB_IDX)
-    {
-        ICD_REG_STREAM[1][idx++] = CLR; 
-    }
-    
-    idx = ICD_ADDR_LSB_IDX +1;
-    addr = addr >> 2;
-    while(addr)
-    {
-        ICD_REG_STREAM[1][idx++] = (addr & 1)?(SET):(CLR);    
-        ICD_REG_STREAM[1][idx++] = (addr & 1)?(SET):(CLR);
-        addr = addr >> 1; // bit 0
-    }
-    
-    while(idx < ICD_ADDR_MSB_IDX)
-    {
-        ICD_REG_STREAM[1][idx++] = CLR; 
-    } 
-    
-    if(op == ICDREG_OP_RD)
-    {
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = CLR;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = CLR;                
-    }
-    else
-    {
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = SET;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = SET;                
-    }
-      
-#ifdef NO_DELAY    
-    while(length)
-    {
-        length--;     
-        
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][length])) =  gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_mask;          
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + ICD_REG_STREAM[1][length])) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;
-        ICD_REG_STREAM[2][length] = *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_reg) + 0x20)) & gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_mask;
-        
-    }
-    
-//    for(int i = 0; i < 20; i ++)
-//        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x2C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;
-//    
-#else    
-    
-//    TMR2_CallbackRegister(Inject_ICD_REG, (uintptr_t)tmrCxt);
-//    TMR2_Start();
-    
-    
-    triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_ICD_REG, (uintptr_t)tmrCxt, 100, SYS_TIME_PERIODIC);
-    //Wait until we send complete pattern
-    while(length > 0);
-                         
-//    *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_reg) + SET)) = gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_mask;
-        
-
-    SYS_TIME_TimerDestroy(triggerTmr);
-//    TMR2_Stop();
-#endif
-    
-    return 0;
-    
-}
-
-
-uint32_t TMOD_TAP_DR(uint32_t devId, uint32_t dReg)
-{    
-    int32_t devIdx = devId;
-    volatile int32_t length = DR_32BIT_CMD_LEN;                
-    tmrCxt[0] = &devIdx;
-    tmrCxt[1] = &length;           
-//    SYS_TIME_HANDLE triggerTmr = 0;
-    volatile uint32_t tapReg = 0;
-    volatile int i;
-    
-    if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
-        return -1;
-    
-    if(dReg && dReg < 0x100)
-    {
-        uint32_t idx = 0;
-        while(dReg)
-        {
-            DR_8BIT_STREAM[1][DR_8BIT_CMD_IDX-idx++] = (dReg & 1)?(SET):(CLR);    
-            DR_8BIT_STREAM[1][DR_8BIT_CMD_IDX-idx++] = (dReg & 1)?(SET):(CLR);
-            dReg = dReg >> 1; // bit 0
-        }
-        for(int i = idx; i < 16; i++)
-        {
-            DR_8BIT_STREAM[1][DR_8BIT_CMD_IDX-i] = CLR; 
-        }
-        
-        length = DR_8BIT_CMD_LEN;
-
-        TMR2_CallbackRegister(Inject_8BIT_DR, (uintptr_t)tmrCxt);
-        TMR2_Start();
-        
-//        triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_8BIT_DR, (uintptr_t)tmrCxt, 1, SYS_TIME_PERIODIC);
-    }
-    else
-    {
-        uint32_t idx = 0;
-        while(dReg)
-        {
-            DR_32BIT_STREAM[1][DR_32BIT_CMD_IDX-idx++] = (dReg & 1)?(SET):(CLR);    
-            DR_32BIT_STREAM[1][DR_32BIT_CMD_IDX-idx++] = (dReg & 1)?(SET):(CLR);
-            dReg = dReg >> 1; // bit 0
-        }
-        for(int i = idx; i <  64; i++)
-        {
-            DR_32BIT_STREAM[1][DR_32BIT_CMD_IDX-i] = CLR; 
-        }
-                
-        
-        TMR2_CallbackRegister(Inject_32BIT_DR, (uintptr_t)tmrCxt);
-        TMR2_Start();
-//        triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_32BIT_DR, (uintptr_t)tmrCxt, 2, SYS_TIME_PERIODIC);
-    }
-    
-    //Wait until we send complete pattern
-    while(length > 0);
-    TMR2_Stop();
-    
-//    while(length > 0);
-//    SYS_TIME_TimerDestroy(triggerTmr);
-    
-    for(i  = (DR_32BIT_CMD_IDX - 64 + 1); i < DR_32BIT_CMD_IDX; i++)
-    {
-        tapReg = tapReg << 1;
-        tapReg |= (DR_32BIT_STREAM[2][i++] != 0)?1:0;        
-    }
-    
-     
-    return tapReg;
-
-}
-
-uint32_t TMOD_TAP_IR(uint32_t devId, uint32_t iReg)
-{   
-    int32_t devIdx = devId;
-    volatile int32_t length = IR_5BIT_CMD_LEN;                
-    tmrCxt[0] = &devIdx;
-    tmrCxt[1] = &length; 
-           
-    if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
-        return -1;
-    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-1] = (iReg & 1)?(SET):(CLR);
-    iReg = iReg >> 1; // bit 0
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-2] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-3] = (iReg & 1)?(SET):(CLR);    
-    iReg = iReg >> 1; // bit 1
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-4] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-5] = (iReg & 1)?(SET):(CLR);    
-    iReg = iReg >> 1; // bit 2
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-6] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-7] = (iReg & 1)?(SET):(CLR);    
-    iReg = iReg >> 1; // bit 3
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-8] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-9] = (iReg & 1)?(SET):(CLR);    
-    iReg = iReg >> 1; // bit 4
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-10] = (iReg & 1)?(SET):(CLR);    
-    IR_5BIT_STREAM[1][IR_5BIT_CMD_IDX-11] = (iReg & 1)?(SET):(CLR);         
-
-    
-    TMR2_CallbackRegister(Inject_IR, (uintptr_t)tmrCxt);
-    TMR2_Start();
-    while(length > 0);
-    TMR2_Stop();    
-      
-//    SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_IR, (uintptr_t)tmrCxt, 2, SYS_TIME_PERIODIC);
-//    //Wait until we send complete pattern
-//    while(length > 0);
-//    SYS_TIME_TimerDestroy(triggerTmr);
-     
-    return 0;
-}
-
-// Reset the Test mode
-int32_t TMOD_TAP_Reset(uint32_t devId)
-{
-    volatile int32_t length = 6; //TAP_RESET_CMD_LEN;
-    volatile int32_t devIdx  = devId;            
-    tmrCxt[0] = &devIdx;
-    tmrCxt[1] = &length; 
-    
-    if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
-        return -1;   
-    
-    
-    for(int cnt = 0; cnt < length; cnt++)
-    {        
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_reg) + SET)) = gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_mask;
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_reg) + SET)) = gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_mask;
-        CORETIMER_DelayUs(1);
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devIdx].pinLink[PIN_TCK]->gpio_mask;                
-    }
-    *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_reg) + CLR)) = gUmtCxt.devList[devIdx].pinLink[PIN_TMS]->gpio_mask;
-    *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_reg) + CLR)) = gUmtCxt.devList[devIdx].pinLink[PIN_TDO]->gpio_mask;
-//        
-//    TMR2_CallbackRegister(Inject_RESET, (uintptr_t)tmrCxt);
-//    TMR2_Start();
-//    while(length > 0);
-//    TMR2_Stop();
-////    
-//    SYS_TIME_HANDLE triggerTmr = SYS_TIME_CallbackRegisterUS(Inject_RESET, (uintptr_t)tmrCtxt, 1, SYS_TIME_PERIODIC);
-//    //Wait until we send complete pattern
-//    while(length > 0);       
-//    SYS_TIME_TimerDestroy(triggerTmr);
-    
-    return 0;
-}
-int32_t TMOD_Pattern(uint32_t devId)
-{
-    volatile int32_t devIdx = devId;
-    volatile int32_t length = TMOD12_PATTERN_LEN;        
-    tmrCxt[0] = &devIdx;
-    tmrCxt[1] = &length;
-    
-    PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];
-    
-    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;        
-    CORETIMER_DelayUs(25);
-    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
-    CORETIMER_DelayUs(25);
-    
-    // set the MCLR LOW
-    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
-    CORETIMER_DelayUs(30);
-    
-#ifdef NO_DELAY
-    TMR2_CallbackRegister(Inject_TMOD12, (uintptr_t)tmrCxt);
-    TMR2_Start();
-    while(length > 0);                
-    TMR2_Stop();
-#else        
-    SYS_TIME_HANDLE handle = SYS_TIME_CallbackRegisterUS(Inject_TMOD12, (uintptr_t)tmrCxt, 10, SYS_TIME_PERIODIC);       
-    if (handle != SYS_TIME_HANDLE_INVALID)
-    {
-        while(length > 0);                
-        SYS_TIME_TimerDestroy(handle);
-        
-    }
-    else
-    {
-        return -1;
-    }
-#endif
-    
-    CORETIMER_DelayUs(30);
-    *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;
-    CORETIMER_DelayUs(30);
-    
-    return 0;
-       
-}
-// Triger the TMOD12
-int32_t TMOD_TAP_Init(uint32_t devId)
-{
-//    TMOD_Pattern(devId);
-    TMOD_TAP_Reset(devId);    
-    
-    TMOD_TAP_IR(devId, CHIP_TAP_MCHP_CMD);    
-    TMOD_TAP_DR(devId, CHIP_TAP_CHIPE_ERASE);
-    CORETIMER_DelayUs(10);
-    TMOD_TAP_DR(devId, MCHP_CMD_DEASSERT);
-    while(TMOD_TAP_DR(devId, DUMMY_READ) != 0x88);                
-    
-    
-    
-    
-//    TMOD_TAP_DR(devId, CHIP_TAP_CHIPE_ERASE);
-//    CORETIMER_DelayMs(100);    
-//    TMOD_TAP_IR(devId, 0x01);        
-    TMOD_TAP_Reset(devId);    
-    gUmtCxt.devList[devId].devId = TMOD_TAP_DR(devId, DUMMY_READ);                
-//    TMOD_TAP_Reset(devId); 
-    TMOD_TAP_IR(devId, CHIP_TAP_ICDREG);       
-//    TMOD_TAP_Reset(devId); 
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-         
-//    CORETIMER_DelayMs(10);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0xABCD1234, ICDREG_OP_WR);
-//    CORETIMER_DelayMs(1);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//    CORETIMER_DelayMs(1);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//    
-//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
-//    CORETIMER_DelayMs(1);
-//
-//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
-    
-    if(!gUmtCxt.devList[devId].devId)
-        return -1;    
-    
-    return 0;
-           
-    
-}
-
-int32_t TMOD_FLASH_Trigger(uint32_t devId, uint32_t sof, char *fileName)
+int32_t FS_TMOD_Trigger(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName)
 {
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;   
     
     fsData.tapId = devId; 
     fsData.flashAddr = sof;
+    fsData.fwOffset = offset;
+    fsData.sramLoad = sramLoad;
     /* copy the file name */
     sprintf(fsData.fileName, "%s", fileName);
     fsData.triggerTmodFlash = true;

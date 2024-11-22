@@ -30,6 +30,7 @@
 #include "commands.h"
 #include "config/default/definitions.h"
 
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -784,15 +785,15 @@ void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
-    if(argc != 4)
+    if(argc != 6)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapflash <idx> <addr> <filename>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapflash <idx> <addr> <offset> <filename>\r\n");
         return;
     }
     
     fsData.tapId = atoi(argv[1]);
                     
-    if(TMOD_FLASH_Trigger(atoi(argv[1]), atoi(argv[2]), argv[3]) == 0)
+    if(FS_TMOD_Trigger(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]) == 0)
     {   
         (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** \r\n" );  
     }

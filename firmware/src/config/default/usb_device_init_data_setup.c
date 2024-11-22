@@ -457,7 +457,7 @@ const USB_DEVICE_INIT usbDevInitData_setup =
 {
     /* Number of function drivers registered to this instance of the
        USB device layer */
-    .registeredFuncCount = 1,
+    .registeredFuncCount = 2,
 
     /* Function driver table registered to this instance of the USB device layer*/
     .registeredFunctions = (USB_DEVICE_FUNCTION_REGISTRATION_TABLE*)funcRegistrationTable_setup,

@@ -223,6 +223,8 @@
       <itemPath>../src/commands.h</itemPath>
       <itemPath>../src/usb.h</itemPath>
       <itemPath>../src/fs.h</itemPath>
+      <itemPath>../src/rio0.h</itemPath>
+      <itemPath>../src/tmod.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -386,10 +388,12 @@
       <itemPath>../src/commands.c</itemPath>
       <itemPath>../src/usb.c</itemPath>
       <itemPath>../src/fs.c</itemPath>
+      <itemPath>../src/rio0.c</itemPath>
+      <itemPath>../src/tmod.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>../src/config/default</Elem>
+    <Elem>../src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
