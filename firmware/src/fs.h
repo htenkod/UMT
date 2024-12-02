@@ -114,6 +114,7 @@ typedef enum
     /* Rio0 Flash ID */
     FS_RIO0_FLASH_ID,
             
+    FS_FLASH_DUMP,
             
     /* An app error has occurred */
     FS_ERROR,
@@ -157,6 +158,8 @@ typedef struct
     bool sramLoad;
     
     uint32_t fwOffset;
+    
+    uint32_t dumpSz;
     
     uint32_t    tapId;
     
@@ -261,6 +264,8 @@ void FS_Initialize ( void );
 void FS_Tasks( void );
 
 int32_t FS_TMOD_Trigger(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName);
+
+int32_t FS_TMOD_Dump(uint32_t devId, uint32_t sof, uint32_t dumpSz, bool sramLoad);
 
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus

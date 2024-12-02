@@ -284,10 +284,10 @@ void FS_Tasks ( void )
         {            
             
             uint32_t cnt = 0;
-            uint32_t remBytes = 0;
-            size_t numOfBytes = ((fsData.fileStatus.fsize - fsData.readCount) > BUFFER_SIZE)?BUFFER_SIZE:(fsData.fileStatus.fsize - fsData.readCount);
+            volatile uint32_t remBytes = 0;
+            volatile size_t numOfBytes = ((fsData.fileStatus.fsize - fsData.readCount) > BUFFER_SIZE*sizeof(uint32_t))?BUFFER_SIZE*sizeof(uint32_t):(fsData.fileStatus.fsize - fsData.readCount);
             
-            size_t readSz = SYS_FS_FileRead(fsData.fileHandle, (void *)fsData.readBuffer, numOfBytes*sizeof(uint32_t));
+            size_t readSz = SYS_FS_FileRead(fsData.fileHandle, (void *)fsData.readBuffer, numOfBytes);
             if(readSz < 0)
             {
                 /* There was an error while reading the file. Close the file
@@ -307,27 +307,27 @@ void FS_Tasks ( void )
                         /* write first 16 bytes at address 0 */
                         if(!fsData.readCount)
                         {
-                                                        
+
                             wReg32(fsData.tapId, 0x440000B0, 0x00000000);
                             wReg32(fsData.tapId, 0x440000B0, 0xAA996655);
                             wReg32(fsData.tapId, 0x440000B0, 0x556699AA);                            
                             wReg32(fsData.tapId, 0x44012400, 0x00700000);
-                            rReg32(fsData.tapId, 0x44012400);
-                            
+//                            rReg32(fsData.tapId, 0x44012400);
+
                             /* Start sequence */                            
                             wReg32(fsData.tapId, 0x44000600, 0x00000000);
                             wReg32(fsData.tapId, 0x44000600, 0x00000002);
                             wReg32(fsData.tapId, 0x44000600, 0x00004002);
                             /* destination address */
-                            wReg32(fsData.tapId, 0x44000630, 0x00000000);
+                            wReg32(fsData.tapId, 0x44000630, 0);
                             /* DATA0 */
-                            wReg32(fsData.tapId, 0x44000640, fsData.readBuffer[cnt++]);
+                            wReg32(fsData.tapId, 0x44000640, fsData.readBuffer[0]);
                             /* DATA1 */
-                            wReg32(fsData.tapId, 0x44000650, fsData.readBuffer[cnt++]);
+                            wReg32(fsData.tapId, 0x44000650, fsData.readBuffer[1]);
                             /* DATA2 */
-                            wReg32(fsData.tapId, 0x44000660, fsData.readBuffer[cnt++]);
+                            wReg32(fsData.tapId, 0x44000660, fsData.readBuffer[2]);
                             /* DATA3 */
-                            wReg32(fsData.tapId, 0x44000670, fsData.readBuffer[cnt++]);
+                            wReg32(fsData.tapId, 0x44000670, fsData.readBuffer[3]);
                             /* transfer sequence */
                             wReg32(fsData.tapId, 0x44000620, 0x00000000);
                             wReg32(fsData.tapId, 0x44000620, 0xAA996655);
@@ -337,25 +337,37 @@ void FS_Tasks ( void )
                             wReg32(fsData.tapId, 0x44000620, 0xAA996655);
                             wReg32(fsData.tapId, 0x44000620, 0x556699AA);                           
                             wReg32(fsData.tapId, 0x44000600, 0x0000C002);
+
+
+                            volatile uint32_t nvmCon = 0x8000;
+                            while(nvmCon & 0x8000)
+                                 nvmCon = rReg32(fsData.tapId, 0x44000600);
+                                
+                            
                         }
                         
                         for(cnt = 0; cnt < secSz; cnt++)
-                        {
-                            wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);                    
+                        {                            
+                            wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);                                
                         }                   
 
-                        fsData.readCount += readSz;
-                        fsData.flashAddr += readSz;   
+                        fsData.readCount += secSz*sizeof(uint32_t);
+                        fsData.flashAddr += secSz*sizeof(uint32_t);
                         
-                        if ((fsData.fileStatus.fsize == fsData.readCount))
-                        {                 
-                            remBytes = (sizeof(uint32_t) - remBytes) * 8;
-                            if(remBytes)
-                            {                           
-                                volatile uint32_t word = (fsData.readBuffer[cnt] << remBytes);
-                                word = word >> remBytes;
-                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), word); 
-                            }
+                                        
+                        if(remBytes)
+                        {                           
+//                                volatile uint32_t word = (fsData.readBuffer[cnt] << remBytes);
+//                                word = word >> remBytes;                                
+                            wReg32(fsData.tapId, fsData.flashAddr, fsData.readBuffer[cnt-1]);                                
+                            fsData.readCount += remBytes;
+                        }
+                            
+
+                        
+                        if(fsData.fileStatus.fsize == fsData.readCount)
+                        {
+                            SYS_CONSOLE_PRINT("Firmware load complete!\r\n");
 
                             PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];                     
                             *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
@@ -365,6 +377,7 @@ void FS_Tasks ( void )
                             /* The test was successful. */
                             fsData.state = FS_CLOSE_FILE;
                         }
+                        
                         
                         break; /*CHIMERA_CHIP_ID*/
                     }
@@ -378,7 +391,23 @@ void FS_Tasks ( void )
                             uint32_t secSz = readSz/sizeof(uint32_t);
                             for(cnt = 0; cnt < secSz; cnt++)
                             {
-                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);                                
+                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);    
+                                readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4)); 
+                                while(readBytes.word != fsData.readBuffer[cnt])
+                                {                                                             
+                                    wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);  
+                                    readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4));    
+                                }
+                                extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );                      
+                                UART2_Write(&readBytes.bytes.b0, 1);
+                                UART2_Write(&readBytes.bytes.b1, 1);
+                                UART2_Write(&readBytes.bytes.b2, 1);
+                                UART2_Write(&readBytes.bytes.b3, 1);
+                                while(UART2_WriteCountGet())
+                                {
+                                    vTaskDelay(1U / portTICK_PERIOD_MS);
+                                }
+                                
                             }              
                             fsData.flashAddr += readSz; 
                         }
@@ -460,28 +489,8 @@ void FS_Tasks ( void )
 		
         case FS_CLOSE_FILE:
         {
-            
-        
-            readBytes.word = rReg32(fsData.tapId, fsData.flashAddr);                                
-            
-//            readBytes.word = EJTAG_Read(fsData.tapId, fsData.flashAddr);
-            
-            
-            extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );
-            
-            
-            UART2_Write(&readBytes.bytes.b0, 1);
-            UART2_Write(&readBytes.bytes.b1, 1);
-            UART2_Write(&readBytes.bytes.b2, 1);
-            UART2_Write(&readBytes.bytes.b3, 1);
-            
-            
-            
-            
-            fsData.flashAddr += 4;  
-            
-            
-            if (fsData.flashAddr - 0xA0000200 == fsData.readCount)
+                        
+//            if (fsData.flashAddr - 0xA0000200 == fsData.readCount)
             {
                 /* Close the file */
                 if (SYS_FS_FileClose(fsData.fileHandle) != 0)
@@ -497,6 +506,27 @@ void FS_Tasks ( void )
             break;
         }
 
+        case FS_FLASH_DUMP:
+        {
+            for(uint32_t cnt = 0; cnt < fsData.dumpSz; cnt+=4)
+            {
+                readBytes.word = rReg32(fsData.tapId, fsData.flashAddr + cnt);                 
+                extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );                      
+                UART2_Write(&readBytes.bytes.b0, 1);
+                UART2_Write(&readBytes.bytes.b1, 1);
+                UART2_Write(&readBytes.bytes.b2, 1);
+                UART2_Write(&readBytes.bytes.b3, 1);
+                while(UART2_WriteCountGet())
+                {
+                    vTaskDelay(1U / portTICK_PERIOD_MS);
+
+                }
+            }
+        
+            break;
+        }
+        
+        
         case FS_UNMOUNT_DISK:
         {
             /* Unmount the disk */
@@ -540,7 +570,16 @@ void FS_Tasks ( void )
                     while((timeout-- > 0) && (TMOD_TAP_DR(fsData.tapId, DUMMY_READ) != 0x88));   
 
                     /* Enter the ICDREG mode */
-                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);                               
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
+                    
+                    /* SRAM Start Address*/
+                    wReg32(fsData.tapId, 0x20000000, 0xABCD1234);
+                    if(rReg32(fsData.tapId, 0x20000000) == 0xABCD1234)
+                    {
+                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                            
+                    }
+                    
+                    
                     /* write first 16 bytes at address 0 */                     
                     break;
                 }
@@ -617,6 +656,24 @@ void FS_Tasks ( void )
     }
 }
 
+int32_t FS_TMOD_Dump(uint32_t devId, uint32_t sof, uint32_t dumpSz, bool sramLoad)
+{
+    if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
+        return -1;   
+    
+    fsData.tapId = devId; 
+    fsData.flashAddr = sof;
+    fsData.dumpSz = dumpSz;
+    fsData.sramLoad = sramLoad;    
+    
+    if(fsData.state == FS_IDLE)
+        fsData.state = FS_FLASH_DUMP;
+    else
+        return -1;
+    
+    
+    return 0;
+}
 
 int32_t FS_TMOD_Trigger(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName)
 {

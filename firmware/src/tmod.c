@@ -89,7 +89,6 @@ static uint32_t CACHE_ALIGN DR_32BIT_STREAM[3][DR_32BIT_CMD_LEN] = {
                     };
 
 
-
 /*MSB First */
 
 #define ICD_REG_LEN     (158 + 20)// dummy 20 bits
@@ -448,7 +447,7 @@ uint32_t TMOD_TAP_DR(uint32_t devId, uint32_t dReg)
 //    while(length > 0);
 //    SYS_TIME_TimerDestroy(triggerTmr);
     
-    for(i  = (DR_32BIT_CMD_IDX - 64); i < DR_32BIT_CMD_IDX; i++)
+    for(i  = (DR_32BIT_CMD_IDX - 64 + 1); i < DR_32BIT_CMD_IDX; i++)
     {
         tapReg = tapReg << 1;
         tapReg |= (DR_32BIT_STREAM[2][i++] != 0)?1:0;        
@@ -749,6 +748,9 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
     
     return 0;
 }
+
+
+
 
 
 /*******************************************************************************

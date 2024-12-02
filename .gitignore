@@ -5,6 +5,7 @@
 **/UMTDLL/.vs
 **/UMTDLL/UMTDLL
 **/UMTDLL/x64
+**/*.X/*.00
 **/*.X/nbproject/private
 **/*.X/nbproject/Makefile-*
 **/*.X/nbproject/Package-*
