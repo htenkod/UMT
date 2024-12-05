@@ -781,7 +781,7 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 //        input pins
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x18)) = commandsData.pin_map[tdiPin].gpio_mask;
 //        pull up enable
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x58)) = commandsData.pin_map[tdiPin].gpio_mask;
+//        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x58)) = commandsData.pin_map[tdiPin].gpio_mask;
                 
                 
         if(TMOD_TAP_Init(devIdx) == 0)

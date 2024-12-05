@@ -372,27 +372,34 @@ void RIO0_SYS_Initialize(uint32_t devId)
 
     wReg32(devId, RIO0_CFGCON3, 0x8F0F8F3C);
     
-	wReg32(devId, RIO0_SPLL_CON, 0x0996100F); //  0x01C85008 0x0996100F
+	wReg32(devId, RIO0_SPLL_CON, 0x01C85008); //  0x01C85008 0x0996100F
     
-//    wReg32(devId, RIO0_CFGCON3_CLR, 0x800080FF);                
-//    wReg32(devId, RIO0_CFGCON3_SET, 0x06000014);
+    wReg32(devId, RIO0_CFGCON3_CLR, 0x800080FF);                
+    wReg32(devId, RIO0_CFGCON3_SET, 0x06000014);
     
     
         
-//    while ((rReg32(devId, RIO0_CLKSTAT) & 0x1904) != 0x1904)
-//        ;
-   
+    while ((rReg32(devId, RIO0_CLKSTAT) & 0x1904) != 0x1904)
+    {
+        SYS_CONSOLE_PRINT("CLKSTAT = 0x%X\r\n", rReg32(devId, RIO0_CLKSTAT));
+        vTaskDelay(10U / portTICK_PERIOD_MS);
+    }
+    
+    SYS_CONSOLE_PRINT("CLKSTAT = 0x%X\r\n", rReg32(devId, RIO0_CLKSTAT));
+    
 	wReg32(devId, RIO0_OSCCON_SET, 0x00000100);
 	wReg32(devId, RIO0_OSCCON_SET, 0x00000001);
 
-//    while ((rReg32(devId, RIO0_OSCCON) & 0xF000) != 0x1000)
-//        ;
+    while ((rReg32(devId, RIO0_OSCCON) & 0xF000) != 0x1000)
+        ;
    
 #ifdef RIO0_ENABLE_REFCLK	
     wReg32(devId, 0x1F8000A4, 0x20000000);  //'PMD2CLR ' make sure REF2O module is enabled
     wReg32(devId, RIO0_REFO2CON_SET, 0x00281001);
     wReg32(devId, RIO0_REFO2CON_SET, 0x00008000);
 #endif
+    
+    wReg32(devId, RIO0_SYSKEY, 0x33333333);
         
 }
 

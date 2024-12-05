@@ -387,29 +387,31 @@ void FS_Tasks ( void )
 
                         if (fsData.sramLoad)
                         {                 
-                            SYS_CONSOLE_PRINT("SRAM Load %X\r\n", fsData.flashAddr);
-                            uint32_t secSz = readSz/sizeof(uint32_t);
-                            for(cnt = 0; cnt < secSz; cnt++)
+//                            SYS_CONSOLE_PRINT("SRAM Load %X\r\n", fsData.flashAddr);
+                            uint32_t wordSz = readSz/sizeof(uint32_t);
+                            for(cnt = 0; cnt < wordSz; cnt++)
                             {
-                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);    
-                                readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4)); 
-                                while(readBytes.word != fsData.readBuffer[cnt])
-                                {                                                             
-                                    wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);  
-                                    readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4));    
-                                }
-                                extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );                      
-                                UART2_Write(&readBytes.bytes.b0, 1);
-                                UART2_Write(&readBytes.bytes.b1, 1);
-                                UART2_Write(&readBytes.bytes.b2, 1);
-                                UART2_Write(&readBytes.bytes.b3, 1);
-                                while(UART2_WriteCountGet())
-                                {
-                                    vTaskDelay(1U / portTICK_PERIOD_MS);
-                                }
+                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]); 
+                                CORETIMER_DelayUs(5);
+//                                readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4)); 
+//                                while(readBytes.word != fsData.readBuffer[cnt])
+//                                {                                                             
+//                                    wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);  
+//                                    readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4));    
+//                                }
+//                                extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );                      
+//                                UART2_Write(&readBytes.bytes.b0, 1);
+//                                UART2_Write(&readBytes.bytes.b1, 1);
+//                                UART2_Write(&readBytes.bytes.b2, 1);
+//                                UART2_Write(&readBytes.bytes.b3, 1);
+//                                CORETIMER_DelayUs(1);
+//                                while(UART2_WriteCountGet())
+//                                {
+//                                    vTaskDelay(1U / portTICK_PERIOD_MS);
+//                                }
                                 
                             }              
-                            fsData.flashAddr += readSz; 
+                            fsData.flashAddr += wordSz*sizeof(uint32_t); 
                         }
                         else
                         {
@@ -437,23 +439,31 @@ void FS_Tasks ( void )
                             
                             if (fsData.sramLoad)
                             {
-                                fsData.flashAddr = 0x200;
-                                
-//                                EJTAG_Enter(fsData.tapId, false);
+//                                fsData.flashAddr = 0x200;                                
+                                EJTAG_Enter(fsData.tapId, true);                                
                                 
 //                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C19A000);
 //                                EJTAG_OPCODE_WR(fsData.tapId, 0x37390200);
 //                                EJTAG_OPCODE_WR(fsData.tapId, 0x0320C008);
 //                                EJTAG_OPCODE_WR(fsData.tapId, 0x00000000);
-//                                                                                               
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0);
-//                                /* DERET*/
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);     
-                                 
+//                                                                            
+//                                CORETIMER_DelayMs(10);
+
                                 
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);  // load upper immediate
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);  // or immediate
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB
+                                                               
+
+//                                /* DERET*/
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);  
+                                
+                                
+                                                                                                 
+                                
+                                
+                                SYS_CONSOLE_MESSAGE("Triggered DERET!\r\n");
                             }
                             else
                             {
@@ -576,9 +586,8 @@ void FS_Tasks ( void )
                     wReg32(fsData.tapId, 0x20000000, 0xABCD1234);
                     if(rReg32(fsData.tapId, 0x20000000) == 0xABCD1234)
                     {
-                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                            
-                    }
-                    
+                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                          
+                    }                    
                     
                     /* write first 16 bytes at address 0 */                     
                     break;
@@ -588,21 +597,21 @@ void FS_Tasks ( void )
                 {                    
                     TMOD_TAP_Reset(fsData.tapId);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-                    TMOD_TAP_Reset(fsData.tapId);
+//                    TMOD_TAP_Reset(fsData.tapId);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_EJTAG_SELECT);
-                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_Idle(fsData.tapId);
                     
-                    TMOD_TAP_DR(fsData.tapId, CHIP_TAP_ALTRESET); 
+                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ALTRESET); 
 
-                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_Idle(fsData.tapId);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-                    TMOD_TAP_Reset(fsData.tapId);
+//                    TMOD_TAP_Reset(fsData.tapId);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD); 
                     
                     TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
                     
-                    TMOD_TAP_Reset(fsData.tapId);
+                    TMOD_TAP_Idle(fsData.tapId);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
                     TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
 
@@ -613,23 +622,25 @@ void FS_Tasks ( void )
                     if(rReg32(fsData.tapId, 0x00001000) == 0xABCD1234)
                     {
                         SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                            
+                    
+                        if(!fsData.sramLoad)
+                        {
+                            RIO0_SYS_Initialize(fsData.tapId);
+                            RIO0_FLASH_Initialize(fsData.tapId);                                                                                
+                            RIO0_FLASH_Reset(fsData.tapId);          
+                            volatile uint32_t flashId = RIO0_FLASH_ID_Read(fsData.tapId);
+                            while(flashId != 0x1C7015)
+                                flashId = RIO0_FLASH_ID_Read(fsData.tapId);
+
+                            RIO0_SYS_Initialize(fsData.tapId);
+                            RIO0_FLASH_Initialize(fsData.tapId);                         
+                            SYS_CONSOLE_PRINT("SPLLCON = 0x%X\r\n", rReg32(fsData.tapId, RIO0_SPLL_CON));
+                            SYS_CONSOLE_PRINT("SPI0BRG = 0x%X\r\n", rReg32(fsData.tapId, 0x1F801630));
+                            SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
+                            RIO0_FLASH_CHIP_Erase(fsData.tapId);  
+                        }
+                        
                     }
-
-                    RIO0_SYS_Initialize(fsData.tapId);
-                    RIO0_FLASH_Initialize(fsData.tapId);                                                                                
-                    RIO0_FLASH_Reset(fsData.tapId);          
-                    volatile uint32_t flashId = RIO0_FLASH_ID_Read(fsData.tapId);
-                    while(flashId != 0x1C7015)
-                        flashId = RIO0_FLASH_ID_Read(fsData.tapId);
-                    
-                    
-
-                    RIO0_SYS_Initialize(fsData.tapId);
-                    RIO0_FLASH_Initialize(fsData.tapId);                         
-                    SYS_CONSOLE_PRINT("SPLLCON = 0x%X\r\n", rReg32(fsData.tapId, RIO0_SPLL_CON));
-                    SYS_CONSOLE_PRINT("SPI0BRG = 0x%X\r\n", rReg32(fsData.tapId, 0x1F801630));
-                    SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
-                    RIO0_FLASH_CHIP_Erase(fsData.tapId);
 
                     break;
                 }

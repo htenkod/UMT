@@ -82,6 +82,8 @@ typedef enum
 
 uint32_t EJTAG_Enter(uint32_t devId, bool mclr);
 
+uint32_t EJTAG_Exit(uint32_t devId, bool mclr);
+
 void EJTAG_OPCODE_WR(uint32_t devId, uint32_t opcode);
 
 uint32_t EJTAG_Write(uint32_t devId, uint32_t addr, uint32_t data);
