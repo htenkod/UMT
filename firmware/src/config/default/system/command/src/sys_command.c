@@ -58,6 +58,7 @@
 #include "system/debug/sys_debug.h"
 #include "system/reset/sys_reset.h"
 #include "osal/osal.h"
+#include "definitions.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -868,6 +869,11 @@ static void CommandReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char** argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
     (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** System Reboot ***\r\n" );
+    
+    
+    memset(&usbData, 0, sizeof(usbData));
+    memset(&fsData, 0, sizeof(usbData));
+    
 
     SYS_RESET_SoftwareReset();
 

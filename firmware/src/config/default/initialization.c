@@ -428,10 +428,12 @@ void SYS_Initialize ( void* data )
     if(SWITCH1_Get() == SWITCH1_STATE_PRESSED)
     {
         sysObj.usbDevObject0 = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 , ( SYS_MODULE_INIT* ) & usbDevInitData_setup);
+        usbData.mode = 1;
     }
     else
     {
         sysObj.usbDevObject0 = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 , ( SYS_MODULE_INIT* ) & usbDevInitData_run);
+        usbData.mode = 0;
     }
 
     /* Initialize USB Driver */ 

@@ -721,9 +721,9 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
 {    
     if(mclr)
     {        
-//        PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
+        PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
         /* Trigger a Master Reset*/
-        *((volatile uint32_t *)((char *)gUmtCxt.devList[devId].pinLink[PIN_MCLR]->gpio_reg + CLR)) = gUmtCxt.devList[devId].pinLink[PIN_MCLR]->gpio_mask;       
+        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;       
         CORETIMER_DelayUs(10);
         TMOD_TAP_Reset(devId);     
         TMOD_TAP_Idle(devId);        
@@ -731,23 +731,16 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
         TMOD_TAP_Idle(devId);
         TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
         TMOD_TAP_Idle(devId);
-        *((volatile uint32_t *)((char *)gUmtCxt.devList[devId].pinLink[PIN_MCLR]->gpio_reg + SET)) = gUmtCxt.devList[devId].pinLink[PIN_MCLR]->gpio_mask;     
         CORETIMER_DelayUs(10);
-        
+        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;                     
     }
-    
-    
-    TMOD_TAP_Idle(devId);
-    
-    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);    
-    
-    TMOD_TAP_Idle(devId);
-    
+    TMOD_TAP_Idle(devId);    
+    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);        
+    TMOD_TAP_Idle(devId);    
     TMOD_TAP_IR(devId, CHIP_TAP_SELECTALT);
     CORETIMER_DelayUs(1);
     
-    TMOD_TAP_DR(devId, 0x0004D000);
-    CORETIMER_DelayMs(1);
+    TMOD_TAP_DR(devId, 0x0004D000);    
     TMOD_TAP_DR(devId, 0x8004D000);
     
     SYS_CONSOLE_MESSAGE("Entered EJTAG Mode\r\n");

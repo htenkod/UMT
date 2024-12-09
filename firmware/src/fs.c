@@ -439,30 +439,13 @@ void FS_Tasks ( void )
                             
                             if (fsData.sramLoad)
                             {
-//                                fsData.flashAddr = 0x200;                                
-                                EJTAG_Enter(fsData.tapId, true);                                
-                                
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C19A000);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x37390200);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x0320C008);
-//                                EJTAG_OPCODE_WR(fsData.tapId, 0x00000000);
-//                                                                            
-//                                CORETIMER_DelayMs(10);
-
-                                
+                                EJTAG_Enter(fsData.tapId, true);                                                                
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);  // load upper immediate
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);  // or immediate
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
-                                EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB
-                                                               
-
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB                                                             
 //                                /* DERET*/
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);  
-                                
-                                
-                                                                                                 
-                                
-                                
                                 SYS_CONSOLE_MESSAGE("Triggered DERET!\r\n");
                             }
                             else

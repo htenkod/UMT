@@ -16,3 +16,5 @@
 **/*.X/.generated_files
 Gemfile*
 **/__pycache__
+/dll/UMTDLL/UMTDLL.vcxproj
+/dll/UMTDLL/UMTDLL.vcxproj.filters
