@@ -97,6 +97,9 @@ typedef struct
     /* The application's current state */
     USB_STATES state;
     
+    /* The application's current mode, test/oonfig */
+    USB_STATES mode;
+        
     /* USB Device handler*/    
     USB_DEVICE_HANDLE deviceHandle; 
     

@@ -39,6 +39,11 @@ int main ( void )
 {
     /* Initialize all modules */
     SYS_Initialize ( NULL );
+    
+    
+    if(usbData.mode) {    
+        SYS_CONSOLE_MESSAGE(BANNER);
+    }
 
     while ( true )
     {

@@ -64,9 +64,12 @@ void GPIO_Initialize ( void )
     ANSELBCLR = 0x0028U; /* Digital Mode Enable */
     ANSELACLR = 0xFFFFFFFFU; /* Digital Mode Enable */
     TRISBCLR = 0x20U; /* Direction Control */
+    
     /* PORTB Initialization */
     ANSELBCLR = 0x7000U; /* Digital Mode Enable */
     ANSELBCLR = 0xFFFFFFFFU; /* Digital Mode Enable */
+    /* SW 1,2 and 3 */
+    TRISBSET = 0x7000U; /* Direction Control */
     CNPUBSET = 0x7000U; /* Pull-Up Enable */
     /* PORTC Initialization */
     ANSELCCLR = 0xFFFFFFFFU; /* Digital Mode Enable */

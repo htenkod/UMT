@@ -142,11 +142,79 @@ void U1RX_Callback_Handler(uintptr_t context)
 
 
 
+/******************************************************************************
+  Function:
+    void APP_USBDeviceEventHandler
+    (
+        USB_DEVICE_EVENTS event
+        void * pEventData,
+        uintptr_t context
+    );
+
+  Remarks:
+    Handles the Device Layers Events.
+*/
+
+void USB_MSD_DeviceEventHandler( USB_DEVICE_EVENT event, void * pEventData, uintptr_t context )
+{
+    /* This is an example of how the context parameter
+       in the event handler can be used.*/
+
+    USB_DATA * usbDataObject = (USB_DATA*)context;
+
+    switch( event )
+    {
+        case USB_DEVICE_EVENT_RESET:
+        case USB_DEVICE_EVENT_DECONFIGURED:
+            usbDataObject->deviceIsConfigured = false;
+            /* Device was reset or de-configured. Update LED status */
+            LED2_Off();
+            break;
+
+        case USB_DEVICE_EVENT_CONFIGURED:
+            usbDataObject->deviceIsConfigured = true;
+            /* Device is configured. Update LED status */
+            LED2_On();
+            break;
+
+        case USB_DEVICE_EVENT_SUSPENDED:
+            
+            LED2_Off();
+            break;
+
+        case USB_DEVICE_EVENT_POWER_DETECTED:
+
+            /* VBUS is detected. Attach the device. */
+            USB_DEVICE_Attach(usbDataObject->deviceHandle);
+            break;
+
+        case USB_DEVICE_EVENT_POWER_REMOVED:
+            usbData.deviceIsConfigured = false;
+            /* VBUS is not detected. Detach the device */
+            USB_DEVICE_Detach(usbDataObject->deviceHandle);
+            LED2_Off();
+            break;
+
+        /* These events are not used in this demo */
+        case USB_DEVICE_EVENT_RESUMED:
+            if(usbDataObject->deviceIsConfigured == true)
+            {
+                LED2_On();
+            }
+            break;
+        case USB_DEVICE_EVENT_ERROR:
+        case USB_DEVICE_EVENT_SOF:
+        default:
+            break;
+    }
+}
+
+
 /* TODO:  Add any necessary callback functions.
 */
 // This is the application device layer event handler function.
 
-USB_DEVICE_EVENT_RESPONSE USB_DeviceEventCallBack
+USB_DEVICE_EVENT_RESPONSE USB_Test_DeviceEventCallBack
 (
     USB_DEVICE_EVENT event,
     void * pData, 
@@ -175,7 +243,7 @@ USB_DEVICE_EVENT_RESPONSE USB_DeviceEventCallBack
             if(*configurationValue == 1 )
             {
                 /* The device is in configured state. Update LED indication */
-                LED1_On();
+                
                                                
                 /* Reset endpoint data send & receive flag  */
                 usbData.deviceIsConfigured = true;
@@ -572,14 +640,40 @@ void USB_Initialize ( void )
     usbData.state = USB_STATE_INIT;
     usbData.deviceHandle = USB_DEVICE_HANDLE_INVALID;
     usbData.deviceIsConfigured = false;
-    usbData.endpointRx = (APP_EP_BULK_OUT | USB_EP_DIRECTION_OUT);
-    usbData.endpointTx = (APP_EP_BULK_IN | USB_EP_DIRECTION_IN);
-    usbData.endpointIntRx = (APP_EP_INT_OUT | USB_EP_DIRECTION_OUT);
-    usbData.endpointIntTx = (APP_EP_INT_IN | USB_EP_DIRECTION_IN);    
-    usbData.epDataReadPending = 0;
-    usbData.epDataWritePending = 0;
-    usbData.altSetting = 0;
     
+    if(!usbData.mode)
+    {
+        usbData.endpointRx = (APP_EP_BULK_OUT | USB_EP_DIRECTION_OUT);
+        usbData.endpointTx = (APP_EP_BULK_IN | USB_EP_DIRECTION_IN);
+        usbData.endpointIntRx = (APP_EP_INT_OUT | USB_EP_DIRECTION_OUT);
+        usbData.endpointIntTx = (APP_EP_INT_IN | USB_EP_DIRECTION_IN);    
+        usbData.epDataReadPending = 0;
+        usbData.epDataWritePending = 0;
+        usbData.altSetting = 0;        
+        
+        
+        /* Initialize instance object */
+        usbBufferObj.rdCallback = NULL;
+        usbBufferObj.rdInIndex = 0;
+        usbBufferObj.rdOutIndex = 0;
+        usbBufferObj.isRdNotificationEnabled = false;
+        usbBufferObj.isRdNotifyPersistently = false;
+        usbBufferObj.rdThreshold = 0;
+
+        usbBufferObj.wrCallback = NULL;
+        usbBufferObj.wrInIndex = 0;
+        usbBufferObj.wrOutIndex = 0;
+        usbBufferObj.isWrNotificationEnabled = false;
+        usbBufferObj.isWrNotifyPersistently = false;
+        usbBufferObj.wrThreshold = 0;
+
+        usbBufferObj.errors = UART_ERROR_NONE;
+
+        usbBufferObj.rdBufferSize = USB_READ_BUFFER_SIZE;
+        usbBufferObj.wrBufferSize = USB_WRITE_BUFFER_SIZE;
+
+
+    }
     
     sd003_run.string[4] = hexMap[(DEVSN0 >> 12) & 0xF];
     sd003_run.string[5] = hexMap[(DEVSN0 >> 8) & 0xF];
@@ -592,27 +686,7 @@ void USB_Initialize ( void )
     sd003_run.string[11] = hexMap[DEVSN1 & 0xF];
 
 
-	 /* Initialize instance object */
-    usbBufferObj.rdCallback = NULL;
-    usbBufferObj.rdInIndex = 0;
-    usbBufferObj.rdOutIndex = 0;
-    usbBufferObj.isRdNotificationEnabled = false;
-    usbBufferObj.isRdNotifyPersistently = false;
-    usbBufferObj.rdThreshold = 0;
-
-    usbBufferObj.wrCallback = NULL;
-    usbBufferObj.wrInIndex = 0;
-    usbBufferObj.wrOutIndex = 0;
-    usbBufferObj.isWrNotificationEnabled = false;
-    usbBufferObj.isWrNotifyPersistently = false;
-    usbBufferObj.wrThreshold = 0;
-
-    usbBufferObj.errors = UART_ERROR_NONE;
-    
-    usbBufferObj.rdBufferSize = USB_READ_BUFFER_SIZE;
-    usbBufferObj.wrBufferSize = USB_WRITE_BUFFER_SIZE;
-
-
+	
     /* TODO: Initialize your application's state machine and other
      * parameters.
      */
@@ -642,10 +716,23 @@ void USB_Tasks ( void )
 
             if(usbData.deviceHandle != USB_DEVICE_HANDLE_INVALID)
             {
-                /* Register a callback with device layer to get event notification */
-                USB_DEVICE_EventHandlerSet(usbData.deviceHandle, USB_DeviceEventCallBack, 0);
-
-                usbData.state = USB_STATE_WAIT_FOR_CONSOLE;
+                
+                if(usbData.mode) {
+                    /* Register a callback with device layer to get event notification */
+                    USB_DEVICE_EventHandlerSet(usbData.deviceHandle, USB_MSD_DeviceEventHandler, (uintptr_t)&usbData);
+                
+                    /* The MSD Device is maintained completely by the MSD function
+                    * driver and does not require application intervention. So there
+                    * is nothing related to MSD Device to do here. */
+                    usbData.state = USB_STATE_SERVICE_TASKS;
+                    LED1_On();
+                }
+                else {
+                    USB_DEVICE_EventHandlerSet(usbData.deviceHandle, USB_Test_DeviceEventCallBack, (uintptr_t)&usbData);
+                    /* Move to test mode, waiting for the console bring */
+                    usbData.state = USB_STATE_WAIT_FOR_CONSOLE;
+                }
+                    
             }
             else
             {

@@ -142,11 +142,11 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0},		// mclr                                                                 //13
                         {0, GPIO, 0, _PORTD_START_ADDR_, _PORTD_RD0_MASK, 0, 0}, 		//INT0/RD0	                                //14
 						{0, GPIO, 0, _PORTC_START_ADDR_, _PORTC_RC13_MASK, 0, 0},		//secondary osc i/p/RC13		            //15
-						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG13_MASK, 0, 0}, 	//SQID0/RG13						        //16
+						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG13_MASK, 0, 0}, 	//SQID0/RG13                                    //16
 						{0, GPIO, 0, _PORTC_START_ADDR_, _PORTC_RC14_MASK, 0, 0},		//secondary osc 0/p/RC13		            //17
-						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG12_MASK, 0, 0}, 	//SQID1/RG12						        //18
+						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG12_MASK, 0, 0}, 	//SQID1/RG12                                    //18
                         {0, GPIO, 0, _PORTD_START_ADDR_, _PORTD_RD4_MASK, 0, 0}, 		//SQICS0/RD4	                            //19
-						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG14_MASK, 0, 0}, 	//SQID2/RG14						        //20
+						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG14_MASK, 0, 0}, 	//SQID2/RG14                                    //20
 	                    {0, GPIO, 0, _PORTD_START_ADDR_, _PORTD_RD5_MASK, 0, 0}, 		//SQICS1/RD5		                        //21
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA7_MASK, 0, 0},		// SQID3/A7                                 //22
 						{0, GPIO, 0, _PORTG_START_ADDR_, _PORTG_RG15_MASK, 0, 0},		// RG15                                     //23
@@ -155,29 +155,29 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //26
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA1                                                                 //27
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //28
-						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG9_MASK, 0xBF8016A4, 0},		// RG9					//29
+						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG9_MASK, 0xBF8016A4, 0},		// RG9                      //29
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //30
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// PMA3                                                                 //31
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// PMA3                                                                     //31
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //32
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA4                                                                 //33
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //34
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA5_MASK, 0, 0},		// RA5                                      //35
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //36
-						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA6                                                                 //37
+						{0, GPIO, 0, _PORTC_START_ADDR_, _PORTC_RC1_MASK, 0, 0},		//secondary osc i/p/RC1                     //37
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //38
 						{0, RESERVED, 0, 0, 0, 0, 0},		// gnd                                                                  //39
 						{0, RESERVED, 0, 0, 0, 0, 0},		// gnd                                                                  //40
 						{0, RESERVED, 0, 0, 0, 0, 0},		// 32_VDD																//41
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                               //42
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //42
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA7                                                                 //43
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //44						
-                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, (const uint32_t)&RPF5R/*0xBF801654*/, 0},     //45 U1_Tx
+                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, (const uint32_t)&RPF5R/*0xBF801654*/, 0},          //45 U1_Tx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //46						
-                        {0, GPIO | U_RX, 0, _PORTF_START_ADDR_, _PORTF_RF4_MASK, 2, 0},                                        //47 U1_Rx
+                        {0, GPIO | U_RX, 0, _PORTF_START_ADDR_, _PORTF_RF4_MASK, 2, 0},                                             //47 U1_Rx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //48
-						{0, GPIO | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB8_MASK, 0, 0},	// RB8                                  //49
+						{0, GPIO | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB8_MASK, 0, 0},	// RB8                                      //49
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc						                                            //50
-						{0, GPIO, 0, _PORTB_START_ADDR_, _PORTB_RB12_MASK, 0, 0},	// RB12                                         //51
+						{0, RESERVED, 0, 0, 0, 0, 0},		// SW1 / RB12						                                    //51
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc						                                            //52
 						{0, GPIO, 0, _PORTB_START_ADDR_, _PORTC_RC2_MASK, 0, 0},	// RC2                                          //53
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //54
@@ -185,7 +185,7 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //56
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA4_MASK, 0, 0},	// RA4                                          //57
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //58
-						{0, GPIO | U_RX, 0, _PORTD_START_ADDR_, _PORTD_RD9_MASK, 0x0000, 0},	// RD9                          //59
+						{0, GPIO | U_RX, 0, _PORTD_START_ADDR_, _PORTD_RD9_MASK, 0x0000, 0},	// RD9                              //59
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //60
 						{0, GPIO, 0, _PORTK_START_ADDR_, _PORTK_RK0_MASK, 0, 0},	// RK0                                          //61
 						{0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH2_MASK, 0, 0},	// RH2                                          //62
@@ -197,8 +197,8 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO, 0, _PORTC_START_ADDR_, _PORTC_RC3_MASK, 0, 0},	// RC3						                    //68
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //69
 						{0, RESERVED, 0, 0, 0, 0, 0},		// gnd                                                                  //70
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                               //71
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                               //72
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //71
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //72
 						{0, GPIO, 0, _PORTK_START_ADDR_, _PORTK_RK6_MASK, 0, 0},	// RK6                                          //73
 						{0, GPIO, 0, _PORTJ_START_ADDR_, _PORTJ_RJ4_MASK, 0, 0},	// RJ4                                          //74
 						{0, GPIO, 0, _PORTK_START_ADDR_, _PORTK_RK7_MASK, 0, 0},	// RK7                                          //75
@@ -216,15 +216,15 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG6_MASK, 0, 0},		// AN14/RG6                             //87
 						{0, GPIO | AN | U_TX, 0, _PORTB_START_ADDR_, _PORTB_RB14_MASK, 0, 0},	// AN9/RB14                         //88
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 0, 0},		// AN13/RG7                             //89
-						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB15_MASK, 0, 0},	// AN10/RB15                            //90
+						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB15_MASK, 0, 0},	// AN10/RB15                                //90
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 0, 0},		// AN12/RG8                             //91
 						{0, GPIO | AN, 0, _PORTH_START_ADDR_, _PORTH_RH6_MASK, 0, 0},		// AN42/RH6						        //92
 						{0, GPIO | AN, 0, _PORTE_START_ADDR_, _PORTE_RE8_MASK, 0, 0},		// AN25/RE8                             //93
-                        {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD14_MASK, 0, 0}, 	// AN32/RD14                            //94
+                        {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD14_MASK, 0, 0}, 	// AN32/RD14                                //94
 						{0, GPIO | AN, 0, _PORTE_START_ADDR_, _PORTE_RE9_MASK, 0, 0},		// AN26/RE9                             //95
-                        {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD15_MASK, 0, 0}, 	// AN33/RD15                            //96
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                               //97
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                               //98
+                        {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD15_MASK, 0, 0}, 	// AN33/RD15                                //96
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //97
+						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //98
 						{0, RESERVED, 0, 0, 0, 0, 0},		// gnd                                                                  //99
 						{0, RESERVED, 0, 0, 0, 0, 0},		// gnd                                                                  //100
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB5_MASK, 0, 0},		// AN45/RB5                             //101
@@ -236,7 +236,7 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO | AN | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB2_MASK, 0, 0},		// AN3/RB2                      //107
                         {0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH9_MASK, 0, 0}, 			// RH9                                  //108
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA9_MASK, 0, 0},			// VREF-/RA9							//109
-                        {0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH10_MASK, 0, 0}, 		// RH10                                 //110
+                        {0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH10_MASK, 0, 0}, 		// RH10                                     //110
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA10_MASK, 0, 0},			// VREF+/RA10                           //111
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA2_MASK, 0, 0},			// SCL2/RA2                             //112
 						{0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH0_MASK, 0, 0},			// RH0                                  //113
@@ -781,7 +781,7 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 //        input pins
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x18)) = commandsData.pin_map[tdiPin].gpio_mask;
 //        pull up enable
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x58)) = commandsData.pin_map[tdiPin].gpio_mask;
+//        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[tdiPin].gpio_reg) + 0x58)) = commandsData.pin_map[tdiPin].gpio_mask;
                 
                 
         if(TMOD_TAP_Init(devIdx) == 0)
@@ -961,10 +961,8 @@ void COMMANDS_Tasks ( void )
         {
             bool appInitialized = true;
 
-
             if (appInitialized)
-            {
-//                SYS_CONSOLE_MESSAGE(BANNER);
+            {                
                 if(SYS_CMD_ADDGRP(moduleCmdsTbl, sizeof(moduleCmdsTbl)/sizeof(*moduleCmdsTbl),
                         "test", ": Module test commands") == false)                
                 {

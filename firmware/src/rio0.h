@@ -71,7 +71,7 @@ extern "C" {
     
 #define RIO0_FW_IMG_SIZE_OFFSET 7   
     
-#define RIO0_ENABLE_REFCLK		1
+//#define RIO0_ENABLE_REFCLK		1
 
 #define EXAMPLE_CONSTANT 0
     

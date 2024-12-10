@@ -32,7 +32,7 @@
 // Section: Global Data Definitions
 // *****************************************************************************
 // *****************************************************************************
- #define NO_DELAY 1
+#define NO_DELAY 1
 // *****************************************************************************
 /* Application Data */ 
 
@@ -61,31 +61,31 @@ static const uint32_t TAP_RESET[2][TAP_RESET_CMD_LEN] = {
                 }; 
 
 
-#define IR_5BIT_CMD_LEN  26
+#define IR_5BIT_CMD_LEN  28
 #define IR_5BIT_CMD_IDX  IR_5BIT_CMD_LEN - TMOD_TAP_IR_HDR - 1
 
 static uint32_t CACHE_ALIGN IR_5BIT_STREAM[2][IR_5BIT_CMD_LEN] = {
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
+                    {CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR}, // TMS
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDO
                     };
 
 
-#define DR_8BIT_CMD_LEN  30
+#define DR_8BIT_CMD_LEN  32
 #define DR_8BIT_CMD_IDX  DR_8BIT_CMD_LEN - TMOD_TAP_DR_HDR -1
 
 static uint32_t CACHE_ALIGN DR_8BIT_STREAM[3][DR_8BIT_CMD_LEN] = {                    
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
-                    {CLR, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
+                    {CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
+                    {CLR, CLR, CLR, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
                     };
 
 
-#define DR_32BIT_CMD_LEN  78
+#define DR_32BIT_CMD_LEN  80
 #define DR_32BIT_CMD_IDX  DR_32BIT_CMD_LEN - TMOD_TAP_DR_HDR - 1
 static uint32_t CACHE_ALIGN DR_32BIT_STREAM[3][DR_32BIT_CMD_LEN] = {                    
-                    {CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
+                    {CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR},  // TDO
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}  // TDI
                     };
 
 
@@ -256,7 +256,7 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
     int32_t devIdx = devId;
     tmrCxt[0] = &devIdx;
     tmrCxt[1] = &length;           
-    SYS_TIME_HANDLE triggerTmr = 0;
+//    SYS_TIME_HANDLE triggerTmr = 0;
 #endif    
     uint32_t idx = 0 ; // 
 
@@ -375,10 +375,10 @@ uint32_t EJTAG_TAP_RD(uint32_t devId, uint32_t dReg)
 //    while(length > 0);
 //    SYS_TIME_TimerDestroy(triggerTmr);
     
-    for(i  = (DR_32BIT_CMD_IDX - 66 + 1); i < DR_32BIT_CMD_IDX - 2; i++)
+    for(i  = (DR_32BIT_CMD_IDX - 66 + 1); i < DR_32BIT_CMD_IDX - 2; i+=2)
     {
         tapReg = tapReg << 1;
-        tapReg |= (DR_32BIT_STREAM[2][i++] == 0)?0:1;        
+        tapReg |= (DR_32BIT_STREAM[2][i] == 0)?0:1;        
     }
     
      
@@ -399,7 +399,7 @@ uint32_t TMOD_TAP_DR(uint32_t devId, uint32_t dReg)
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;
     
-    if(dReg && dReg < 0x100)
+    if(dReg && dReg < 0x100 && dReg != 0xC0)
     {
         uint32_t idx = 0;
         while(dReg)
@@ -654,48 +654,50 @@ int32_t TMOD_TAP_Init(uint32_t devId)
 void EJTAG_OPCODE_WR(uint32_t devId, uint32_t opcode)
 {
     /* Write higher 16-bits of address */
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0004D000);
+    TMOD_TAP_IR(devId, 0x0A);    
+    TMOD_TAP_DR(devId, 0x8004D000);
     TMOD_TAP_IR(devId, 0x09);    
     TMOD_TAP_DR(devId, opcode);
     TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0000C000);
+    TMOD_TAP_DR(devId, 0x8000C000);
+    
 }
 
 uint32_t EJTAG_Write(uint32_t devId, uint32_t addr, uint32_t data)
 {
     /* Write higher 16-bits of address */
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0004D000);
-    TMOD_TAP_IR(devId, 0x09);    
-    TMOD_TAP_DR(devId, (((addr >> 16) & 0x0000FFFF) | 0x3C100000));
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0000C000);
+//    
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0004D000);
+//    TMOD_TAP_IR(devId, 0x09);    
+    EJTAG_OPCODE_WR(devId, (((addr >> 16) & 0x0000FFFF) | 0x3C100000));
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0000C000);
     
     /* Write lower 16-bits of address */
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0004D000);
-    TMOD_TAP_IR(devId, 0x09);
-    TMOD_TAP_DR(devId, (((addr >> 0) & 0x0000FFFF) | 0x3C080000));    
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0000C000);
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0004D000);
+//    TMOD_TAP_IR(devId, 0x09);
+    EJTAG_OPCODE_WR(devId, (((addr >> 0) & 0x0000FFFF) | 0x3C080000));    
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0000C000);
+    
+    /* Write higher 16-bits of data */
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0004D000);
+//    TMOD_TAP_IR(devId, 0x09);
+    EJTAG_OPCODE_WR(devId, (((data >> 16) & 0x0000FFFF) | 0x35080000));    
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0000C000);
     
     /* Write lower 16-bits of data */
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0004D000);
-    TMOD_TAP_IR(devId, 0x09);
-    TMOD_TAP_DR(devId, (((data >> 0) & 0x0000FFFF) | 0x35080000));    
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0000C000);
-    
-    /* Write lower 16-bits of data */
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0004D000);
-    TMOD_TAP_IR(devId, 0x09);
-    TMOD_TAP_DR(devId, (((data >> 0) & 0x0000FFFF) | 0xAE080000));        
-    TMOD_TAP_IR(devId, 0x0A);
-    TMOD_TAP_DR(devId, 0x0000C000);
-    
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0004D000);
+//    TMOD_TAP_IR(devId, 0x09);
+    EJTAG_OPCODE_WR(devId, (((data >> 0) & 0x0000FFFF) | 0xAE080000));        
+//    TMOD_TAP_IR(devId, 0x0A);
+//    TMOD_TAP_DR(devId, 0x0000C000);
+//    
    
     return 0;
 }
@@ -716,31 +718,30 @@ uint32_t EJTAG_Read(uint32_t devId, uint32_t addr)
 }
 
 uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
-{
-    
+{    
     if(mclr)
-    {
-        
+    {        
         PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
         /* Trigger a Master Reset*/
         *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;       
-        CORETIMER_DelayUs(2);
-        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;  
-        CORETIMER_DelayUs(3);
-        
+        CORETIMER_DelayUs(10);
+        TMOD_TAP_Reset(devId);     
+        TMOD_TAP_Idle(devId);        
+        TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT); // 0x05
+        TMOD_TAP_Idle(devId);
+        TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
+        TMOD_TAP_Idle(devId);
+        CORETIMER_DelayUs(10);
+        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;                     
     }
-    TMOD_TAP_Reset(devId);
-    TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);
-    TMOD_TAP_Reset(devId);
-    TMOD_TAP_IR(devId, CHIP_TAP_MCHP_CMD); 
-    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);
-    TMOD_TAP_Reset(devId);
-    TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET);
-    TMOD_TAP_Idle(devId);
+    TMOD_TAP_Idle(devId);    
+    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);        
+    TMOD_TAP_Idle(devId);    
     TMOD_TAP_IR(devId, CHIP_TAP_SELECTALT);
+    CORETIMER_DelayUs(1);
     
-    TMOD_TAP_DR(devId, MCHP_CMD_DEASSERT);
-    TMOD_TAP_DR(devId, MCHP_CMD_ASSERT);
+    TMOD_TAP_DR(devId, 0x0004D000);    
+    TMOD_TAP_DR(devId, 0x8004D000);
     
     SYS_CONSOLE_MESSAGE("Entered EJTAG Mode\r\n");
     
@@ -749,7 +750,36 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
     return 0;
 }
 
-
+uint32_t EJTAG_Exit(uint32_t devId, bool mclr)
+{
+    
+    if(mclr)
+    {        
+        PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
+        /* Trigger a Master Reset*/
+        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;       
+        TMOD_TAP_Reset(devId);
+        TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT); // 0x05
+        TMOD_TAP_Idle(devId);
+        TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
+        TMOD_TAP_Idle(devId);                
+        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;     
+        
+    }
+    
+    
+    TMOD_TAP_Reset(devId);
+    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);
+    TMOD_TAP_Idle(devId);
+    TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
+    
+//    TMOD_TAP_IR(devId, CHIP_TAP_SELECTALT);
+    
+    
+    SYS_CONSOLE_PRINT("SRAM = 0x%X\r\n", EJTAG_Read(devId, 0xA0000200));
+    
+    return 0;
+}
 
 
 
