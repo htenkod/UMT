@@ -522,7 +522,7 @@ UMTDLL_DECLDIR HRESULT UMT_UART_Up(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UCHAR
     if (rdBuffSz < 512)
         rdBuffSz = 512;
 
-    sprintf_s(localBuf, cmdFmt, txPin, rxPin, baud, rdBuffSz, wdBuffSz);
+    sprintf_s(localBuf, 512, cmdFmt, txPin, rxPin, baud, rdBuffSz, wdBuffSz);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return S_FALSE;
@@ -567,14 +567,14 @@ UMTDLL_DECLDIR HRESULT UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT
 
 }
 
-UMTDLL_DECLDIR HRESULT UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR *wrBuff)
+UMTDLL_DECLDIR HRESULT UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* wrBuff)
 {
     const char* cmdFmt = "uartwr %s\r\n";
 
     ULONG cbSent = 0;
     CHAR localBuf[512];
 
-    sprintf_s(localBuf, cmdFmt, wrBuff);
+    sprintf_s(localBuf, 512, cmdFmt, wrBuff);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return S_FALSE;
@@ -617,6 +617,81 @@ UMTDLL_DECLDIR HRESULT UMT_ADC_Up(DEVICE_DATA_t* UMT_Handle, UCHAR adcPin)
 
 }
 
+UMTDLL_DECLDIR HRESULT UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tckPin, UCHAR tmsPin, UCHAR tdoPin, UCHAR tdiPin, UCHAR pgcPin, UCHAR pgdPin, UCHAR mclrPin, CHAR* idx)
+{
+    const char* cmdFmt = "tapup %d %d %d %d %d %d %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, 512, cmdFmt, tckPin, tmsPin, tdoPin, tdiPin, pgcPin, pgdPin, mclrPin);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    sprintf_s(idx, 512, "%s", localBuf);
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+UMTDLL_DECLDIR HRESULT UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* devID)
+{
+    const char* cmdFmt = "tapdevid %d\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, 512, cmdFmt, idx);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    sprintf_s(devID, 512, "%s", localBuf);
+
+    return UMT_CheckStatus(localBuf);
+
+}
+
+UMTDLL_DECLDIR HRESULT UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR addr,UINT32 fwoffset, UINT32 memoffset, UCHAR* testfirmware)
+{
+    const char* cmdFmt = "tapflash %d %d %d %d %s\r\n";
+
+    ULONG cbSent = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, 512, cmdFmt, idx, addr, fwoffset, memoffset,testfirmware);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return S_FALSE;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+        if (ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf))
+            return S_FALSE;
+
+    }
+
+    return UMT_CheckStatus(localBuf);
+
+}
 
 
 UMTDLL_DECLDIR HRESULT UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UINT16 *adcCount)
