@@ -1,4 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommand>C:\Program Files\Microsoft Office\root\Office16\excel.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>C:\Repos\GateWay\UMT_API_Debugger.xlsm</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>C:\Repos\UMT\UMT\dll\UMTDLL\x64\Release</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommand>C:\Program Files\Microsoft Office\root\Office16\excel.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>C:\Repos\GateWay\UMT_API_Debugger.xlsm</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>.\x64\Debug</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
