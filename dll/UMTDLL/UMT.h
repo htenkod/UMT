@@ -31,9 +31,6 @@ typedef struct _DEVICE_DATA {
 #define SUCCUSS	"SUCCESS"
 #define FAILURE	"FAIL"
 
-#define S_OK                                   ((HRESULT)1L)
-#define S_FALSE                                ((HRESULT)0L)
-
 typedef enum {
 	UMT_CMD_GPIO,
 	UMT_CMD_UART,
