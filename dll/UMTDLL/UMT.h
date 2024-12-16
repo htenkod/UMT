@@ -69,19 +69,17 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tx
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT16 numOfbytes, CHAR* rdBuff);
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* wrBuff);
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT32 hex, UCHAR* wrBuff);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle,UCHAR tckPin, UCHAR tmsPin,UCHAR tdoPin, UCHAR tdiPin, UCHAR pgcPin,UCHAR pgdPin,UCHAR mclrPin);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* devID);
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR addr, UINT32 fwoffset, UINT32 memoffset, UCHAR* testfirmware);
+UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT32 addr, UINT32 fwoffset, UINT32 memoffset, UCHAR* testfirmware);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Up(DEVICE_DATA_t* UMT_Handle, UCHAR adcPin);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UINT16* adcCount);
-
-UMTDLL_DECLDIR HRESULT __stdcall UMT_Reset(DEVICE_DATA_t* UMT_Handle);
 
 #if defined(__cplusplus) || defined(__cplusplus__)
 }
