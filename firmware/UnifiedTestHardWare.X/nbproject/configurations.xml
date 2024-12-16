@@ -103,6 +103,10 @@
               <itemPath>../src/config/default/peripheral/uart/plib_uart_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/uart/plib_uart2.h</itemPath>
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.h</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart6.h</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart5.h</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart4.h</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart3.h</itemPath>
             </logicalFolder>
           </logicalFolder>
           <logicalFolder name="system" displayName="system" projectFiles="true">
@@ -299,6 +303,10 @@
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart2.c</itemPath>
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.c</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart6.c</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart5.c</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart4.c</itemPath>
+              <itemPath>../src/config/default/peripheral/uart/plib_uart3.c</itemPath>
             </logicalFolder>
           </logicalFolder>
           <logicalFolder name="stdio" displayName="stdio" projectFiles="true">
@@ -359,7 +367,6 @@
           <itemPath>../src/config/default/interrupts_a.S</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_run.c</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_setup.c</itemPath>
-          <itemPath>../src/config/default/usb_device_init_data.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="FreeRTOS" displayName="FreeRTOS" projectFiles="true">

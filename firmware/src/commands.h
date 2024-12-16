@@ -46,14 +46,15 @@ extern "C" {
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
-#define BANNER  "\r\n #     #                                    #######                        #     #       #        \r\n\
- #     # #    # # ###### # ###### #####        #    ######  ####  #####    #     #      #  #    #                   \r\n\
- #     # ##   # # #      # #      #    #       #    #      #        #      #     #     #   #    #                   \r\n\
- #     # # #  # # #####  # #####  #    #       #    #####   ####    #      #######    #    #    #                   \r\n\
- #     # #  # # # #      # #      #    #       #    #           #   #      #     #   #     # ## #                   \r\n\
- #     # #   ## # #      # #      #    #       #    #      #    #   #      #     #  #      ##  ##                   \r\n\
-  #####  #    # # #      # ###### #####        #    ######  ####    #      #     # #       #    #                   \r\n\
-                                                                                                  \r\n"
+#define BANNER "\r\n\
+ #     # #     # #######     #####  ####### #     # ####### ###  #####     #     #                      \r\n\
+ #     # ##   ##    #       #     # #     # ##    # #        #  #     #    ##   ##  ####  #####  ###### \r\n\
+ #     # # # # #    #       #       #     # # #   # #        #  #          # # # # #    # #    # #      \r\n\
+ #     # #  #  #    #       #       #     # #  #  # #####    #  #  ####    #  #  # #    # #    # #####  \r\n\
+ #     # #     #    #       #       #     # #   # # #        #  #     #    #     # #    # #    # #      \r\n\
+ #     # #     #    #       #     # #     # #    ## #        #  #     #    #     # #    # #    # #      \r\n\
+  #####  #     #    #        #####  ####### #     # #       ###  #####     #     #  ####  #####  ###### \r\n\
+  \r\n"                                                                                                        
 // *****************************************************************************
 /* Application states
 
@@ -119,10 +120,12 @@ typedef enum
 
 typedef enum
 {
-    UMT_DEV_UART,
+    UMT_DEV_UNKNOWN = -1,
+    UMT_DEV_UART = 0,
     UMT_DEV_I2C,
-    UMT_DEV_TMOD
-    
+    UMT_DEV_TMOD,
+    UMT_DEV_ADC,    
+    UMT_DEV_INVALID
 }UMT_DEV_TYPE_t;
 
 
@@ -175,6 +178,7 @@ typedef struct
     uint32_t    pinCnt;                    
     uint32_t    devId;
     PIN_MAP_t   *pinLink[UMT_DEV_PIN_MAX];   
+    void        *devFuncHandl;
 }UMT_DEV_t;
 
 
@@ -182,8 +186,17 @@ typedef struct
 typedef struct 
 {
     UMT_DEV_t   devList[UMT_DEV_MAX];
-    uint32_t    devCnt;    
+    int32_t    devCnt;    
 }UMT_CXT_t;
+
+
+typedef struct 
+{
+    UART_FUNC_Handler_t *uartList[6];
+    int32_t             uartCnt;    
+}UART_CXT_t;
+
+
 
 //
 //typedef union {

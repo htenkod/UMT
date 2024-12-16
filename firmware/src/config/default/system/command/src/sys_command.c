@@ -871,8 +871,8 @@ static void CommandReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char** argv)
     (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** System Reboot ***\r\n" );
     
     
-    memset(&usbData, 0, sizeof(usbData));
-    memset(&fsData, 0, sizeof(usbData));
+    memset(&usbData, 0, sizeof(USB_DATA));
+    memset(&fsData, 0, sizeof(USB_DATA));
     
 
     SYS_RESET_SoftwareReset();

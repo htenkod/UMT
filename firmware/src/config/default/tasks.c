@@ -66,7 +66,8 @@ static void F_USB_DEVICE_Tasks(  void *pvParameters  )
     {
                 /* USB Device layer tasks routine */
         USB_DEVICE_Tasks(sysObj.usbDevObject0);
-        vTaskDelay(10U / portTICK_PERIOD_MS);
+        if(!usbData.mode)
+            vTaskDelay(10U / portTICK_PERIOD_MS);
     }
 }
 
@@ -75,7 +76,8 @@ static void lDRV_MEMORY_0_Tasks(  void *pvParameters  )
     while(true)
     {
         DRV_MEMORY_Tasks(sysObj.drvMemory0);
-        vTaskDelay(DRV_MEMORY_RTOS_DELAY_IDX0 / portTICK_PERIOD_MS);
+        if(!usbData.mode)
+            vTaskDelay(DRV_MEMORY_RTOS_DELAY_IDX0 / portTICK_PERIOD_MS);
     }
 }
 

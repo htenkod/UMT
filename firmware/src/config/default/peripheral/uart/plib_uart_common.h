@@ -104,6 +104,19 @@ typedef struct
 
 } UART_SERIAL_SETUP;
 
+typedef void    (*UART_Initialize)( void );
+typedef bool    (*UART_SerialSetup)( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
+typedef size_t  (*UART_Write)(uint8_t* pWrBuffer, const size_t size );
+typedef size_t  (*UART_Read)(uint8_t* pRdBuffer, const size_t size);
+
+typedef struct
+{
+    UART_Initialize     U_Initialize;
+    UART_SerialSetup    U_SerialSetup;  
+    UART_Write          U_Write;
+    UART_Read           U_Read;    
+}UART_FUNC_Handler_t;
+
 // *****************************************************************************
 /* UART Errors
 */

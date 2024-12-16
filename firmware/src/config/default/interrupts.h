@@ -68,7 +68,19 @@ void DRV_USBHS_DMAInterruptHandler( void );
 void UART2_FAULT_InterruptHandler( void );
 void UART2_RX_InterruptHandler( void );
 void UART2_TX_InterruptHandler( void );
+void UART3_FAULT_InterruptHandler( void );
+void UART3_RX_InterruptHandler( void );
+void UART3_TX_InterruptHandler( void );
 void SQI1_InterruptHandler( void );
+void UART4_FAULT_InterruptHandler( void );
+void UART4_RX_InterruptHandler( void );
+void UART4_TX_InterruptHandler( void );
+void UART5_FAULT_InterruptHandler( void );
+void UART5_RX_InterruptHandler( void );
+void UART5_TX_InterruptHandler( void );
+void UART6_FAULT_InterruptHandler( void );
+void UART6_RX_InterruptHandler( void );
+void UART6_TX_InterruptHandler( void );
 
 
 

@@ -1,14 +1,14 @@
 /*******************************************************************************
-  UART1 PLIB
+  UART6 PLIB
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    plib_uart1.h
+    plib_uart6.h
 
   Summary:
-    UART1 PLIB Header File
+    UART6 PLIB Header File
 
   Description:
     None
@@ -38,8 +38,8 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
 
-#ifndef PLIB_UART1_H
-#define PLIB_UART1_H
+#ifndef PLIB_UART6_H
+#define PLIB_UART6_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -60,52 +60,51 @@
 // Section: Interface
 // *****************************************************************************
 // *****************************************************************************
+extern UART_FUNC_Handler_t UART6_Handler;
 
-extern UART_FUNC_Handler_t UART1_Handler;
+#define UART6_FrequencyGet()    (uint32_t)(100000000UL)
 
-#define UART1_FrequencyGet()    (uint32_t)(100000000UL)
+/****************************** UART6 API *********************************/
 
-/****************************** UART1 API *********************************/
+void UART6_Initialize( void );
 
-void UART1_Initialize( void );
+bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
 
-bool UART1_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
+UART_ERROR UART6_ErrorGet( void );
 
-UART_ERROR UART1_ErrorGet( void );
+bool UART6_AutoBaudQuery( void );
 
-bool UART1_AutoBaudQuery( void );
+void UART6_AutoBaudSet( bool enable );
 
-void UART1_AutoBaudSet( bool enable );
+size_t UART6_Write(uint8_t* pWrBuffer, const size_t size );
 
-size_t UART1_Write(uint8_t* pWrBuffer, const size_t size );
+size_t UART6_WriteCountGet(void);
 
-size_t UART1_WriteCountGet(void);
+size_t UART6_WriteFreeBufferCountGet(void);
 
-size_t UART1_WriteFreeBufferCountGet(void);
+size_t UART6_WriteBufferSizeGet(void);
 
-size_t UART1_WriteBufferSizeGet(void);
+bool UART6_TransmitComplete(void);
 
-bool UART1_TransmitComplete(void);
+bool UART6_WriteNotificationEnable(bool isEnabled, bool isPersistent);
 
-bool UART1_WriteNotificationEnable(bool isEnabled, bool isPersistent);
+void UART6_WriteThresholdSet(uint32_t nBytesThreshold);
 
-void UART1_WriteThresholdSet(uint32_t nBytesThreshold);
+void UART6_WriteCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
 
-void UART1_WriteCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
+size_t UART6_Read(uint8_t* pRdBuffer, const size_t size);
 
-size_t UART1_Read(uint8_t* pRdBuffer, const size_t size);
+size_t UART6_ReadCountGet(void);
 
-size_t UART1_ReadCountGet(void);
+size_t UART6_ReadFreeBufferCountGet(void);
 
-size_t UART1_ReadFreeBufferCountGet(void);
+size_t UART6_ReadBufferSizeGet(void);
 
-size_t UART1_ReadBufferSizeGet(void);
+bool UART6_ReadNotificationEnable(bool isEnabled, bool isPersistent);
 
-bool UART1_ReadNotificationEnable(bool isEnabled, bool isPersistent);
+void UART6_ReadThresholdSet(uint32_t nBytesThreshold);
 
-void UART1_ReadThresholdSet(uint32_t nBytesThreshold);
-
-void UART1_ReadCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
+void UART6_ReadCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -115,4 +114,4 @@ void UART1_ReadCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t c
 #endif
 // DOM-IGNORE-END
 
-#endif // PLIB_UART1_H
+#endif // PLIB_UART6_H
