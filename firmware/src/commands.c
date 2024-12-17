@@ -670,11 +670,10 @@ void cmdUartread(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     size_t rLen = UART1_Read(tmpBuf, (readBytes > 128)?128:readBytes);    
     tmpBuf[rLen] = 0;
     
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n"); 
+    
     for(uint8_t idx = 0; idx < rLen; idx++)
-        (*pCmdIO->pCmdApi->putc_t)(cmdIoParam, tmpBuf[idx] );   
-    
-    
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
+        (*pCmdIO->pCmdApi->putc_t)(cmdIoParam, tmpBuf[idx] );     
     
 }
 

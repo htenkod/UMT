@@ -186,8 +186,7 @@ BOOL ReadFromBulkEndpoint(WINUSB_INTERFACE_HANDLE hDeviceHandle, UCHAR* pID, ULO
     memset(szBuffer, 0, cbSize);
 
     do {
-
-
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         bResult = WinUsb_ReadPipe(hDeviceHandle, *pID, ((UCHAR*)szBuffer + cbRead), cbSize, &cbRead, 0);
 
         respLen += cbRead;
@@ -213,6 +212,7 @@ BOOL ReadFromBulkEndpoint(WINUSB_INTERFACE_HANDLE hDeviceHandle, UCHAR* pID, ULO
         //else {
         //    return -1;
         //}
+        if (respLen < 3) continue;
     } while (szBuffer[respLen - 1] != '>' && szBuffer[respLen - 2] != '\n' && szBuffer[respLen - 3] != '\r');
 
     
