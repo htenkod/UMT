@@ -174,11 +174,12 @@ typedef struct
 
 typedef struct
 {    
-    UMT_DEV_TYPE_t  devType;
-    uint32_t    pinCnt;                    
-    uint32_t    devId;
+    UMT_DEV_TYPE_t  		devType;
+    uint32_t    			pinCnt;                    
+    uint32_t    			devId;
+    volatile void        	*devFuncPtr;
     PIN_MAP_t   *pinLink[UMT_DEV_PIN_MAX];   
-    void        *devFuncHandl;
+
 }UMT_DEV_t;
 
 
@@ -192,7 +193,7 @@ typedef struct
 
 typedef struct 
 {
-    UART_FUNC_Handler_t *uartList[6];
+    UART_FUNC_Handler_t *uartList[5];
     int32_t             uartCnt;    
 }UART_CXT_t;
 

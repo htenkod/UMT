@@ -66,7 +66,7 @@ volatile static uint8_t UART5_WriteBuffer[UART5_WRITE_BUFFER_SIZE];
 
 #define UART5_IS_9BIT_MODE_ENABLED()    ( (U5MODE) & (_U5MODE_PDSEL0_MASK | _U5MODE_PDSEL1_MASK)) == (_U5MODE_PDSEL0_MASK | _U5MODE_PDSEL1_MASK) ? true:false
 
-UART_FUNC_Handler_t UART5_Handler = {UART5_Initialize, UART5_SerialSetup, UART5_Write, UART5_Read};
+UART_FUNC_Handler_t UART5_Handler = {UART5_Initialize, UART5_SerialSetup, UART5_Write, UART5_Read, 0xBF801488, 3};
 
 void static UART5_ErrorClear( void )
 {

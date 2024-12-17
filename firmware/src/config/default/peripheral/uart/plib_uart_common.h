@@ -114,7 +114,9 @@ typedef struct
     UART_Initialize     U_Initialize;
     UART_SerialSetup    U_SerialSetup;  
     UART_Write          U_Write;
-    UART_Read           U_Read;    
+    UART_Read           U_Read; 
+    const uint32_t      U_RXR;
+    const uint32_t      U_TXR;
 }UART_FUNC_Handler_t;
 
 // *****************************************************************************

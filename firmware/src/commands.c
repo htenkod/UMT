@@ -53,7 +53,8 @@
 */
 UMT_CXT_t gUmtCxt;
 
-UART_CXT_t gUartCxt = {.uartList = {&UART1_Handler, }};
+UART_CXT_t gUartCxt = {.uartList = {&UART1_Handler, &UART3_Handler, &UART4_Handler, &UART5_Handler, &UART6_Handler},
+                       .uartCnt = 0};
 
 
 void Word2ByteSteam(uint32_t word, int8_t *bs)
@@ -158,7 +159,7 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //26
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA1                                                                 //27
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //28
-						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG9_MASK, 0xBF8016A4, 0},		// RG9                      //29
+						{0, GPIO | U_RX, 0, _PORTG_START_ADDR_, _PORTG_RG9_MASK, 0xBF8016A4, 1},                    // RG9          //29
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //30
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// PMA3                                                                     //31
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //32
@@ -174,7 +175,7 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //42
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA7                                                                 //43
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //44						
-                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, (const uint32_t)&RPF5R/*0xBF801654*/, 0},          //45 U1_Tx
+                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, 0xBF801654, 0},                                    //45 U1_Tx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //46						
                         {0, GPIO | U_RX, 0, _PORTF_START_ADDR_, _PORTF_RF4_MASK, 2, 0},                                             //47 U1_Rx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //48
@@ -188,7 +189,7 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //56
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA4_MASK, 0, 0},	// RA4                                          //57
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //58
-						{0, GPIO | U_RX, 0, _PORTD_START_ADDR_, _PORTD_RD9_MASK, 0x0000, 0},	// RD9                              //59
+						{0, GPIO, 0, _PORTD_START_ADDR_, _PORTD_RD9_MASK, 0, 0},	// RD9                                          //59
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //60
 						{0, GPIO, 0, _PORTK_START_ADDR_, _PORTK_RK0_MASK, 0, 0},	// RK0                                          //61
 						{0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH2_MASK, 0, 0},	// RH2                                          //62
@@ -217,7 +218,7 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH14_MASK, 0, 0},	// RH14                                         //85
 						{0, GPIO, 0, _PORTJ_START_ADDR_, _PORTJ_RJ2_MASK, 0, 0},	// RJ2						                    //86
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG6_MASK, 0, 0},		// AN14/RG6                             //87
-						{0, GPIO | AN | U_TX, 0, _PORTB_START_ADDR_, _PORTB_RB14_MASK, 0, 0},	// AN9/RB14                         //88
+						{0, GPIO | AN | U_TX, 0, _PORTB_START_ADDR_, _PORTB_RB14_MASK, 0xBF801578, 0},              // AN9/RB14     //88
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 0, 0},		// AN13/RG7                             //89
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB15_MASK, 0, 0},	// AN10/RB15                                //90
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 0, 0},		// AN12/RG8                             //91
@@ -602,10 +603,10 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             
             return;
         }
-        gUmtCxt.devList[devIdx].devFuncHandl = gUartCxt.uartList[gUartCxt.uartCnt];
+        gUmtCxt.devList[devIdx].devFuncPtr = (void *)gUartCxt.uartList[gUartCxt.uartCnt];
         gUartCxt.uartCnt++;
         
-        UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[devIdx].devFuncHandl;
+        UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[devIdx].devFuncPtr;
         
         if(argc > 3)
         {
@@ -636,14 +637,15 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         CFGCONbits.IOLOCK = 0U;
         // output pin
         
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[txpin].pps_reg_val))) = 1;        
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[txpin].pps_reg_val))) = uartFuncHandler->U_TXR;        
 //        RPF5R = 1;
 
         // Make it input by setting the TRIS register
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[rxpin].gpio_reg) + 0x18)) = commandsData.pin_map[rxpin].gpio_mask;       
                 
         // input pin
-        U1RXR = commandsData.pin_map[rxpin].pps_reg_val;
+//        U1RXR = commandsData.pin_map[rxpin].pps_reg_val;
+        *((volatile uint32_t *)((volatile char *)uartFuncHandler->U_RXR)) = commandsData.pin_map[rxpin].pps_reg_val;
         //U1RXR = 2;
         
         /* Lock back the system after PPS configuration */
@@ -678,7 +680,7 @@ void cmdUartDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 }
 
 
-void cmdUartread(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     //	static int printBuffPtr = 0;
     uint8_t tmpBuf[128];
@@ -693,10 +695,15 @@ void cmdUartread(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
         
     
-    uint32_t uartIdx = atoi(argv[1]) - 1;
-    uint32_t readBytes = atoi(argv[2]) - 1;
-	        
-    UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncHandl;
+    uint32_t uartIdx = atoi(argv[1]);
+    uint32_t readBytes = atoi(argv[2]);
+	            
+    if(gUmtCxt.devList[uartIdx].devFuncPtr == 0){
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID HANDLER ***\r\n"); 
+        return;
+    }
+    
+    UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncPtr;
     
     size_t rLen = uartFuncHandler->U_Read(tmpBuf, (readBytes > 128)?128:readBytes);    
     tmpBuf[rLen] = 0;
@@ -713,7 +720,7 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
     
-    if(argc < 3)
+    if(argc < 4)
     {
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartwr <idx> <hex> <stream>\r\n");
         
@@ -724,11 +731,18 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         return;
     }
     
-    uint32_t uartIdx = atoi(argv[1]) - 1;    
-    UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncHandl;
+    uint32_t uartIdx = atoi(argv[1]);    
+    
+    if(gUmtCxt.devList[uartIdx].devFuncPtr == 0){
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID HANDLER ***\r\n"); 
+        return;
+    }
+        
+        
+    UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncPtr;
     
     /*Is raw?*/
-    if(argv[2])
+    if(atoi(argv[2]))
     {
         for(uint32_t idx = 0; idx < strlen(argv[3]); idx+=2)
         {
@@ -739,7 +753,7 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
     else
     {
-        uartFuncHandler->U_Write((uint8_t*)LINE_TERM, sizeof(LINE_TERM));
+        uartFuncHandler->U_Write((uint8_t*)argv[3], strlen(argv[3]));
     }
     
     
@@ -949,7 +963,7 @@ static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
     /* UART Commands */
     {"uartup",   cmdUartUp,   ": Brings up the given UART\r\nExample:- uartUp <txpin> <rxpin> [baud rate] [max size]\r\n"},   
     {"uartdown", cmdUartDown,   ": Brings down the given UART\r\nExample:- uartDown <txpin> <rxpin>\r\n"},   
-    {"uartrd",   cmdUartread,   ": Reads from the given UART\r\nExample:- uartrd <idx>\r\n"},   
+    {"uartrd",   cmdUartRead,   ": Reads from the given UART\r\nExample:- uartrd <idx>\r\n"},   
     {"uartwr",   cmdUartWrite,   ": Writes to the given UART\r\nExample:- uartwr <idx> <raw> <data>\r\n"},   
     
     /* ADC Commands */

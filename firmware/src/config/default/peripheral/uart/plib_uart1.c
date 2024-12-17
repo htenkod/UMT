@@ -67,7 +67,7 @@ volatile static uint8_t UART1_WriteBuffer[UART1_WRITE_BUFFER_SIZE];
 #define UART1_IS_9BIT_MODE_ENABLED()    ( (U1MODE) & (_U1MODE_PDSEL0_MASK | _U1MODE_PDSEL1_MASK)) == (_U1MODE_PDSEL0_MASK | _U1MODE_PDSEL1_MASK) ? true:false
 
 
-UART_FUNC_Handler_t UART1_Handler = {UART1_Initialize, UART1_SerialSetup, UART1_Write, UART1_Read};
+UART_FUNC_Handler_t UART1_Handler = {UART1_Initialize, UART1_SerialSetup, UART1_Write, UART1_Read, 0xBF801468, 1};
 
 void static UART1_ErrorClear( void )
 {

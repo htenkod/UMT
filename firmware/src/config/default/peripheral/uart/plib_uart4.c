@@ -66,7 +66,7 @@ volatile static uint8_t UART4_WriteBuffer[UART4_WRITE_BUFFER_SIZE];
 
 #define UART4_IS_9BIT_MODE_ENABLED()    ( (U4MODE) & (_U4MODE_PDSEL0_MASK | _U4MODE_PDSEL1_MASK)) == (_U4MODE_PDSEL0_MASK | _U4MODE_PDSEL1_MASK) ? true:false
 
-UART_FUNC_Handler_t UART4_Handler = {UART4_Initialize, UART4_SerialSetup, UART4_Write, UART4_Read};
+UART_FUNC_Handler_t UART4_Handler = {UART4_Initialize, UART4_SerialSetup, UART4_Write, UART4_Read, 0xBF801480, 2};
 
 void static UART4_ErrorClear( void )
 {

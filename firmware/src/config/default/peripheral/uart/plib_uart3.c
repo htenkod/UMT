@@ -66,7 +66,7 @@ volatile static uint8_t UART3_WriteBuffer[UART3_WRITE_BUFFER_SIZE];
 
 #define UART3_IS_9BIT_MODE_ENABLED()    ( (U3MODE) & (_U3MODE_PDSEL0_MASK | _U3MODE_PDSEL1_MASK)) == (_U3MODE_PDSEL0_MASK | _U3MODE_PDSEL1_MASK) ? true:false
 
-UART_FUNC_Handler_t UART3_Handler = {UART3_Initialize, UART3_SerialSetup, UART3_Write, UART3_Read};
+UART_FUNC_Handler_t UART3_Handler = {UART3_Initialize, UART3_SerialSetup, UART3_Write, UART3_Read, 0xBF801478, 1};
 
 void static UART3_ErrorClear( void )
 {
