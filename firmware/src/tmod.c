@@ -628,6 +628,67 @@ int32_t TMOD_TAP_Init(uint32_t devId)
     TMOD_TAP_Reset(devId);    
     gUmtCxt.devList[devId].devId = TMOD_TAP_DR(devId, DUMMY_READ);        
 
+    switch(gUmtCxt.devList[devId].devId  & 0x0FFFFFFF)
+    {
+        case CHIMERA_CHIP_ID:
+        {
+            static int32_t timeout = 256;                                            
+
+            /* Erase the CHIP */
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
+            TMOD_TAP_DR(fsData.tapId, CHIP_TAP_CHIPE_ERASE);                        
+            TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+            while((timeout-- > 0) && (TMOD_TAP_DR(fsData.tapId, DUMMY_READ) != 0x88));   
+
+            /* Enter the ICDREG mode */
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
+
+            /* SRAM Start Address*/
+            wReg32(fsData.tapId, 0x20000000, 0xABCD1234);
+            if(rReg32(fsData.tapId, 0x20000000) == 0xABCD1234)
+            {
+                SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                          
+            }                    
+
+            /* write first 16 bytes at address 0 */                     
+            break;
+        }
+
+        case RIO0_CHIP_ID:
+        {                    
+            TMOD_TAP_Reset(fsData.tapId);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+    //                    TMOD_TAP_Reset(fsData.tapId);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_EJTAG_SELECT);
+            TMOD_TAP_Idle(fsData.tapId);
+
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ALTRESET); 
+
+            TMOD_TAP_Idle(fsData.tapId);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+    //                    TMOD_TAP_Reset(fsData.tapId);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD); 
+
+            TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+
+            TMOD_TAP_Idle(fsData.tapId);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+            TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
+
+            uint32_t chipId = rReg32(fsData.tapId, 0x1F800060);
+            SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", chipId);
+
+            wReg32(fsData.tapId, 0x00001000, 0xABCD1234);
+            if(rReg32(fsData.tapId, 0x00001000) == 0xABCD1234)
+            {
+                SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                                           
+            }
+
+            break;
+        }
+    }
+    
 //    TMOD_TAP_Reset(devId); 
 //    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
          

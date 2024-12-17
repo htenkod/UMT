@@ -78,7 +78,19 @@ void USB_DMA_Handler (void);
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
+void UART3_FAULT_Handler (void);
+void UART3_RX_Handler (void);
+void UART3_TX_Handler (void);
 void SQI1_Handler (void);
+void UART4_FAULT_Handler (void);
+void UART4_RX_Handler (void);
+void UART4_TX_Handler (void);
+void UART5_FAULT_Handler (void);
+void UART5_RX_Handler (void);
+void UART5_TX_Handler (void);
+void UART6_FAULT_Handler (void);
+void UART6_RX_Handler (void);
+void UART6_TX_Handler (void);
 
 
 // *****************************************************************************
@@ -143,9 +155,69 @@ void UART2_TX_Handler (void)
     UART2_TX_InterruptHandler();
 }
 
+void UART3_FAULT_Handler (void)
+{
+    UART3_FAULT_InterruptHandler();
+}
+
+void UART3_RX_Handler (void)
+{
+    UART3_RX_InterruptHandler();
+}
+
+void UART3_TX_Handler (void)
+{
+    UART3_TX_InterruptHandler();
+}
+
 void SQI1_Handler (void)
 {
     SQI1_InterruptHandler();
+}
+
+void UART4_FAULT_Handler (void)
+{
+    UART4_FAULT_InterruptHandler();
+}
+
+void UART4_RX_Handler (void)
+{
+    UART4_RX_InterruptHandler();
+}
+
+void UART4_TX_Handler (void)
+{
+    UART4_TX_InterruptHandler();
+}
+
+void UART5_FAULT_Handler (void)
+{
+    UART5_FAULT_InterruptHandler();
+}
+
+void UART5_RX_Handler (void)
+{
+    UART5_RX_InterruptHandler();
+}
+
+void UART5_TX_Handler (void)
+{
+    UART5_TX_InterruptHandler();
+}
+
+void UART6_FAULT_Handler (void)
+{
+    UART6_FAULT_InterruptHandler();
+}
+
+void UART6_RX_Handler (void)
+{
+    UART6_RX_InterruptHandler();
+}
+
+void UART6_TX_Handler (void)
+{
+    UART6_TX_InterruptHandler();
 }
 
 
