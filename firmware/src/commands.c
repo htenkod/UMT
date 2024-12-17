@@ -336,7 +336,7 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinset <pin> <0/1>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinset <pin> <0/1>");
         return;
     }
         
@@ -354,12 +354,14 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         else
             *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + CLR)) =  commandsData.pin_map[pinNum].gpio_mask;  
                         
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM PASS);   
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
        
 }
 void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -369,7 +371,7 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 2 )
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinget <pin> \r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinget <pin>");
         return;
     }
         
@@ -383,12 +385,14 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         
         bool pin_state = *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x20)) & commandsData.pin_map[pinNum].gpio_mask ;
         
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** %d ***\r\n", pin_state);   
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", pin_state);   
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }       
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
 }
 
 void cmdPinReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -398,7 +402,7 @@ void cmdPinReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 2 )
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinreset <pin> \r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- pinreset <pin>");
         return;
     }
         
@@ -412,13 +416,15 @@ void cmdPinReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         
         commandsData.pin_map[pinNum].inuse = 0;
         
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");  
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM PASS);  
         
     }
     else
-    {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** FAIL ***\r\n");
+    {    
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);
     }     
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
 }
 
 
@@ -431,7 +437,7 @@ void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 2)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcup <adcpin>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcup <adcpin>");
         return;
     }
     
@@ -445,7 +451,7 @@ void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         
         int32_t devIdx =  UMT_DEV_IDX_Get(UMT_DEV_ADC);
         if(devIdx == UMT_DEV_UNKNOWN){
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n");
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);
             
             return;
         }
@@ -472,18 +478,20 @@ void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             break;
             
             default:
-                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID PIN ***\r\n");
+                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID);
                 break;
         }
                 
         TMR5_Start();                    
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);           
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS, devIdx);           
         
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
     
 }
@@ -496,7 +504,7 @@ void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 2)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcget <adcget>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- adcget <adcget>");
         return;
     }
     
@@ -509,20 +517,21 @@ void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         {
             uint16_t adcCnt = ADCHS_ChannelResultGet(commandsData.pin_map[adcpin].adc_channel);
             
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, "ADC Count = %d\r\n", adcCnt); 
+			(*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", adcCnt);	
             
         }
-    
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
-        
+		else
+		{
+			(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);	
+		}		        
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+                (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
     
     
-    
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
 }
 
@@ -534,9 +543,11 @@ void cmdI2cUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cup <scl pin> <sda pin>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cup <scl pin> <sda pin>");
         return;
     }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
 }
 void cmdI2cWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -546,10 +557,11 @@ void cmdI2cWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cwr <adcpin>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cwr <adcpin>");
         return;
     }
-    
+	
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
 }
 
 void cmdI2cRead (SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -559,9 +571,11 @@ void cmdI2cRead (SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2crd <adcpin>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2crd <adcpin>");
         return;
     }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
 }
 void cmdI2cDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -571,10 +585,11 @@ void cmdI2cDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cdown <adcpin>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cdown <adcpin>");
         return;
     }
-    
+	
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
 }
 
 void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -584,7 +599,7 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc < 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartup <txpin> <rxpin> [baud rate] [rd size] [rd size]\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartup <txpin> <rxpin> [baud rate] [rd size] [rd size]");
         return;
     }
         
@@ -599,7 +614,7 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     {                      
         int32_t devIdx =  UMT_DEV_IDX_Get(UMT_DEV_UART);
         if(devIdx == UMT_DEV_UNKNOWN){
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n");
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);
             
             return;
         }
@@ -663,14 +678,14 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         gUmtCxt.devList[devIdx].pinCnt = pinIdx;
         
         
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx);                   
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", devIdx);                   
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+    	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
 	
-    
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
 }
 
 void cmdUartDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -690,7 +705,7 @@ void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartrd <idx> <bytes>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartrd <idx> <bytes>");
         return;
     }
         
@@ -699,7 +714,7 @@ void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     uint32_t readBytes = atoi(argv[2]);
 	            
     if(gUmtCxt.devList[uartIdx].devFuncPtr == 0){
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID HANDLER ***\r\n"); 
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID); 
         return;
     }
     
@@ -708,10 +723,13 @@ void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     size_t rLen = uartFuncHandler->U_Read(tmpBuf, (readBytes > 128)?128:readBytes);    
     tmpBuf[rLen] = 0;
             
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n"); 
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM PASS); 
     
-    for(uint8_t idx = 0; idx < rLen; idx++)
+    for(uint8_t idx = 0; idx < rLen; idx++) {
         (*pCmdIO->pCmdApi->putc_t)(cmdIoParam, tmpBuf[idx] );   
+    }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
     
 }
 
@@ -722,11 +740,11 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     if(argc < 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartwr <idx> <hex> <stream>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartwr <idx> <hex> <stream>");
         
         if(strlen(argv[3]) & 0x01)
         {
-            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Invalid length of hex stream\r\n");
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Invalid length of hex stream");
         }
         return;
     }
@@ -734,7 +752,7 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     uint32_t uartIdx = atoi(argv[1]);    
     
     if(gUmtCxt.devList[uartIdx].devFuncPtr == 0){
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID HANDLER ***\r\n"); 
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID); 
         return;
     }
         
@@ -757,7 +775,9 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
     
     
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** SUCCESS ***\r\n");   
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, PASS); 
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
     
 }
 
@@ -768,7 +788,7 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 8)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tmodup <tck> <tms> <tdo> <tdi> <pgc> <pgd> <mclr>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tmodup <tck> <tms> <tdo> <tdi> <pgc> <pgd> <mclr>");
         return;
     }
     
@@ -810,7 +830,7 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         
         int32_t devIdx =  UMT_DEV_IDX_Get(UMT_DEV_TMOD);
         if(devIdx == UMT_DEV_UNKNOWN){
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n");
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM FAIL);
             
             return;
         }
@@ -841,18 +861,20 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         {
             gUmtCxt.devList[devIdx].devType = UMT_DEV_TMOD;
 
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", devIdx); 
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", devIdx); 
         }
         else
         {
-            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** FAILURE *** \r\n"); 
+            (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM FAIL); 
         }
         
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
+
+	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
     
 }
 
@@ -863,20 +885,22 @@ void cmdTapDevId(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 2)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapdevid <idx>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapdevid <idx>");
         return;
     }
                     
     if(gUmtCxt.devList[atoi(argv[1])].devType == UMT_DEV_TMOD)
     {   
 
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d\r\n", gUmtCxt.devList[atoi(argv[1])].devId );  
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", gUmtCxt.devList[atoi(argv[1])].devId );  
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
-    
+	
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
+	
 }
 
 void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -886,7 +910,7 @@ void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 6)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapflash <idx> <addr> <offset> <filename>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- tapflash <idx> <addr> <offset> <filename>");
         return;
     }
     
@@ -894,13 +918,14 @@ void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
                     
     if(FS_TMOD_Trigger(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]) == 0)
     {   
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** \r\n" );  
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }
-    
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
+	
 }
 void cmdTapTmodWr(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
@@ -909,24 +934,26 @@ void cmdTapTmodWr(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taptmodwr <idx> <addr> <val>\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taptmodwr <idx> <addr> <val>");
         return;
     }
     uint32_t devId = atoi(argv[1]);
     
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD) {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID ID ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID);
         return;  
     }
         
     if(TMOD_TAP_ICDREG(devId, atoi(argv[2]), atoi(argv[3]), ICDREG_OP_WR) == 0)
     {   
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** \r\n" );  
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
     }
     else
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** RESERVED ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
     }    
+	
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
 }
 
 void cmdTapTmodRd(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -936,20 +963,22 @@ void cmdTapTmodRd(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     //requires both pin# and value
     if(argc != 3)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taptmodwr <idx> <addr>r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taptmodwr <idx> <addr>");
         return;
     }
     
     uint32_t devId = atoi(argv[1]);
     
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD) {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** INVALID ID ***\r\n");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID);
         return;  
     }
             
     uint32_t icdReg = TMOD_TAP_ICDREG(devId, atoi(argv[2]), 0, ICDREG_OP_RD);
             
-    (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM " *** SUCCESS *** %d \r\n", icdReg );  
+    (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", icdReg );  
+
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM); 
 
 }
 
