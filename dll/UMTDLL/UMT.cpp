@@ -589,7 +589,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
             return -1;
     }
 
-    const char* targetstr = " *** ";
+    const char* targetstr = "*** ";
 
     localBuf[cbRead - 1] = '\0';
 
@@ -614,7 +614,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
 
     if (S_OK == UMT_CheckStatus(localBuf)){
 
-        const char* targetstr = "S *** ";
+        const char* targetstr = "S ***";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
@@ -683,7 +683,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT3
 
     }
 
-    const char* targetstr = " *** ";
+    const char* targetstr = "*** ";
 
     localBuf[cbRead - 1] = '\0';
 
@@ -759,7 +759,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tck
 
     }
 
-    const char* targetstr = " *** ";
+    const char* targetstr = "*** ";
 
     localBuf[cbRead - 1] = '\0';
 
@@ -783,7 +783,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tck
     }
     if (S_OK == UMT_CheckStatus(localBuf)) {
 
-        const char* targetstr = "S *** ";
+        const char* targetstr = "S ***";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
@@ -824,7 +824,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32
 
     }
 
-    const char* targetstr = " *** ";
+    const char* targetstr = "*** ";
 
     localBuf[cbRead - 1] = '\0';
 
@@ -848,7 +848,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32
     }
     if (S_OK == UMT_CheckStatus(localBuf)) {
 
-        const char* targetstr = "S *** ";
+        const char* targetstr = "S ***";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
@@ -891,7 +891,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32
 
     }
 
-    const char* targetstr = " *** ";
+    const char* targetstr = "*** ";
 
     localBuf[cbRead - 1] = '\0';
 
