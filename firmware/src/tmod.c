@@ -655,23 +655,17 @@ int32_t TMOD_TAP_Init(uint32_t devId)
         }
 
         case RIO0_CHIP_ID:
-        {                    
+        {                                
             TMOD_TAP_Reset(devId);
-            TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);
-    //                    TMOD_TAP_Reset(fsData.tapId);
+            TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);    
             TMOD_TAP_IR(devId, CHIP_TAP_MCHP_CMD);  
             TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);
             TMOD_TAP_Idle(devId);
-
             TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); 
-
             TMOD_TAP_Idle(devId);
-            TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);
-    //                    TMOD_TAP_Reset(fsData.tapId);
+            TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);    
             TMOD_TAP_IR(devId, CHIP_TAP_MCHP_CMD); 
-
             TMOD_TAP_DR(devId, MCHP_CMD_DEASSERT);
-
             TMOD_TAP_Idle(devId);
             TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);
             TMOD_TAP_IR(devId, CHIP_TAP_ICDREG);   
