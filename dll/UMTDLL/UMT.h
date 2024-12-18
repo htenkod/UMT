@@ -30,6 +30,7 @@ typedef struct _DEVICE_DATA {
 
 #define SUCCUSS	"SUCCESS"
 #define FAILURE	"FAIL"
+#define RESET ""
 
 typedef enum {
 	UMT_CMD_GPIO,
@@ -80,6 +81,8 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32
 UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Up(DEVICE_DATA_t* UMT_Handle, UCHAR adcPin);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR txPin, UINT16* adcCount);
+
+UMTDLL_DECLDIR HRESULT __stdcall UMT_Reset(DEVICE_DATA_t* UMT_Handle);
 
 #if defined(__cplusplus) || defined(__cplusplus__)
 }
