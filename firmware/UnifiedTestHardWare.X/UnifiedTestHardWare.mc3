@@ -19090,7 +19090,7 @@
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
     &lt;Values dnOrder=&quot;1&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;512&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2048&quot;/&gt;
     &lt;/Values&gt;
   &lt;/uart3&gt;
 &lt;/uart3&gt;
@@ -21246,7 +21246,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\definitions.h</file>
-         <hash>c5b0eda26e5530ba7252375bf70bc3ea1380c64cdadf318ea27b6221e61b1db2</hash>
+         <hash>867bdb0453046e6f6036718f042a37c329fa5799b3662bd8795b1cb1531c2b91</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
@@ -21446,7 +21446,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\initialization.c</file>
-         <hash>fbfe46842e58a6af5059585aa75dd37ce0355c8cca31a2e6a90d249ae23c0cce</hash>
+         <hash>16740b07c831be60d931a593c48723169c4d86e9af9b91520ceb71fd51d8fc57</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
@@ -21594,7 +21594,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart3.c</file>
-         <hash>a5b3583337cb73a93bf50b82eb9c20767642b3c72c4df3c686ae75524d485246</hash>
+         <hash>85ef0187c2a15a71191cfa428dbf067d28bbbbcf62d4052e68e3557ed62a0f5f</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart3.h</file>

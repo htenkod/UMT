@@ -448,7 +448,7 @@ void FS_Tasks ( void )
                             if (fsData.sramLoad)
                             {
                                 EJTAG_Enter(fsData.tapId, true);                                                                
-                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A008);  // load upper immediate
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);  // load upper immediate
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);  // or immediate
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB                                                             

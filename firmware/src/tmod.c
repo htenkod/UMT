@@ -322,7 +322,8 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         for(int32_t idx = ICD_REG_LEN - 1; idx >= 0; idx--)
         {
             *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][idx])) =  gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_mask;                  
-            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;
+            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + ICD_REG_STREAM[1][idx])) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
+            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;            
             ICD_REG_STREAM[2][idx] = *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_reg) + 0x20)) & gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_mask;        
         }
         

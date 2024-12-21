@@ -367,6 +367,7 @@
           <itemPath>../src/config/default/interrupts_a.S</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_run.c</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_setup.c</itemPath>
+          <itemPath>../src/config/default/usb_device_init_data.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="FreeRTOS" displayName="FreeRTOS" projectFiles="true">
@@ -695,6 +696,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d1fffff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/C21415/work/Experiments/unifiedHw/tip/UMT/firmware/UnifiedTestHardWare.X/debug/default/UnifiedTestHardWare_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgcconfig" value="pull down"/>
