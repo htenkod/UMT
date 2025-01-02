@@ -219,9 +219,9 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO, 0, _PORTJ_START_ADDR_, _PORTJ_RJ2_MASK, 0, 0},	// RJ2						                    //86
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG6_MASK, 0, 0},		// AN14/RG6                             //87
 						{0, GPIO | AN | U_TX, 0, _PORTB_START_ADDR_, _PORTB_RB14_MASK, 0xBF801578, 0},              // AN9/RB14     //88
-						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 0, 0},		// AN13/RG7                             //89
+						{0, GPIO | U_RX, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 1, 0},		// AN13/RG7                             //89
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB15_MASK, 0, 0},	// AN10/RB15                                //90
-						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 0, 0},		// AN12/RG8                             //91
+						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 0xBF8016A0, 0},		// AN12/RG8                 //91
 						{0, GPIO | AN, 0, _PORTH_START_ADDR_, _PORTH_RH6_MASK, 0, 0},		// AN42/RH6						        //92
 						{0, GPIO | AN, 0, _PORTE_START_ADDR_, _PORTE_RE8_MASK, 0, 0},		// AN25/RE8                             //93
                         {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD14_MASK, 0, 0}, 	// AN32/RD14                                //94
