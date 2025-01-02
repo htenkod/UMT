@@ -631,7 +631,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
     
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT16 numOfbytes, CHAR* rdBuff)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT16 numOfbytes)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
@@ -639,6 +639,10 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
     ULONG cbRead = 0;
     CHAR localBuf[512];
     CHAR tmpBuf[256];
+
+    if (numOfbytes > 128) {
+        numOfbytes = 128;
+    }
 
     sprintf_s(localBuf, 512, cmdFmt, idx, numOfbytes);
 
