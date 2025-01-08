@@ -322,7 +322,7 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         for(int32_t idx = ICD_REG_LEN - 1; idx >= 0; idx--)
         {
             *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][idx])) =  gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_mask;                  
-            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + ICD_REG_STREAM[1][idx])) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
+            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + CLR)) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
             *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;            
             ICD_REG_STREAM[2][idx] = *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_reg) + 0x20)) & gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_mask;        
         }
@@ -780,14 +780,13 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
         PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
         /* Trigger a Master Reset*/
         *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;       
-        CORETIMER_DelayUs(10);
-        TMOD_TAP_Reset(devId);     
+        CORETIMER_DelayMs(1);        
         TMOD_TAP_Idle(devId);        
         TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT); // 0x05
         TMOD_TAP_Idle(devId);
         TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
         TMOD_TAP_Idle(devId);
-        CORETIMER_DelayUs(10);
+        CORETIMER_DelayMs(1);
         *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;                     
     }
     TMOD_TAP_Idle(devId);    

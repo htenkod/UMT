@@ -51,6 +51,7 @@
 
 FS_DATA fsData;
 
+//#define RIO0_FLASH_PROG
 
 typedef union byteWord
             {
@@ -420,20 +421,22 @@ void FS_Tasks ( void )
                                 SYS_CONSOLE_PRINT("Firmware Image Size %d\r\n", fsData.readBuffer[RIO0_FW_IMG_SIZE_OFFSET]);
                                 SYS_CONSOLE_PRINT("Firmware Image Dest Addr 0x%X\r\n", fsData.readBuffer[RIO0_FW_ROM_DST_OFFSET] & 0x00FFFFFF);
                             }
-                            
-                            uint32_t wordSz = readSz/sizeof(uint32_t);
-                            for(cnt = 0; cnt < wordSz; cnt++)
-                            {
-                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]); 
-                                CORETIMER_DelayUs(5);
-                            }
+                                                        
 #ifdef RIO0_FLASH_PROG                                                            
                             uint32_t secSz = readSz/256;
                             for(uint32_t blkNum = 0; blkNum < secSz; blkNum++)
                             {                                                        
                                 RIO0_FLASH_PAGE_Write(fsData.tapId, fsData.flashAddr, (uint8_t *)&fsData.readBuffer[blkNum*64]);                             
                                 fsData.flashAddr += 256; 
-                            }                            
+                            }   
+#else                       
+                            uint32_t wordSz = readSz/sizeof(uint32_t);     
+                            for(cnt = 0; cnt < wordSz; cnt++)
+                            {
+                                wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]); 
+                                CORETIMER_DelayUs(5);
+                            }                                                        
+                            fsData.flashAddr += wordSz*sizeof(uint32_t);                             
 #endif
                             
                         }
@@ -447,9 +450,17 @@ void FS_Tasks ( void )
                             
                             if (fsData.sramLoad)
                             {
+//                                SYS_CONSOLE_PRINT("Loop cnt 0x%X \r\n", rReg32(fsData.tapId, 0x000B0000));
+//                                SYS_CONSOLE_PRINT("Load Addr 0x%X\r\n", rReg32(fsData.tapId, 0x000B0004));
+//                                
+//                                SYS_CONSOLE_PRINT("Fw 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00000200));
+//                                SYS_CONSOLE_PRINT("BL 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00080200));
+                                                                                                
+                                SYS_CONSOLE_PRINT("Jump Addr 0x%X\r\n", fsData.jumpAddr);
+                                
                                 EJTAG_Enter(fsData.tapId, true);                                                                
-                                EJTAG_OPCODE_WR(fsData.tapId, 0x3C02A000);  // load upper immediate
-                                EJTAG_OPCODE_WR(fsData.tapId, 0x34420200);  // or immediate
+                                EJTAG_OPCODE_WR(fsData.tapId, (0x3C020000 | ((fsData.jumpAddr >> 16) & 0xFFFF)));  // load upper immediate 0x3C02A008
+                                EJTAG_OPCODE_WR(fsData.tapId, (0x34420000 | (fsData.jumpAddr & 0xFFFF)));  // or immediate 0x34420200                             
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB                                                             
 //                                /* DERET*/
@@ -467,12 +478,11 @@ void FS_Tasks ( void )
 #endif
                                 /*Load Boot loader*/
                                 fsData.readCount = 0;                                
-                                wReg32(fsData.tapId, 0x000B0000, 0x000007F5);
-                                wReg32(fsData.tapId, 0x000B0004, 0x0000000);
-                                
-                                FS_TMOD_Trigger(fsData.tapId, 0x80200, 0x0, 1, "organized_hut_ate_rio0.X.production_SRAM_NF0.bin");
-//                                memset(&fsData, 0, sizeof(USB_DATA));
-                                
+                                wReg32(fsData.tapId, 0x000B0000, 0x00000341);
+                                wReg32(fsData.tapId, 0x000B0004, 0x00000000);
+                                                                
+                                FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "hut_ate_rio0.Xproduction_bl.bin");
+//                                fsData.jumpAddr = (0xA0000000 | 0x80200);             
                             }
                             /* The test was successful. */
                             fsData.state = FS_CLOSE_FILE;
@@ -567,91 +577,59 @@ void FS_Tasks ( void )
             break;
         }
         
+        case FS_DEVICE_ERASE:
+        {
+            switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
+            {
+                case RIO0_CHIP_ID:
+                {                    
+                    if(!fsData.sramLoad)
+                    {                                                                
+                        RIO0_SYS_Initialize(fsData.tapId);
+                        RIO0_FLASH_Initialize(fsData.tapId);                                                                                
+                        RIO0_FLASH_Reset(fsData.tapId);          
+                        volatile uint32_t flashId = RIO0_FLASH_ID_Read(fsData.tapId);
+                        while(flashId != 0x1C7015) {
+                            flashId = RIO0_FLASH_ID_Read(fsData.tapId);                            
+                        }
+                        
+                        RIO0_SYS_Initialize(fsData.tapId);
+                        RIO0_FLASH_Initialize(fsData.tapId);                                                 
+                        SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
+                        RIO0_FLASH_CHIP_Erase(fsData.tapId);  
+                        SYS_CONSOLE_MESSAGE("Flash Erase Successful!\r\n");
+                    }                    
+                    break;
+                }                
+            }
+            fsData.state = FS_IDLE; 
+            
+            break;
+        }
+        
         case FS_DEVICE_INIT:
         {
             switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
             {
                 case CHIMERA_CHIP_ID:
                 {
-//                    static int32_t timeout = 256;                                            
-//
-//                    /* Erase the CHIP */
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
-//                    TMOD_TAP_DR(fsData.tapId, CHIP_TAP_CHIPE_ERASE);                        
-//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
-//                    while((timeout-- > 0) && (TMOD_TAP_DR(fsData.tapId, DUMMY_READ) != 0x88));   
-//
-//                    /* Enter the ICDREG mode */
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
-//                    
-//                    /* SRAM Start Address*/
-//                    wReg32(fsData.tapId, 0x20000000, 0xABCD1234);
-//                    if(rReg32(fsData.tapId, 0x20000000) == 0xABCD1234)
-//                    {
-//                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                          
-//                    }                    
-//                    
-//                    /* write first 16 bytes at address 0 */                     
-//                    break;
+                    
                 }
-
                 case RIO0_CHIP_ID:
                 {                    
-//                    TMOD_TAP_Reset(fsData.tapId);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-////                    TMOD_TAP_Reset(fsData.tapId);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD);  
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_EJTAG_SELECT);
-//                    TMOD_TAP_Idle(fsData.tapId);
-//                    
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ALTRESET); 
-//
-//                    TMOD_TAP_Idle(fsData.tapId);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-////                    TMOD_TAP_Reset(fsData.tapId);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_MCHP_CMD); 
-//                    
-//                    TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
-//                    
-//                    TMOD_TAP_Idle(fsData.tapId);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-//                    TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);   
-//
-//                    uint32_t chipId = rReg32(fsData.tapId, 0x1F800060);
-//                    SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", chipId);
-//
-//                    wReg32(fsData.tapId, 0x00001000, 0xABCD1234);
-//                    if(rReg32(fsData.tapId, 0x00001000) == 0xABCD1234)
-//                    {
-//                        SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                            
-//                    
-                        if(!fsData.sramLoad)
-                        {                            
-#ifdef RIO0_FLASH_PROG                            
-                            RIO0_SYS_Initialize(fsData.tapId);
-                            RIO0_FLASH_Initialize(fsData.tapId);                                                                                
-                            RIO0_FLASH_Reset(fsData.tapId);          
-                            volatile uint32_t flashId = RIO0_FLASH_ID_Read(fsData.tapId);
-                            while(flashId != 0x1C7015)
-                                flashId = RIO0_FLASH_ID_Read(fsData.tapId);
-
-                            RIO0_SYS_Initialize(fsData.tapId);
-                            RIO0_FLASH_Initialize(fsData.tapId);                         
-                            SYS_CONSOLE_PRINT("SPLLCON = 0x%X\r\n", rReg32(fsData.tapId, RIO0_SPLL_CON));
-                            SYS_CONSOLE_PRINT("SPI0BRG = 0x%X\r\n", rReg32(fsData.tapId, 0x1F801630));
-                            SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
-                            RIO0_FLASH_CHIP_Erase(fsData.tapId);  
-#endif
-                            
-                            
-                        }
-                        
-//                    }
-
+                    if(!fsData.sramLoad)
+                    {        
+                        TMOD_TAP_DR(fsData.tapId, MCHP_CMD_ASSERT);
+                        CORETIMER_DelayUs(1);
+                        TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
+                        TMOD_TAP_Idle(fsData.tapId);
+                        TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
+                        TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);                                                        
+                    }
                     break;
                 }
             }
-            fsData.state = FS_OPEN_FILE;
+            fsData.state = FS_OPEN_FILE;            
 
             /* End of Switch */
             break;
@@ -673,32 +651,29 @@ void FS_Tasks ( void )
     }
 }
 
-int32_t FS_TMOD_Dump(uint32_t devId, uint32_t sof, uint32_t dumpSz, bool sramLoad)
+int32_t FS_DEV_ERASE(uint32_t devId)
 {
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;   
     
     fsData.tapId = devId; 
-    fsData.flashAddr = sof;
-    fsData.dumpSz = dumpSz;
-    fsData.sramLoad = sramLoad;    
     
     if(fsData.state == FS_IDLE)
-        fsData.state = FS_FLASH_DUMP;
+        fsData.state = FS_DEVICE_ERASE;
     else
         return -1;
-    
-    
+      
     return 0;
 }
 
-int32_t FS_TMOD_Trigger(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName)
+int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName)
 {
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;   
     
     fsData.tapId = devId; 
-    fsData.flashAddr = sof;
+    fsData.flashAddr = sof;    
+    fsData.jumpAddr = sof | 0xA0000000;
     fsData.fwOffset = offset;
     fsData.sramLoad = sramLoad;
     /* copy the file name */
