@@ -71,6 +71,8 @@ typedef enum
             
             
     FS_DEVICE_INIT,
+    
+    FS_DEVICE_ERASE,
             
     FS_USB_INIT,
             
@@ -164,6 +166,8 @@ typedef struct
     uint32_t    tapId;
     
     uint32_t flashAddr;
+    
+    uint32_t    jumpAddr;
     /* flashFile Name */
     char fileName[256];
 
@@ -263,9 +267,9 @@ void FS_Initialize ( void );
 
 void FS_Tasks( void );
 
-int32_t FS_TMOD_Trigger(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName);
+int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName);
 
-int32_t FS_TMOD_Dump(uint32_t devId, uint32_t sof, uint32_t dumpSz, bool sramLoad);
+int32_t FS_DEV_ERASE(uint32_t devId);
 
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus

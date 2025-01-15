@@ -904,6 +904,31 @@ void cmdTapDevId(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 	
 }
 
+void cmdTapErase(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 2)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- taperase <idx>");
+        return;
+    }
+    
+    fsData.tapId = atoi(argv[1]);
+                    
+    if(FS_DEV_ERASE(atoi(argv[1])) == 0)
+    {   
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
+    }
+    else
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
+    }
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
+        
+}
+
 void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
@@ -917,7 +942,7 @@ void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     fsData.tapId = atoi(argv[1]);
                     
-    if(FS_TMOD_Trigger(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]) == 0)
+    if(FS_DEV_PROGRAM(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]) == 0)
     {   
         (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
     }
@@ -1008,7 +1033,8 @@ static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
     /* TMOD Commands */
     {"tapup",   cmdTapUp,   ": Brings Up the TMOD interface pins\r\nExample:- tmodup <tck> <tdo> <tdi> <tms> <mclr>\r\n"},       
     {"tapdevid",   cmdTapDevId,   ": Triggers the TMOD patterns\r\nExample:- tapdevid <idx>\r\n"},   
-    {"tapflash",   cmdTapFlash,   ": Triggers the TMOD patterns\r\nExample:- tapflash <idx> <file name>\r\n"},   
+    {"tapflash",   cmdTapFlash,   ": Triggers the TMOD patterns\r\nExample:- tapflash <idx> <dst> <src> <type> <file name>\r\n"},   
+    {"taperase",   cmdTapErase,   ": Triggers device flash erase\r\nExample:- taperase <idx>\r\n"},   
     {"taptmodwr",   cmdTapTmodWr,   ": Write to a given address in TMOD\r\nExample:- taptmodwr <idx> <addr> <val>\r\n"},   
     {"taptmodrd",   cmdTapTmodRd,   ": Read from a given address in TMOD\r\nExample:- taptmodrd <idx> <addr>\r\n"},   
     
