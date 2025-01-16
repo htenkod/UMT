@@ -393,24 +393,7 @@ void FS_Tasks ( void )
                             for(cnt = 0; cnt < wordSz; cnt++)
                             {
                                 wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]); 
-                                CORETIMER_DelayUs(5);
-//                                readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4)); 
-//                                while(readBytes.word != fsData.readBuffer[cnt])
-//                                {                                                             
-//                                    wReg32(fsData.tapId, fsData.flashAddr+(cnt*4), fsData.readBuffer[cnt]);  
-//                                    readBytes.word = rReg32(fsData.tapId, fsData.flashAddr +(cnt*4));    
-//                                }
-//                                extern size_t UART2_Write(uint8_t* pWrBuffer, const size_t size );                      
-//                                UART2_Write(&readBytes.bytes.b0, 1);
-//                                UART2_Write(&readBytes.bytes.b1, 1);
-//                                UART2_Write(&readBytes.bytes.b2, 1);
-//                                UART2_Write(&readBytes.bytes.b3, 1);
-//                                CORETIMER_DelayUs(1);
-//                                while(UART2_WriteCountGet())
-//                                {
-//                                    vTaskDelay(1U / portTICK_PERIOD_MS);
-//                                }
-                                
+                                CORETIMER_DelayUs(5);                                
                             }              
                             fsData.flashAddr += wordSz*sizeof(uint32_t); 
                         }
@@ -456,9 +439,13 @@ void FS_Tasks ( void )
 //                                SYS_CONSOLE_PRINT("Fw 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00000200));
 //                                SYS_CONSOLE_PRINT("BL 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00080200));
                                                                                                 
-                                SYS_CONSOLE_PRINT("Jump Addr 0x%X\r\n", fsData.jumpAddr);
+//                                SYS_CONSOLE_PRINT("Jump Addr 0x%X\r\n", fsData.jumpAddr);
                                 
-                                EJTAG_Enter(fsData.tapId, true);                                                                
+                                EJTAG_Enter(fsData.tapId, true);     
+                                
+//                                SYS_CONSOLE_PRINT("Loops 0x%X\r\n", EJTAG_Read(fsData.tapId, 0xA00B0000));
+//                                SYS_CONSOLE_PRINT("Dst Addr 0x%X\r\n", EJTAG_Read(fsData.tapId, 0xA00B0004));
+                                
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x3C020000 | ((fsData.jumpAddr >> 16) & 0xFFFF)));  // load upper immediate 0x3C02A008
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x34420000 | (fsData.jumpAddr & 0xFFFF)));  // or immediate 0x34420200                             
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
@@ -476,12 +463,13 @@ void FS_Tasks ( void )
                                 CORETIMER_DelayUs(100);
                                 *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
 #endif
-                                /*Load Boot loader*/
-                                fsData.readCount = 0;                                
+                                /*Load Boot loader*/                                                               
                                 wReg32(fsData.tapId, 0x000B0000, 0x00000341);
                                 wReg32(fsData.tapId, 0x000B0004, 0x00000000);
                                                                 
                                 FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "hut_ate_rio0.Xproduction_bl.bin");
+//                                FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "rio0_fw_programmer.bin");
+                                
 //                                fsData.jumpAddr = (0xA0000000 | 0x80200);             
                             }
                             /* The test was successful. */
@@ -676,6 +664,7 @@ int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramL
     fsData.jumpAddr = sof | 0xA0000000;
     fsData.fwOffset = offset;
     fsData.sramLoad = sramLoad;
+    fsData.readCount = 0; 
     /* copy the file name */
     sprintf(fsData.fileName, "%s", fileName);
     fsData.triggerTmodFlash = true;
