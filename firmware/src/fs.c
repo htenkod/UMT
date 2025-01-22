@@ -26,6 +26,7 @@
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
+#include <sys/attribs.h>
 #include "definitions.h"
 #include "tmod.h"
 // *****************************************************************************
@@ -160,7 +161,6 @@ void FS_Initialize ( void )
 {
     /* Place the App state machine in its initial state. */
     fsData.state = FS_STATE_MOUNT_WAIT;
-    fsData.triggerTmodFlash = false;
     
     SYS_FS_EventHandlerSet((void *)FS_SYSFSEventHandler, (uintptr_t)NULL);
 
@@ -237,7 +237,8 @@ void FS_Tasks ( void )
             if(fsData.fileHandle == SYS_FS_HANDLE_INVALID)
             {
                 /* File open unsuccessful */
-                SYS_CONSOLE_PRINT("File %s not available!\r\n");
+                if(fsData.sysCmdDev)
+                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "File %s not available!\r\n");
                 fsData.state = FS_ERROR;
             }
             else
@@ -258,7 +259,8 @@ void FS_Tasks ( void )
             }
             else
             {
-                SYS_CONSOLE_PRINT("File Size = %d\r\n", fsData.fileStatus.fsize);
+                if(fsData.sysCmdDev)
+                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "File Size = %d\r\n", fsData.fileStatus.fsize);
                 /* Read file size */
                 fsData.state = FS_DO_ANOTHER_FILE_SEEK;
             }
@@ -401,8 +403,11 @@ void FS_Tasks ( void )
                         {
                             if(!fsData.readCount)
                             {
-                                SYS_CONSOLE_PRINT("Firmware Image Size %d\r\n", fsData.readBuffer[RIO0_FW_IMG_SIZE_OFFSET]);
-                                SYS_CONSOLE_PRINT("Firmware Image Dest Addr 0x%X\r\n", fsData.readBuffer[RIO0_FW_ROM_DST_OFFSET] & 0x00FFFFFF);
+//                                SYS_CONSOLE_PRINT("Firmware Image Size %d\r\n", fsData.readBuffer[RIO0_FW_IMG_SIZE_OFFSET]);
+//                                SYS_CONSOLE_PRINT("Firmware Image Dest Addr 0x%X\r\n", fsData.readBuffer[RIO0_FW_ROM_DST_OFFSET] & 0x00FFFFFF);
+//                              
+                                                                
+                                
                             }
                                                         
 #ifdef RIO0_FLASH_PROG                                                            
@@ -429,30 +434,30 @@ void FS_Tasks ( void )
                         
                         if ((fsData.fileStatus.fsize - fsData.fwOffset) == fsData.readCount)
                         {
-                            SYS_CONSOLE_PRINT("Firmware load complete!\r\n");
+                            if(fsData.sysCmdDev)
+                                (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Firmware load complete!\r\n");
                             
                             if (fsData.sramLoad)
                             {
-//                                SYS_CONSOLE_PRINT("Loop cnt 0x%X \r\n", rReg32(fsData.tapId, 0x000B0000));
-//                                SYS_CONSOLE_PRINT("Load Addr 0x%X\r\n", rReg32(fsData.tapId, 0x000B0004));
-//                                
-//                                SYS_CONSOLE_PRINT("Fw 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00000200));
-//                                SYS_CONSOLE_PRINT("BL 0 Addr 0x%X\r\n", rReg32(fsData.tapId, 0x00080200));
-                                                                                                
-//                                SYS_CONSOLE_PRINT("Jump Addr 0x%X\r\n", fsData.jumpAddr);
+                                EJTAG_Enter(fsData.tapId, true);  
                                 
-                                EJTAG_Enter(fsData.tapId, true);     
+                                uint32_t chipId = EJTAG_Read(fsData.tapId, 0xBF800060);
                                 
-//                                SYS_CONSOLE_PRINT("Loops 0x%X\r\n", EJTAG_Read(fsData.tapId, 0xA00B0000));
-//                                SYS_CONSOLE_PRINT("Dst Addr 0x%X\r\n", EJTAG_Read(fsData.tapId, 0xA00B0004));
+                                if(fsData.sysCmdDev)
+                                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "eJTAG Chip ID = 0x%X\r\n", chipId);
                                 
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x3C020000 | ((fsData.jumpAddr >> 16) & 0xFFFF)));  // load upper immediate 0x3C02A008
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x34420000 | (fsData.jumpAddr & 0xFFFF)));  // or immediate 0x34420200                             
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x4082C000);  //MTC0 V0 DEPC
                                 EJTAG_OPCODE_WR(fsData.tapId, 0x000000C0); // EHB                                                             
 //                                /* DERET*/
-                                EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);  
-                                SYS_CONSOLE_MESSAGE("Triggered DERET!\r\n");
+                                EJTAG_OPCODE_WR(fsData.tapId, 0x4200001F);                                  
+                                
+                                if(fsData.sysCmdDev)
+                                {
+                                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Triggered DERET!\r\n");
+                                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, LINE_TERM PASS);
+                                }
                             }
                             else
                             {
@@ -463,14 +468,13 @@ void FS_Tasks ( void )
                                 CORETIMER_DelayUs(100);
                                 *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
 #endif
-                                /*Load Boot loader*/                                                               
-                                wReg32(fsData.tapId, 0x000B0000, 0x00000341);
-                                wReg32(fsData.tapId, 0x000B0004, 0x00000000);
-                                                                
-                                FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "hut_ate_rio0.Xproduction_bl.bin");
-//                                FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "rio0_fw_programmer.bin");
                                 
-//                                fsData.jumpAddr = (0xA0000000 | 0x80200);             
+                                /*Load Boot loader*/                                                               
+                                wReg32(fsData.tapId, 0x000B0000, fsData.fileStatus.fsize);
+                                wReg32(fsData.tapId, 0x000B0004, fsData.targetAddr);
+                                                                
+                                FS_DEV_PROGRAM(fsData.tapId, 0x80200, 0x0, true, "hut_ate_rio0.Xproduction_bl.bin", fsData.sysCmdDev);
+                                
                             }
                             /* The test was successful. */
                             fsData.state = FS_CLOSE_FILE;
@@ -505,12 +509,14 @@ void FS_Tasks ( void )
                 /* Close the file */
                 if (SYS_FS_FileClose(fsData.fileHandle) != 0)
                 {
+                    SYS_CONSOLE_MESSAGE("File Close Error!\r\n");
                     fsData.state = FS_ERROR;
                 }
                 else
                 {
                     fsData.state = FS_IDLE;
                 }
+                
             }            
             
             break;
@@ -556,10 +562,10 @@ void FS_Tasks ( void )
             /* The application comes here when the demo has completed
              * successfully. Glow LED. */
             LED1_On();
-            if(fsData.triggerTmodFlash)
+            if(fsData.triggerState != FS_IDLE)
             {                
-                fsData.triggerTmodFlash = false;   
-                fsData.state = FS_DEVICE_INIT;
+                fsData.state = fsData.triggerState;
+                fsData.triggerState = FS_IDLE;                                
             }
 
             break;
@@ -583,9 +589,16 @@ void FS_Tasks ( void )
                         
                         RIO0_SYS_Initialize(fsData.tapId);
                         RIO0_FLASH_Initialize(fsData.tapId);                                                 
-                        SYS_CONSOLE_PRINT("Flash ID = 0x%X\r\n", flashId); 
+                        if(fsData.sysCmdDev)
+                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "Flash ID = 0x%X\r\n", flashId); 
+                        
                         RIO0_FLASH_CHIP_Erase(fsData.tapId);  
-                        SYS_CONSOLE_MESSAGE("Flash Erase Successful!\r\n");
+                        if(fsData.sysCmdDev)
+                        {
+                            (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Flash Erase Successful!\r\n");                                 
+                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, LINE_TERM PASS);
+                        }
+                        
                     }                    
                     break;
                 }                
@@ -607,12 +620,7 @@ void FS_Tasks ( void )
                 {                    
                     if(!fsData.sramLoad)
                     {        
-                        TMOD_TAP_DR(fsData.tapId, MCHP_CMD_ASSERT);
-                        CORETIMER_DelayUs(1);
-                        TMOD_TAP_DR(fsData.tapId, MCHP_CMD_DEASSERT);
-                        TMOD_TAP_Idle(fsData.tapId);
-                        TMOD_TAP_IR(fsData.tapId, CHIP_TAP_SELECT_CHIP_TAP);
-                        TMOD_TAP_IR(fsData.tapId, CHIP_TAP_ICDREG);                                                        
+                                                    
                     }
                     break;
                 }
@@ -639,35 +647,39 @@ void FS_Tasks ( void )
     }
 }
 
-int32_t FS_DEV_ERASE(uint32_t devId)
+int32_t FS_DEV_ERASE(uint32_t devId, void *cmdNode)
 {
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;   
     
     fsData.tapId = devId; 
-    
-    if(fsData.state == FS_IDLE)
-        fsData.state = FS_DEVICE_ERASE;
-    else
-        return -1;
+    fsData.sysCmdDev = cmdNode;
+    fsData.sramLoad = 0;    
+    fsData.triggerState = FS_DEVICE_ERASE;    
       
     return 0;
 }
 
-int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName)
+int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName, void *cmdNode)
 {
     if(gUmtCxt.devList[devId].devType != UMT_DEV_TMOD)
         return -1;   
     
     fsData.tapId = devId; 
-    fsData.flashAddr = sof;    
+    if(sramLoad)
+        fsData.flashAddr = sof; 
+    else
+        fsData.flashAddr = 0x0;
+    
+    fsData.targetAddr = sof;
     fsData.jumpAddr = sof | 0xA0000000;
     fsData.fwOffset = offset;
     fsData.sramLoad = sramLoad;
     fsData.readCount = 0; 
+    fsData.sysCmdDev = cmdNode;
     /* copy the file name */
     sprintf(fsData.fileName, "%s", fileName);
-    fsData.triggerTmodFlash = true;
+    fsData.triggerState = FS_OPEN_FILE;
     
     return 0;
 }

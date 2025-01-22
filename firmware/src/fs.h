@@ -61,7 +61,7 @@ extern "C" {
 typedef enum
 {
     /* Application's state machine's initial state. */
-    FS_STATE_INIT=0,
+    FS_IDLE=0,
     FS_STATE_MOUNT_WAIT,
     FS_STATE_FORMAT_DISK,
     FS_STATE_BUS_ENABLE,
@@ -109,9 +109,6 @@ typedef enum
 
     /* The app unmounts the disk. */
     FS_UNMOUNT_DISK,
-
-    /* The app idles */
-    FS_IDLE,
            
     /* Rio0 Flash ID */
     FS_RIO0_FLASH_ID,
@@ -154,6 +151,9 @@ typedef struct
     /* The application's current state */
     FS_STATES state;
 
+    /* The application's current state */
+    FS_STATES triggerState;
+    
     /* SYS_FS File handle */
     SYS_FS_HANDLE fileHandle;
     
@@ -167,6 +167,8 @@ typedef struct
     
     uint32_t flashAddr;
     
+    uint32_t targetAddr;
+    
     uint32_t    jumpAddr;
     /* flashFile Name */
     char fileName[256];
@@ -176,7 +178,9 @@ typedef struct
 
     SYS_FS_FSTAT fileStatus;
 
-    uint32_t readCount;        
+    uint32_t readCount;     
+    
+    SYS_CMD_DEVICE_NODE *sysCmdDev;
     
     bool triggerTmodFlash;
 
@@ -267,9 +271,9 @@ void FS_Initialize ( void );
 
 void FS_Tasks( void );
 
-int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName);
+int32_t FS_DEV_PROGRAM(uint32_t devId, uint32_t sof, uint32_t offset, bool sramLoad, char *fileName, void *cmdNode);
 
-int32_t FS_DEV_ERASE(uint32_t devId);
+int32_t FS_DEV_ERASE(uint32_t devId, void *cmdNode);
 
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus

@@ -327,7 +327,69 @@ inline int32_t UMT_DEV_IDX_Get(UMT_DEV_TYPE_t devType)
     return devIdx;
 }
 
+#if 0
+uint32_t UMT_PPP_Config(uint32_t pinNum, uint32_t pinType, uint32_t devIdx)
+{
 
+uint32_t retVal;
+
+
+	switch(pinType)
+	{
+		case U_TX:
+			
+		break;
+
+		case U_RX:
+		{
+			switch()
+			{
+				case 0:
+				break;
+
+				case 3:
+				break;
+
+				case 4:
+				break;
+
+				case 5:
+				break;
+					
+				case 6:
+				break;
+			}
+				
+		}		
+			
+		break;
+
+		case I2C_SCK:
+		break;
+
+		case I2C_SDA:
+			
+		break;
+
+		case AN:
+			
+		break;
+
+		case SPI:
+			
+		break;
+
+		default:
+		
+
+
+	}
+
+
+	return retVal;
+
+}
+#endif
 
 void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
@@ -916,9 +978,9 @@ void cmdTapErase(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     fsData.tapId = atoi(argv[1]);
                     
-    if(FS_DEV_ERASE(atoi(argv[1])) == 0)
+    if(FS_DEV_ERASE(atoi(argv[1]), pCmdIO) == 0)
     {   
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
+//        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
     }
     else
     {
@@ -941,9 +1003,10 @@ void cmdTapFlash(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     fsData.tapId = atoi(argv[1]);
                     
-    if(FS_DEV_PROGRAM(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]) == 0)
+    if(FS_DEV_PROGRAM(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5], pCmdIO) == 0)
     {   
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
+        ;
+//        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS);  
     }
     else
     {
