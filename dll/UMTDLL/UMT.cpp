@@ -228,7 +228,7 @@ BOOL ReadFromBulkEndpoint(WINUSB_INTERFACE_HANDLE hDeviceHandle, UCHAR* pID, ULO
         return -1;
     }
 
-    char* newlinepos = strchr(szBuffer, '\r');
+    char* newlinepos = strstr(szBuffer, "\r\n>\r\n");
 
     if (newlinepos != nullptr) {
         *newlinepos = '\0';
@@ -631,7 +631,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
     
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT16 numOfbytes, UINT32 hex)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
@@ -673,9 +673,15 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
 
         const CHAR* inputstart = localBuf + offset;
 
-        convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
 
-        strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
+        if (hex == 1) {
+            convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
+
+            strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
+        }
+        else {
+            strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
+        }
     }
     else {
         return UMT_CheckStatus(localBuf);
