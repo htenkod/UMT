@@ -89,7 +89,7 @@ typedef enum
 #define UMT_DEV_MAX         10
 #define UMT_DEV_PIN_MAX		10
 
-// #define TESTBUS_40PIN
+ #define TESTBUS_40PIN
 
 #ifndef TESTBUS_40PIN
 #define TESTBUS_168PIN

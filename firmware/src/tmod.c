@@ -91,21 +91,21 @@ static uint32_t CACHE_ALIGN DR_32BIT_STREAM[3][DR_32BIT_CMD_LEN] = {
 
 /*MSB First */
 
-#define ICD_REG_LEN     (158 + 20)// dummy 20 bits
+#define ICD_REG_LEN     (158 + 10)// dummy 20 bits
 
 
 #define ICD_REG_HDR_LEN      (20 + TMOD_TAP_DR_HDR)
 
 
-#define ICD_ADDR_MSB_IDX     (ICD_REG_LEN - ICD_REG_HDR_LEN)
-#define ICD_ADDR_LSB_IDX     (ICD_ADDR_MSB_IDX - (60 + 1))
+#define ICD_ADDR_MSB_IDX     (ICD_REG_LEN - ICD_REG_HDR_LEN - 1)
+#define ICD_ADDR_LSB_IDX     (ICD_ADDR_MSB_IDX - 60)
 
 #define ICD_DATA_MSB_IDX     (ICD_ADDR_MSB_IDX - 60)
-#define ICD_DATA_LSB_IDX     (ICD_DATA_MSB_IDX - (64))
+#define ICD_DATA_LSB_IDX     (ICD_DATA_MSB_IDX - 64)
 
 static uint32_t CACHE_ALIGN ICD_REG_STREAM[3][ICD_REG_LEN] = {                    
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS 
-                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}, // TDO
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, CLR, CLR, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, CLR}, // TMS 
+                    {CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR}, // TDO
                     };
 
 
@@ -267,19 +267,29 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
     idx = ICD_DATA_LSB_IDX;
     if(op == ICDREG_OP_WR)
     {
+//        for(volatile uint32_t i  = ICD_DATA_LSB_IDX; i < ICD_DATA_MSB_IDX; i+=2)
         while(data)
-        {
+        {   
             ICD_REG_STREAM[1][idx++] = (data & 1)?(SET):(CLR);    
             ICD_REG_STREAM[1][idx++] = (data & 1)?(SET):(CLR);
-            data = data >> 1; // bit 0
+            data = data >> 1; // bit 0             
+        }        
+        
+        while(idx < ICD_DATA_MSB_IDX)
+        {
+            ICD_REG_STREAM[1][idx++] = CLR; 
         }
+        
+        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = SET;    
+        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = SET; 
     }
-    while(idx < ICD_DATA_MSB_IDX)
+    else
     {
-        ICD_REG_STREAM[1][idx++] = CLR; 
+        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = CLR;    
+        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = CLR;    
     }
     
-    idx = ICD_ADDR_LSB_IDX +1;
+    idx = ICD_ADDR_LSB_IDX;    
     addr = addr >> 2;
     while(addr)
     {
@@ -293,16 +303,6 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         ICD_REG_STREAM[1][idx++] = CLR; 
     } 
     
-    if(op == ICDREG_OP_RD)
-    {
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = CLR;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = CLR;                
-    }
-    else
-    {
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 11)] = SET;    
-        ICD_REG_STREAM[1][ICD_REG_LEN-(TMOD_TAP_DR_HDR + 12)] = SET;                
-    }
       
 #ifdef NO_DELAY    
     while(length)
@@ -311,26 +311,25 @@ uint32_t TMOD_TAP_ICDREG(uint32_t devId, uint32_t addr, uint32_t data, ICDREG_OP
         
         *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][length])) =  gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_mask;          
         *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + ICD_REG_STREAM[1][length])) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
-        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;
-//        ICD_REG_STREAM[2][length] = *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_reg) + 0x20)) & gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_mask;        
+        *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;               
     }    
     
     if(op == ICDREG_OP_RD)
     {        
-        CORETIMER_DelayUs(1);
+//        CORETIMER_DelayUs(1);
         
         for(int32_t idx = ICD_REG_LEN - 1; idx >= 0; idx--)
         {
             *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_reg) + ICD_REG_STREAM[0][idx])) =  gUmtCxt.devList[devId].pinLink[PIN_TMS]->gpio_mask;                  
-            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + CLR)) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
+//            *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_reg) + CLR)) =  gUmtCxt.devList[devId].pinLink[PIN_TDO]->gpio_mask;                          
             *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_reg) + 0x3C)) = gUmtCxt.devList[devId].pinLink[PIN_TCK]->gpio_mask;            
             ICD_REG_STREAM[2][idx] = *((volatile uint32_t *)((volatile char *)(gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_reg) + 0x20)) & gUmtCxt.devList[devId].pinLink[PIN_TDI]->gpio_mask;        
         }
         
-        for(volatile uint32_t i  = ICD_DATA_MSB_IDX; i >= ICD_DATA_LSB_IDX; i--)
+        for(volatile uint32_t i  = ICD_DATA_MSB_IDX - 1; i > ICD_DATA_LSB_IDX; i-=2)
         {   
             icdReg = icdReg << 1;
-            icdReg |= (ICD_REG_STREAM[2][i--] != 0)?1:0;                
+            icdReg |= (ICD_REG_STREAM[2][i])?1:0;                
         }
         
     }      
@@ -578,20 +577,13 @@ int32_t TMOD_Pattern(uint32_t devId)
     tmrCxt[1] = &length;
     
     PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];
+    PIN_MAP_t *tdiPin = gUmtCxt.devList[devId].pinLink[PIN_TDI];
     
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;        
     CORETIMER_DelayMs(1);
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
     CORETIMER_DelayMs(5);
-    
-    
-    
-//    
-//    EJTAG_Enter(devId, true);
-//
-//    SYS_CONSOLE_PRINT("EJTAG::Device ID 0x%X", EJTAG_Read(devId, 0xBF800060));
-//
-//    
+  
     // set the MCLR LOW
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
     CORETIMER_DelayUs(30);
@@ -618,6 +610,10 @@ int32_t TMOD_Pattern(uint32_t devId)
     CORETIMER_DelayUs(30);
     *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;
     CORETIMER_DelayUs(30);
+    
+    
+    // input pins
+    *((volatile uint32_t *)((volatile char *)(tdiPin->gpio_reg) + 0x18)) = tdiPin->gpio_mask;
     
     return 0;
        
@@ -797,41 +793,14 @@ uint32_t EJTAG_Enter(uint32_t devId, bool mclr)
     
     TMOD_TAP_DR(devId, 0x0004D000);    
     TMOD_TAP_DR(devId, 0x8004D000);
-    
-    SYS_CONSOLE_MESSAGE("Entered EJTAG Mode\r\n");
-    
-    SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", EJTAG_Read(devId, 0xBF800060));
-    
+       
     return 0;
 }
 
 uint32_t EJTAG_Exit(uint32_t devId, bool mclr)
-{
+{    
     
-    if(mclr)
-    {        
-        PIN_MAP_t *mclrPin = gUmtCxt.devList[devId].pinLink[PIN_MCLR];    
-        /* Trigger a Master Reset*/
-        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;       
-        TMOD_TAP_Reset(devId);
-        TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT); // 0x05
-        TMOD_TAP_Idle(devId);
-        TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
-        TMOD_TAP_Idle(devId);                
-        *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;     
-        
-    }
-    
-    
-    TMOD_TAP_Reset(devId);
-    TMOD_TAP_IR(devId, CHIP_TAP_EJTAG_SELECT);
-    TMOD_TAP_Idle(devId);
-    TMOD_TAP_IR(devId, CHIP_TAP_ALTRESET); // 0x0C
-    
-//    TMOD_TAP_IR(devId, CHIP_TAP_SELECTALT);
-    
-    
-    SYS_CONSOLE_PRINT("SRAM = 0x%X\r\n", EJTAG_Read(devId, 0xA0000200));
+    TMOD_TAP_Init(devId);    
     
     return 0;
 }
