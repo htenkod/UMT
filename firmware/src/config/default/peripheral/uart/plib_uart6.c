@@ -66,7 +66,41 @@ volatile static uint8_t UART6_WriteBuffer[UART6_WRITE_BUFFER_SIZE];
 
 #define UART6_IS_9BIT_MODE_ENABLED()    ( (U6MODE) & (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK)) == (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK) ? true:false
 
-UART_FUNC_Handler_t UART6_Handler = {UART6_Initialize, UART6_SerialSetup, UART6_Write, UART6_Read, 0xBF801490, 4};
+int32_t static UART6_PPS_TX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+//        case 145: //RPD3
+//            RPD3R = 0x03;
+//            break;
+            
+        default:
+            retVal = -1;
+            break;        
+    }
+    
+    return retVal;
+}
+
+int32_t static UART6_PPS_RX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+//        case 143: //RPD2
+//            U5RXR = 0x0;
+//            break;
+
+        default:
+            retVal = -1;
+            break;        
+    }        
+    
+    return retVal;
+}
+
+UART_FUNC_Handler_t UART6_Handler = {UART6_Initialize, UART6_SerialSetup, UART6_Write, UART6_Read, UART6_PPS_TX_Config, UART6_PPS_RX_Config};
 
 void static UART6_ErrorClear( void )
 {

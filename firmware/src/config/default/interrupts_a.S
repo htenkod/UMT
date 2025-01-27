@@ -160,6 +160,42 @@ IntVectorUART1_TX_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorUART1_TX_Handler
+    .extern  I2C1_BUS_Handler
+
+    .section   .vector_115,code, keep
+    .equ     __vector_dispatch_115, IntVectorI2C1_BUS_Handler
+    .global  __vector_dispatch_115
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C1_BUS_Handler
+
+IntVectorI2C1_BUS_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C1_BUS_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C1_BUS_Handler
+    .extern  I2C1_MASTER_Handler
+
+    .section   .vector_117,code, keep
+    .equ     __vector_dispatch_117, IntVectorI2C1_MASTER_Handler
+    .global  __vector_dispatch_117
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C1_MASTER_Handler
+
+IntVectorI2C1_MASTER_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C1_MASTER_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C1_MASTER_Handler
     .extern  USB_Handler
 
     .section   .vector_132,code, keep
@@ -250,6 +286,42 @@ IntVectorUART2_TX_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorUART2_TX_Handler
+    .extern  I2C2_BUS_Handler
+
+    .section   .vector_148,code, keep
+    .equ     __vector_dispatch_148, IntVectorI2C2_BUS_Handler
+    .global  __vector_dispatch_148
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C2_BUS_Handler
+
+IntVectorI2C2_BUS_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C2_BUS_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C2_BUS_Handler
+    .extern  I2C2_MASTER_Handler
+
+    .section   .vector_150,code, keep
+    .equ     __vector_dispatch_150, IntVectorI2C2_MASTER_Handler
+    .global  __vector_dispatch_150
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C2_MASTER_Handler
+
+IntVectorI2C2_MASTER_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C2_MASTER_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C2_MASTER_Handler
     .extern  UART3_FAULT_Handler
 
     .section   .vector_157,code, keep
@@ -304,6 +376,42 @@ IntVectorUART3_TX_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorUART3_TX_Handler
+    .extern  I2C3_BUS_Handler
+
+    .section   .vector_160,code, keep
+    .equ     __vector_dispatch_160, IntVectorI2C3_BUS_Handler
+    .global  __vector_dispatch_160
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C3_BUS_Handler
+
+IntVectorI2C3_BUS_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C3_BUS_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C3_BUS_Handler
+    .extern  I2C3_MASTER_Handler
+
+    .section   .vector_162,code, keep
+    .equ     __vector_dispatch_162, IntVectorI2C3_MASTER_Handler
+    .global  __vector_dispatch_162
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorI2C3_MASTER_Handler
+
+IntVectorI2C3_MASTER_Handler:
+    portSAVE_CONTEXT
+    la    s6,  I2C3_MASTER_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorI2C3_MASTER_Handler
     .extern  SQI1_Handler
 
     .section   .vector_169,code, keep

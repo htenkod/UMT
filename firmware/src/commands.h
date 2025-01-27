@@ -89,16 +89,17 @@ typedef enum
 #define UMT_DEV_MAX         10
 #define UMT_DEV_PIN_MAX		10
 
- #define TESTBUS_40PIN
-
+ 
+/* Define in project properties to be visible across all files */
 #ifndef TESTBUS_40PIN
 #define TESTBUS_168PIN
 #endif
 
+/* A dummy entry for pin0 */
 #ifdef TESTBUS_168PIN
-#define PINS_MAX    168
+#define PINS_MAX    169
 #else
-#define PINS_MAX    40
+#define PINS_MAX    41
 #endif
 
 #define RESERVED    0x01
@@ -176,7 +177,7 @@ typedef struct
     uint32_t mode;
     const uint32_t gpio_reg;
     const uint32_t gpio_mask;
-    const uint32_t pps_reg_val;
+    const uint32_t pps_dev_idx;
     uint32_t    adc_channel;
 }PIN_MAP_t;
 
@@ -201,9 +202,13 @@ typedef struct
 
 typedef struct 
 {
-    UART_FUNC_Handler_t *uartList[5];
-    int32_t             uartCnt;    
+    UART_FUNC_Handler_t *uartList[7];    
 }UART_CXT_t;
+
+typedef struct 
+{
+    I2C_FUNC_Handler_t *i2cList[3];    
+}I2C_CXT_t;
 
 
 

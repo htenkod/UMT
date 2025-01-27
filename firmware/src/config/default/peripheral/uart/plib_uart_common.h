@@ -108,6 +108,7 @@ typedef void    (*UART_Initialize)( void );
 typedef bool    (*UART_SerialSetup)( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
 typedef size_t  (*UART_Write)(uint8_t* pWrBuffer, const size_t size );
 typedef size_t  (*UART_Read)(uint8_t* pRdBuffer, const size_t size);
+typedef int32_t  (*UART_PPS_Config)(uint32_t pinNum);
 
 typedef struct
 {
@@ -115,8 +116,8 @@ typedef struct
     UART_SerialSetup    U_SerialSetup;  
     UART_Write          U_Write;
     UART_Read           U_Read; 
-    const uint32_t      U_RXR;
-    const uint32_t      U_TXR;
+    UART_PPS_Config     U_PPS_TX_Config;
+    UART_PPS_Config     U_PPS_RX_Config;    
 }UART_FUNC_Handler_t;
 
 // *****************************************************************************

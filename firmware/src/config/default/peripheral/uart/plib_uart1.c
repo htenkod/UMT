@@ -66,8 +66,46 @@ volatile static uint8_t UART1_WriteBuffer[UART1_WRITE_BUFFER_SIZE];
 
 #define UART1_IS_9BIT_MODE_ENABLED()    ( (U1MODE) & (_U1MODE_PDSEL0_MASK | _U1MODE_PDSEL1_MASK)) == (_U1MODE_PDSEL0_MASK | _U1MODE_PDSEL1_MASK) ? true:false
 
+int32_t static UART1_PPS_TX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+        case 45: //RPF5   
+#ifdef TESTBUS_40PIN            
+        case 19:
+#endif             
+            RPF5R = 0x01;
+            break;
+    
+        default:
+            retVal = -1;
+            break;        
+    }        
+    return retVal;
+}
 
-UART_FUNC_Handler_t UART1_Handler = {UART1_Initialize, UART1_SerialSetup, UART1_Write, UART1_Read, 0xBF801468, 1};
+int32_t static UART1_PPS_RX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+        case 47: //RPF4  
+#ifdef TESTBUS_40PIN            
+        case 21:
+#endif                         
+            U1RXR = 0x2;
+            break;
+
+        default:
+            retVal = -1;
+            break;        
+    }        
+    return retVal;       
+    
+}
+
+UART_FUNC_Handler_t UART1_Handler = {UART1_Initialize, UART1_SerialSetup, UART1_Write, UART1_Read, UART1_PPS_TX_Config, UART1_PPS_RX_Config};
 
 void static UART1_ErrorClear( void )
 {

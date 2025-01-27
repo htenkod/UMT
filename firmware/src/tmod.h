@@ -76,9 +76,9 @@ typedef enum
 #define CHIP_TAP_CHIPE_ERASE        0xFC
 
 
-
-#define RIO0_CHIP_ID        0x09C77053
-#define CHIMERA_CHIP_ID     0x09B8F053
+#define DEV_MASK_ID_MASK    0x0FF00000
+#define RIO0_CHIP_ID        0x09C00000
+#define CHIMERA_CHIP_ID     0x09B00000
 
 uint32_t EJTAG_Enter(uint32_t devId, bool mclr);
 

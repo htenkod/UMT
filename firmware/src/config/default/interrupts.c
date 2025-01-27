@@ -73,14 +73,20 @@ void TIMER_5_Handler (void);
 void UART1_FAULT_Handler (void);
 void UART1_RX_Handler (void);
 void UART1_TX_Handler (void);
+void I2C1_BUS_Handler (void);
+void I2C1_MASTER_Handler (void);
 void USB_Handler (void);
 void USB_DMA_Handler (void);
 void UART2_FAULT_Handler (void);
 void UART2_RX_Handler (void);
 void UART2_TX_Handler (void);
+void I2C2_BUS_Handler (void);
+void I2C2_MASTER_Handler (void);
 void UART3_FAULT_Handler (void);
 void UART3_RX_Handler (void);
 void UART3_TX_Handler (void);
+void I2C3_BUS_Handler (void);
+void I2C3_MASTER_Handler (void);
 void SQI1_Handler (void);
 void UART4_FAULT_Handler (void);
 void UART4_RX_Handler (void);
@@ -130,6 +136,16 @@ void UART1_TX_Handler (void)
     UART1_TX_InterruptHandler();
 }
 
+void I2C1_BUS_Handler (void)
+{
+    I2C1_BUS_InterruptHandler();
+}
+
+void I2C1_MASTER_Handler (void)
+{
+    I2C1_MASTER_InterruptHandler();
+}
+
 void USB_Handler (void)
 {
     DRV_USBHS_InterruptHandler();
@@ -155,6 +171,16 @@ void UART2_TX_Handler (void)
     UART2_TX_InterruptHandler();
 }
 
+void I2C2_BUS_Handler (void)
+{
+    I2C2_BUS_InterruptHandler();
+}
+
+void I2C2_MASTER_Handler (void)
+{
+    I2C2_MASTER_InterruptHandler();
+}
+
 void UART3_FAULT_Handler (void)
 {
     UART3_FAULT_InterruptHandler();
@@ -168,6 +194,16 @@ void UART3_RX_Handler (void)
 void UART3_TX_Handler (void)
 {
     UART3_TX_InterruptHandler();
+}
+
+void I2C3_BUS_Handler (void)
+{
+    I2C3_BUS_InterruptHandler();
+}
+
+void I2C3_MASTER_Handler (void)
+{
+    I2C3_MASTER_InterruptHandler();
 }
 
 void SQI1_Handler (void)
