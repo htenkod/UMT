@@ -53,8 +53,10 @@
 */
 UMT_CXT_t gUmtCxt;
 
-UART_CXT_t gUartCxt = {.uartList = {&UART1_Handler, &UART3_Handler, &UART4_Handler, &UART5_Handler, &UART6_Handler},
-                       .uartCnt = 0};
+UART_CXT_t gUartCxt = {.uartList = {NULL, &UART1_Handler, NULL, &UART3_Handler, &UART4_Handler, &UART5_Handler, &UART6_Handler}};
+
+
+I2C_CXT_t gI2cCxt = {.i2cList = {NULL, &I2C1_Handler, &I2C2_Handler}};
 
 
 void Word2ByteSteam(uint32_t word, int8_t *bs)
@@ -90,11 +92,12 @@ inline uint8_t hex2dec(uint8_t ch)
 COMMANDS_DATA commandsData = {
                         .pin_map = {
 #ifdef TESTBUS_40PIN							
+                        {0, RESERVED, 0, 0, 0, 0, 0},
                         {0, RESERVED, 0, 0, 0, 0, 0},													//1
                         {0, RESERVED, 0, 0, 0, 0, 0},										            //2
-                        {0, GPIO | I2C_SDA, 0, 0xBF860000, _PORTA_RA3_MASK},                    //3
+                        {0, GPIO | I2C_SDA, 0, 0xBF860000, _PORTA_RA3_MASK, 2, 0},                    //3
                         {0, RESERVED, 0},                                                       //4
-                        {0, GPIO | I2C_SCK, 0, 0xBF860000, _PORTA_RA2_MASK},                    //5
+                        {0, GPIO | I2C_SCK, 0, 0xBF860000, _PORTA_RA2_MASK, 2, 0},                    //5
                         {0, RESERVED, 0, 0, 0, 0, 0},                                                 //6
                         {0, GPIO, 0, 0xBF860000, _PORTA_RA14_MASK},                             //7
                         {0, GPIO, 0, 0xBF860600, _PORTG_RG6_MASK},                       		//8
@@ -108,9 +111,9 @@ COMMANDS_DATA commandsData = {
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK1_MASK},                              //16
                         {0, RESERVED, 0, 0, 0, 0, 0},                                                 //17
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK2_MASK},                              //18
-                        {0, GPIO | U_TX, 0, 0xBF860500, _PORTF_RF5_MASK, (const uint32_t)&RPF5R/*0xBF801654*/},           //19 U1_Tx
+                        {0, GPIO | U_TX, 0, 0xBF860500, _PORTF_RF5_MASK, 1, 0},           //19 U1_Tx
                         {0, RESERVED, 0, 0, 0, 0, 0},                                                 //20
-                        {0, GPIO | U_RX, 0, 0xBF860500, _PORTF_RF4_MASK, 2},                    //21 U1_Rx
+                        {0, GPIO | U_RX, 0, 0xBF860500, _PORTF_RF4_MASK, 1, 0},                    //21 U1_Rx
                         {0, GPIO, 0, 0xBF860900, _PORTK_RK3_MASK},                              //22
                         {0, GPIO | SPI, 0, 0xBF860300, _PORTD_RD1_MASK},                 		//23
                         {0, GPIO, 0, 0xBF860800, _PORTJ_RJ5_MASK},                              //24
@@ -131,6 +134,7 @@ COMMANDS_DATA commandsData = {
                         {0, RESERVED, 0, 0, 0, 0, 0},                                                 //39
                         {0, GPIO, 0, 0xBF860800, _PORTJ_RJ3_MASK}                               //40
 #else
+                        {0, RESERVED, 0, 0, 0, 0, 0},		// jtag																	//0
 						{0, RESERVED, 0, 0, 0, 0, 0},		// jtag																	//1
 						{0, RESERVED, 0, 0, 0, 0, 0},		// jtag                                                                 //2
 						{0, RESERVED, 0, 0, 0, 0, 0},		// jtag                                                                 //3
@@ -175,9 +179,9 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// 32_VDD                                                                   //42
 						{0, RESERVED, 0, 0, 0, 0, 0},		// PMA7                                                                 //43
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //44						
-                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, 0xBF801654, 0},                                    //45 U1_Tx
+                        {0, GPIO | U_TX, 0, _PORTF_START_ADDR_, _PORTF_RF5_MASK, 1, 0},                                             //45 U1_Tx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //46						
-                        {0, GPIO | U_RX, 0, _PORTF_START_ADDR_, _PORTF_RF4_MASK, 2, 0},                                             //47 U1_Rx
+                        {0, GPIO | U_RX, 0, _PORTF_START_ADDR_, _PORTF_RF4_MASK, 1, 0},                                             //47 U1_Rx
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc                                                                   //48
 						{0, GPIO | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB8_MASK, 0, 0},	// RB8                                      //49
 						{0, RESERVED, 0, 0, 0, 0, 0},		// nc						                                            //50
@@ -219,9 +223,9 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO, 0, _PORTJ_START_ADDR_, _PORTJ_RJ2_MASK, 0, 0},	// RJ2						                    //86
 						{0, GPIO | AN, 0, _PORTG_START_ADDR_, _PORTG_RG6_MASK, 0, 0},		// AN14/RG6                             //87
 						{0, GPIO | AN | U_TX, 0, _PORTB_START_ADDR_, _PORTB_RB14_MASK, 0xBF801578, 0},              // AN9/RB14     //88
-						{0, GPIO | U_RX, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 1, 0},		// AN13/RG7                             //89
+						{0, GPIO | U_RX, 0, _PORTG_START_ADDR_, _PORTG_RG7_MASK, 3, 0},		// AN13/RG7                             //89
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB15_MASK, 0, 0},	// AN10/RB15                                //90
-						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 0xBF8016A0, 0},		// AN12/RG8                 //91
+						{0, GPIO | U_TX, 0, _PORTG_START_ADDR_, _PORTG_RG8_MASK, 3, 0},		// AN12/RG8                             //91
 						{0, GPIO | AN, 0, _PORTH_START_ADDR_, _PORTH_RH6_MASK, 0, 0},		// AN42/RH6						        //92
 						{0, GPIO | AN, 0, _PORTE_START_ADDR_, _PORTE_RE8_MASK, 0, 0},		// AN25/RE8                             //93
                         {0, GPIO | AN, 0, _PORTD_START_ADDR_, _PORTD_RD14_MASK, 0, 0}, 	// AN32/RD14                                //94
@@ -234,9 +238,9 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB5_MASK, 0, 0},		// AN45/RB5                             //101
                         {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF3_MASK, 0, 0}, 			// RF3                                  //102
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB4_MASK, 0, 0},		// AN4/RB4                              //103
-                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF2_MASK, 0, 0}, 			// RF2                                  //104
+                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF2_MASK, 3, 0}, 			// RF2                                  //104
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB3_MASK, 0, 0},		// AN3/RB3                              //105
-                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF8_MASK, 0, 0}, 			// RF8                                  //106
+                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF8_MASK, 3, 0}, 			// RF8                                  //106
 						{0, GPIO | AN | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB2_MASK, 0, 0},		// AN3/RB2                      //107
                         {0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH9_MASK, 0, 0}, 			// RH9                                  //108
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA9_MASK, 0, 0},			// VREF-/RA9							//109
@@ -273,9 +277,9 @@ COMMANDS_DATA commandsData = {
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd0                                                                 //140
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd13                                                                //141
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd4                                                                 //142
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd14                                                                //143
+						{0, GPIO | U_RX, 0, _PORTD_START_ADDR_, _PORTD_RD2_MASK, 5, 0}, 	// RD2                              //143
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd4                                                                 //144
-						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd15                                                                //145
+                        {0, GPIO | U_TX, 0, _PORTD_START_ADDR_, _PORTD_RD3_MASK, 5, 0}, 	// RD3                              //145
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd4                                                                 //146
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd10                                                                //147
 						{0, RESERVED, 0, 0, 0, 0, 0}, 	// pmd10                                                                //148
@@ -403,11 +407,11 @@ void cmdPinSet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
         
     
-    uint32_t pinNum = atoi(argv[1]) - 1;
+    uint32_t pinNum = atoi(argv[1]);
     uint32_t pinVal = atoi(argv[2]);    
     
     //Check if GPIO support available
-    if(!commandsData.pin_map[pinNum].inuse && (commandsData.pin_map[pinNum].support & GPIO))
+    if((pinNum < PINS_MAX) && !commandsData.pin_map[pinNum].inuse && (commandsData.pin_map[pinNum].support & GPIO))
     {
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x14)) = commandsData.pin_map[pinNum].gpio_mask;
                         
@@ -438,10 +442,10 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
         
     
-    uint32_t pinNum = atoi(argv[1]) - 1;
+    uint32_t pinNum = atoi(argv[1]);
     
     //Check if GPIO support available
-    if(commandsData.pin_map[pinNum].support & GPIO)
+    if((pinNum < PINS_MAX) && commandsData.pin_map[pinNum].support & GPIO)
     {                                
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x18)) = commandsData.pin_map[pinNum].gpio_mask;
         
@@ -469,10 +473,10 @@ void cmdPinReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     }
         
     
-    uint32_t pinNum = atoi(argv[1]) - 1;
+    uint32_t pinNum = atoi(argv[1]);
     
     //Check if GPIO support available
-    if(commandsData.pin_map[pinNum].inuse)
+    if((pinNum < PINS_MAX) && commandsData.pin_map[pinNum].inuse)
     {                                
         *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x18)) = commandsData.pin_map[pinNum].gpio_mask;
         
@@ -503,10 +507,10 @@ void cmdAdcUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         return;
     }
     
-    uint32_t adcpin = atoi(argv[1]) - 1;
-    
+    uint32_t adcpin = atoi(argv[1]);
+           
     //Check if GPIO support available
-    if(!commandsData.pin_map[adcpin].inuse && commandsData.pin_map[adcpin].support & AN)
+    if(adcpin < PINS_MAX && !commandsData.pin_map[adcpin].inuse && commandsData.pin_map[adcpin].support & AN)
     {
         /* enable in use*/
         commandsData.pin_map[adcpin].inuse = 1;
@@ -570,7 +574,7 @@ void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         return;
     }
     
-    uint32_t adcpin = atoi(argv[1]) - 1;
+    uint32_t adcpin = atoi(argv[1]);
     
     //Check if GPIO support available
     if(commandsData.pin_map[adcpin].inuse && commandsData.pin_map[adcpin].support & AN)
@@ -600,16 +604,67 @@ void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 /* I2C Commands*/
 void cmdI2cUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
+    
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
-    if(argc != 3)
+    if(argc < 3 || argc > 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cup <scl pin> <sda pin>");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cup <sclpin> <sdapin> [speed in Hz]");
         return;
     }
+            
+    uint32_t sclpin = atoi(argv[1]);
+    uint32_t sdapin = atoi(argv[2]);
+        	
+    //Check if GPIO support available
+    if((sclpin < PINS_MAX && sdapin < PINS_MAX) && 
+            (commandsData.pin_map[sclpin].support & I2C_SCK &&  commandsData.pin_map[sdapin].support & I2C_SDA) && 
+                (!commandsData.pin_map[sclpin].inuse && !commandsData.pin_map[sdapin].inuse) &&
+                    (commandsData.pin_map[sclpin].pps_dev_idx == commandsData.pin_map[sdapin].pps_dev_idx) && 
+                        (gI2cCxt.i2cList[commandsData.pin_map[sclpin].pps_dev_idx] != NULL))
+    {                                             
+        int32_t devIdx =  UMT_DEV_IDX_Get(UMT_DEV_I2C);
+        if(devIdx == UMT_DEV_UNKNOWN){
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);            
+            return;
+        }
+        
+        uint32_t i2cIdx = commandsData.pin_map[sclpin].pps_dev_idx;          
+        gUmtCxt.devList[devIdx].devFuncPtr = (void *)gI2cCxt.i2cList[i2cIdx];        
 
-	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
+        I2C_FUNC_Handler_t *i2cFuncHandler = (I2C_FUNC_Handler_t *)gUmtCxt.devList[devIdx].devFuncPtr;
+        
+        if(argc > 3)
+        {
+            uint32_t speed = atoi(argv[3]);
+
+            I2C_TRANSFER_SETUP i2cSetup;
+
+            i2cSetup.clkSpeed = speed;
+           
+            
+            i2cFuncHandler->I_SerialSetup(&i2cSetup, 0);
+        }
+        
+        /* enable in use*/
+        commandsData.pin_map[sclpin].inuse = 1;        
+        commandsData.pin_map[sdapin].inuse = 1;
+
+        uint32_t pinIdx = gUmtCxt.devList[devIdx].pinCnt;                     
+        gUmtCxt.devList[devIdx].pinLink[pinIdx++] = &commandsData.pin_map[sclpin];        
+        gUmtCxt.devList[devIdx].pinLink[pinIdx++] = &commandsData.pin_map[sdapin];                
+        gUmtCxt.devList[devIdx].pinCnt = pinIdx;
+        
+        
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM PASS "%d", devIdx);                   
+    }
+    else
+    {
+    	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM RSVD);
+    }
+	
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
 }
 void cmdI2cWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -617,13 +672,41 @@ void cmdI2cWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
-    if(argc != 3)
+    if(argc != 5)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cwr <adcpin>");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2cwr <idx> <addr> <len> <buffer>");
         return;
     }
-	
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
+	 uint32_t i2cIdx = atoi(argv[1]);    
+     uint32_t i2cAddr = atoi(argv[2]);   
+     uint32_t wLen = atoi(argv[3]);   
+     /* reusing the buffer space so keep original len */
+     uint32_t bufLen = strlen(argv[4]);             
+     
+    if(gUmtCxt.devList[i2cIdx].devFuncPtr == 0){
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID); 
+        return;
+    }
+                
+    I2C_FUNC_Handler_t *i2cFuncHandler = (I2C_FUNC_Handler_t *)gUmtCxt.devList[i2cIdx].devFuncPtr;
+    
+    uint32_t idx = 0, txByte = 0;
+    for(idx = 0; idx < bufLen; idx+=2)
+    {
+        argv[4][txByte] = (hex2dec(argv[4][idx]) << 4) | (hex2dec(argv[4][idx+1]));                        
+        txByte++;
+    }   
+    
+    if(wLen !=  txByte)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);
+        return;
+    }
+    
+    i2cFuncHandler->I_SET_Cxt(pCmdIO);   
+    
+    i2cFuncHandler->I_Write(i2cAddr, (uint8_t *)argv[4], txByte);
+        
 }
 
 void cmdI2cRead (SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
@@ -631,15 +714,33 @@ void cmdI2cRead (SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
     //requires both pin# and value
-    if(argc != 3)
+    if(argc != 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2crd <adcpin>");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- i2crd <idx> <addr> <len>\r\n");
         return;
     }
-
-	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM);
     
+	 uint32_t i2cIdx = atoi(argv[1]);    
+     uint32_t i2cAddr = atoi(argv[2]);    
+     uint32_t rLen = atoi(argv[3]);    
+     
+     uint8_t tempBuf[512];
+     
+	            
+    if(gUmtCxt.devList[i2cIdx].devFuncPtr == 0){
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM INVALID); 
+        return;
+    }
+    
+    I2C_FUNC_Handler_t *i2cFuncHandler = (I2C_FUNC_Handler_t *)gUmtCxt.devList[i2cIdx].devFuncPtr;
+    
+    i2cFuncHandler->I_SET_Cxt(pCmdIO);
+    
+    i2cFuncHandler->I_Read(i2cAddr, (uint8_t *)tempBuf, rLen);
+        
 }
+
+
 void cmdI2cDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     const void* cmdIoParam = pCmdIO->cmdIoParam;
@@ -664,25 +765,25 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartup <txpin> <rxpin> [baud rate] [rd size] [rd size]");
         return;
     }
-        
-    
-    uint32_t txpin = atoi(argv[1]) - 1;
-    uint32_t rxpin = atoi(argv[2]) - 1;
-
+            
+    uint32_t txpin = atoi(argv[1]);
+    uint32_t rxpin = atoi(argv[2]);
         	
     //Check if GPIO support available
-    if(commandsData.pin_map[txpin].support & U_TX &&
-            commandsData.pin_map[rxpin].support & U_RX && !commandsData.pin_map[txpin].inuse && !commandsData.pin_map[rxpin].inuse)
-    {                      
+    if((txpin < PINS_MAX && rxpin < PINS_MAX) && (commandsData.pin_map[txpin].support & U_TX &&  commandsData.pin_map[rxpin].support & U_RX) && 
+                (!commandsData.pin_map[txpin].inuse && !commandsData.pin_map[rxpin].inuse) &&
+                    (commandsData.pin_map[txpin].pps_dev_idx == commandsData.pin_map[rxpin].pps_dev_idx) && 
+                        (gUartCxt.uartList[commandsData.pin_map[txpin].pps_dev_idx] != NULL))
+    {                                             
         int32_t devIdx =  UMT_DEV_IDX_Get(UMT_DEV_UART);
         if(devIdx == UMT_DEV_UNKNOWN){
-            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);
-            
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM FAIL);            
             return;
         }
-        gUmtCxt.devList[devIdx].devFuncPtr = (void *)gUartCxt.uartList[gUartCxt.uartCnt];
-        gUartCxt.uartCnt++;
         
+        uint32_t uartIdx = commandsData.pin_map[txpin].pps_dev_idx;        
+        gUmtCxt.devList[devIdx].devFuncPtr = (void *)gUartCxt.uartList[uartIdx];        
+
         UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[devIdx].devFuncPtr;
         
         if(argc > 3)
@@ -713,18 +814,13 @@ void cmdUartUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
                 
         CFGCONbits.IOLOCK = 0U;
         // output pin
+        uartFuncHandler->U_PPS_TX_Config(txpin);
         
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[txpin].pps_reg_val))) = uartFuncHandler->U_TXR;        
-//        RPF5R = 1;
-
+        // input pin 
         // Make it input by setting the TRIS register
-        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[rxpin].gpio_reg) + 0x18)) = commandsData.pin_map[rxpin].gpio_mask;       
+        *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[rxpin].gpio_reg) + 0x18)) = commandsData.pin_map[rxpin].gpio_mask;               
+        uartFuncHandler->U_PPS_RX_Config(rxpin);
                 
-        // input pin
-//        U1RXR = commandsData.pin_map[rxpin].pps_reg_val;
-        *((volatile uint32_t *)((volatile char *)uartFuncHandler->U_RXR)) = commandsData.pin_map[rxpin].pps_reg_val;
-        //U1RXR = 2;
-        
         /* Lock back the system after PPS configuration */
         CFGCONbits.IOLOCK = 1U;
 
@@ -803,11 +899,11 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     if(argc < 4)
     {
-        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartwr <idx> <hex> <stream>");
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- uartwr <idx> <hex> <stream>\r\n");
         
-        if(strlen(argv[3]) & 0x01)
+        if(argc > 3 && (strlen(argv[3]) & 0x01))
         {
-            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Invalid length of hex stream");
+            (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Invalid length of hex stream\r\n");
         }
         return;
     }
@@ -855,18 +951,19 @@ void cmdTapUp(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         return;
     }
     
-    uint32_t tckPin = atoi(argv[1]) - 1;
-    uint32_t tmsPin = atoi(argv[2]) - 1;    
-    uint32_t tdoPin = atoi(argv[3]) - 1;    
-    uint32_t tdiPin = atoi(argv[4]) - 1;    
-    uint32_t pgcPin = atoi(argv[5]) - 1;    
-    uint32_t pgdPin = atoi(argv[6]) - 1;   
-    uint32_t mclrPin = atoi(argv[7]) - 1;
+    uint32_t tckPin = atoi(argv[1]);
+    uint32_t tmsPin = atoi(argv[2]);    
+    uint32_t tdoPin = atoi(argv[3]);    
+    uint32_t tdiPin = atoi(argv[4]);    
+    uint32_t pgcPin = atoi(argv[5]);    
+    uint32_t pgdPin = atoi(argv[6]);   
+    uint32_t mclrPin = atoi(argv[7]);
     
     //Check if GPIO support available
-    if(!commandsData.pin_map[tckPin].inuse && (commandsData.pin_map[tckPin].support & GPIO)
+    if((tckPin < PINS_MAX && tmsPin < PINS_MAX && tdoPin < PINS_MAX && tdiPin < PINS_MAX && pgcPin < PINS_MAX && pgdPin < PINS_MAX && mclrPin < PINS_MAX)
+        && !commandsData.pin_map[tckPin].inuse && (commandsData.pin_map[tckPin].support & GPIO)
             && !commandsData.pin_map[tdoPin].inuse && (commandsData.pin_map[tdoPin].support & GPIO)
-            && !commandsData.pin_map[mclrPin].inuse && (commandsData.pin_map[mclrPin].support & GPIO))
+                && !commandsData.pin_map[mclrPin].inuse && (commandsData.pin_map[mclrPin].support & GPIO))
     {
 //        configure pin direction
 //        output pins                

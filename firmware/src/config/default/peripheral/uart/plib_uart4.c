@@ -66,7 +66,49 @@ volatile static uint8_t UART4_WriteBuffer[UART4_WRITE_BUFFER_SIZE];
 
 #define UART4_IS_9BIT_MODE_ENABLED()    ( (U4MODE) & (_U4MODE_PDSEL0_MASK | _U4MODE_PDSEL1_MASK)) == (_U4MODE_PDSEL0_MASK | _U4MODE_PDSEL1_MASK) ? true:false
 
-UART_FUNC_Handler_t UART4_Handler = {UART4_Initialize, UART4_SerialSetup, UART4_Write, UART4_Read, 0xBF801480, 2};
+int32_t static UART4_PPS_TX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+//        case 143: //RPD2
+//            RPD2R = 0x01;
+//            break;
+//            
+//        case 91:  //RG8
+//            RPG8R = 0x01;
+//            break;
+            
+        default:
+            retVal = -1;
+            break;        
+    }
+        
+    return retVal;
+}
+
+int32_t static UART4_PPS_RX_Config(uint32_t pinNum)
+{
+    int32_t retVal = 0;
+    switch(pinNum)
+    {
+//        case 143: //RPD3
+//            U3RXR = 0x0;
+//            break;
+//
+//        case 89:  //RG7
+//            U3RXR = 0x01;
+//            break;
+
+        default:
+            retVal = -1;
+            break;        
+    }        
+    
+    return retVal;
+}
+
+UART_FUNC_Handler_t UART4_Handler = {UART4_Initialize, UART4_SerialSetup, UART4_Write, UART4_Read, UART4_PPS_TX_Config, UART4_PPS_RX_Config};
 
 void static UART4_ErrorClear( void )
 {

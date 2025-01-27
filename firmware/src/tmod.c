@@ -625,7 +625,7 @@ int32_t TMOD_TAP_Init(uint32_t devId)
     TMOD_TAP_Reset(devId);    
     gUmtCxt.devList[devId].devId = TMOD_TAP_DR(devId, DUMMY_READ);        
 
-    switch(gUmtCxt.devList[devId].devId  & 0x0FFFFFFF)
+    switch(gUmtCxt.devList[devId].devId  & DEV_MASK_ID_MASK)
     {
         case CHIMERA_CHIP_ID:
         {

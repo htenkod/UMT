@@ -90,6 +90,14 @@
             <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
               <itemPath>../src/config/default/peripheral/gpio/plib_gpio.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <logicalFolder name="master" displayName="master" projectFiles="true">
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c1_master.h</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c2_master.h</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c_master_common.h</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c3_master.h</itemPath>
+              </logicalFolder>
+            </logicalFolder>
             <logicalFolder name="sqi" displayName="sqi" projectFiles="true">
               <itemPath>../src/config/default/peripheral/sqi/plib_sqi1.h</itemPath>
               <itemPath>../src/config/default/peripheral/sqi/plib_sqi_common.h</itemPath>
@@ -293,6 +301,13 @@
             <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
               <itemPath>../src/config/default/peripheral/gpio/plib_gpio.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <logicalFolder name="master" displayName="master" projectFiles="true">
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c1_master.c</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c2_master.c</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c3_master.c</itemPath>
+              </logicalFolder>
+            </logicalFolder>
             <logicalFolder name="sqi" displayName="sqi" projectFiles="true">
               <itemPath>../src/config/default/peripheral/sqi/plib_sqi1.c</itemPath>
             </logicalFolder>
@@ -367,7 +382,6 @@
           <itemPath>../src/config/default/interrupts_a.S</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_run.c</itemPath>
           <itemPath>../src/config/default/usb_device_init_data_setup.c</itemPath>
-          <itemPath>../src/config/default/usb_device_init_data.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="FreeRTOS" displayName="FreeRTOS" projectFiles="true">
@@ -465,7 +479,7 @@
         <property key="place-data-into-section" value="true"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value=""/>
+        <property key="preprocessor-macros" value="TESTBUS_40PIN"/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
         <property key="tentative-definitions" value="-fno-common"/>
@@ -835,6 +849,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d1fffff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/C21415/work/Experiments/unifiedHw/tip/UMT/firmware/UnifiedTestHardWare.X/debug/default/UnifiedTestHardWare_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgcconfig" value="pull down"/>
