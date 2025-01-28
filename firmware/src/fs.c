@@ -259,8 +259,8 @@ void FS_Tasks ( void )
             }
             else
             {
-                if(fsData.sysCmdDev)
-                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "File Size = %d\r\n", fsData.fileStatus.fsize);
+//                if(fsData.sysCmdDev)
+//                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "File Size = %d\r\n", fsData.fileStatus.fsize);
                 /* Read file size */
                 fsData.state = FS_DO_ANOTHER_FILE_SEEK;
             }
@@ -302,7 +302,7 @@ void FS_Tasks ( void )
             {                    
                 remBytes = readSz % sizeof(uint32_t);                
                 
-                switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
+                switch(gUmtCxt.devList[fsData.tapId].devId & DEV_MASK_ID_MASK)
                 {
                     case CHIMERA_CHIP_ID:
                     {
@@ -370,7 +370,7 @@ void FS_Tasks ( void )
                         
                         if(fsData.fileStatus.fsize == fsData.readCount)
                         {
-                            SYS_CONSOLE_PRINT("Firmware load complete!\r\n");
+//                            SYS_CONSOLE_PRINT("Firmware load complete!\r\n");
 
                             PIN_MAP_t *mclrPin = gUmtCxt.devList[fsData.tapId].pinLink[PIN_MCLR];                     
                             *((volatile uint32_t *)((char *)mclrPin->gpio_reg + CLR)) = mclrPin->gpio_mask;    
@@ -434,17 +434,16 @@ void FS_Tasks ( void )
                         
                         if ((fsData.fileStatus.fsize - fsData.fwOffset) == fsData.readCount)
                         {
-                            if(fsData.sysCmdDev)
-                                (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Firmware load complete!\r\n");
+//                            if(fsData.sysCmdDev)
+//                                (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Firmware load complete!\r\n");
                             
                             if (fsData.sramLoad)
                             {
                                 EJTAG_Enter(fsData.tapId, true);  
                                 
-                                uint32_t chipId = EJTAG_Read(fsData.tapId, 0xBF800060);
-                                
+                                uint32_t chipId = EJTAG_Read(fsData.tapId, 0xBF800060);                                
                                 if(fsData.sysCmdDev)
-                                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "eJTAG Chip ID = 0x%X\r\n", chipId);
+                                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, INFO "eJTAG Chip ID = 0x%X\r\n", chipId);
                                 
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x3C020000 | ((fsData.jumpAddr >> 16) & 0xFFFF)));  // load upper immediate 0x3C02A008
                                 EJTAG_OPCODE_WR(fsData.tapId, (0x34420000 | (fsData.jumpAddr & 0xFFFF)));  // or immediate 0x34420200                             
@@ -455,8 +454,8 @@ void FS_Tasks ( void )
                                 
                                 if(fsData.sysCmdDev)
                                 {
-                                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Triggered DERET!\r\n");
-                                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, LINE_TERM PASS);
+                                    (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, LINE_TERM ERROR, 0);
+                                    (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam,  LINE_TERM DONE); 
                                 }
                             }
                             else
@@ -573,7 +572,7 @@ void FS_Tasks ( void )
         
         case FS_DEVICE_ERASE:
         {
-            switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
+            switch(gUmtCxt.devList[fsData.tapId].devId & DEV_MASK_ID_MASK)
             {
                 case RIO0_CHIP_ID:
                 {                    
@@ -590,13 +589,14 @@ void FS_Tasks ( void )
                         RIO0_SYS_Initialize(fsData.tapId);
                         RIO0_FLASH_Initialize(fsData.tapId);                                                 
                         if(fsData.sysCmdDev)
-                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, "Flash ID = 0x%X\r\n", flashId); 
+                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, INFO "Flash ID = 0x%X\r\n", flashId); 
                         
                         RIO0_FLASH_CHIP_Erase(fsData.tapId);  
                         if(fsData.sysCmdDev)
                         {
-                            (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Flash Erase Successful!\r\n");                                 
-                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, LINE_TERM PASS);
+//                            (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam, "Flash Erase Successful!\r\n");                                 
+                            (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, LINE_TERM ERROR, 0);
+                            (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam,  LINE_TERM DONE); 
                         }
                         
                     }                    
@@ -610,7 +610,7 @@ void FS_Tasks ( void )
         
         case FS_DEVICE_INIT:
         {
-            switch(gUmtCxt.devList[fsData.tapId].devId & 0x0FFFFFFF)
+            switch(gUmtCxt.devList[fsData.tapId].devId & DEV_MASK_ID_MASK)
             {
                 case CHIMERA_CHIP_ID:
                 {

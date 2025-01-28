@@ -59,35 +59,35 @@
 // *****************************************************************************
 // *****************************************************************************
 #define NOP asm(" NOP")
+#define DONE        "\r\n<DONE!>"
+#define VALUE		"<VAL>"
+#define ERROR		"<ERR> %d"
 
 volatile static I2C_OBJ i2c1Obj;
 
 
 void I2C1_CallBack (uintptr_t contextHandle)
 {
-    #define         LINE_TERM       "\r\n"          // line terminator
-    #define PASS		"*** SUCCESS ***"
-    #define FAIL		"*** FAILURE ***"
-
     if(contextHandle == 0)
         return;
             
     SYS_CMD_DEVICE_NODE* pCmdIo = (SYS_CMD_DEVICE_NODE*)contextHandle;
     
-    if(i2c1Obj.error != I2C_ERROR_NONE) {
-        (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM FAIL); 
+    if(i2c1Obj.error != I2C_ERROR_NONE) {                                            
+        (pCmdIo->pCmdApi->print)(pCmdIo->cmdIoParam, LINE_TERM ERROR, -1); 
+        (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, DONE); 
         return;
     }
             
     size_t rLen = i2c1Obj.readCount;
     
-    (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM PASS); 
+    (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM VALUE); 
     
     for(uint8_t idx = 0; idx < rLen; idx++) {
         (pCmdIo->pCmdApi->putc_t)(pCmdIo->cmdIoParam, i2c1Obj.readBuffer[idx] );   
     }
 
-	(pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM); 
+	(pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, DONE); 
     
     contextHandle = 0;
 }

@@ -46,9 +46,11 @@ extern "C" {
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
-
-#define PASS		"*** SUCCESS ***"
-#define FAIL		"*** FAILURE ***"
+#define DONE        "<DONE!>"
+#define HANDLE		"<IDX>"
+#define VALUE		"<VAL>"
+#define ERROR		"<ERR>%d"    
+#define INFO		"<INFO>"    
 #define RSVD		"*** RESERVED ***"
 #define INVALID		"*** INVALID ***"
 
