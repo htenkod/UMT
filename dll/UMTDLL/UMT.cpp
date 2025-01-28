@@ -631,7 +631,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
     
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT16 numOfbytes, UINT32 hex)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 hex, UINT16 numOfbytes)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
@@ -657,8 +657,6 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
     }
 
-    /*sprintf_s(rdBuff, 512, "%s", localBuf);*/
-
     if (S_OK == UMT_CheckStatus(localBuf)) {
 
         const char* targetstr = "S ***";
@@ -683,9 +681,8 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
         }
     }
-    else {
-        return UMT_CheckStatus(localBuf);
-    }
+    
+    return UMT_CheckStatus(localBuf);
 
 }
 
@@ -922,6 +919,9 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Reset(DEVICE_DATA_t* UMT_Handle)
 
         return S_OK;
 
+    }
+    else {
+        return -1;
     }
 
 
