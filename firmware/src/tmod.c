@@ -642,9 +642,9 @@ int32_t TMOD_TAP_Init(uint32_t devId)
 
             /* SRAM Start Address*/
             wReg32(devId, 0x20000000, 0xABCD1234);
-            if(rReg32(devId, 0x20000000) == 0xABCD1234)
+            if(rReg32(devId, 0x20000000) != 0xABCD1234)
             {
-                SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                          
+                return -2;                      
             }                    
 
             /* write first 16 bytes at address 0 */                     
@@ -667,34 +667,19 @@ int32_t TMOD_TAP_Init(uint32_t devId)
             TMOD_TAP_IR(devId, CHIP_TAP_SELECT_CHIP_TAP);
             TMOD_TAP_IR(devId, CHIP_TAP_ICDREG);   
 
-            uint32_t chipId = rReg32(devId, 0x1F800060);
-            SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", chipId);
+//            uint32_t chipId = rReg32(devId, 0x1F800060);
+//            SYS_CONSOLE_PRINT("Chip ID = 0x%X\r\n", chipId);
 
             wReg32(devId, 0x00001000, 0xABCD1234);
-            if(rReg32(devId, 0x00001000) == 0xABCD1234)
+            if(rReg32(devId, 0x00001000) != 0xABCD1234)
             {
-                SYS_CONSOLE_PRINT("TMOD12 entry success!\r\n");                                           
+                return -2;
             }
 
             break;
         }
     }
-    
-//    TMOD_TAP_Reset(devId); 
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-         
-//    CORETIMER_DelayMs(10);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0xABCD1234, ICDREG_OP_WR);
-//    CORETIMER_DelayMs(1);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//    CORETIMER_DelayMs(1);
-//    TMOD_TAP_ICDREG(devId, 0x20000000, 0x00000000, ICDREG_OP_RD);
-//    
-//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
-//    CORETIMER_DelayMs(1);
-//
-//    TMOD_TAP_ICDREG(devId, 0x01000000, 0x00000000, ICDREG_OP_RD);
-    
+        
     if(!gUmtCxt.devList[devId].devId)
         return -1;    
     

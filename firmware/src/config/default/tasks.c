@@ -224,7 +224,7 @@ void SYS_Tasks ( void )
         /* Create OS Thread for COMMANDS_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lCOMMANDS_Tasks,
                 "COMMANDS_Tasks",
-                1024,
+                256,
                 NULL,
                 1,
                 &xCOMMANDS_Tasks);
