@@ -81,7 +81,7 @@ void I2C3_CallBack (uintptr_t contextHandle)
             
     size_t rLen = i2c3Obj.readCount;
     
-    (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM VALUE); 
+    (pCmdIo->pCmdApi->print)(pCmdIo->cmdIoParam, LINE_TERM VALUE, rLen); 
     
     for(uint8_t idx = 0; idx < rLen; idx++) {
         (pCmdIo->pCmdApi->putc_t)(pCmdIo->cmdIoParam, i2c3Obj.readBuffer[idx] );   

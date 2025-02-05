@@ -338,7 +338,7 @@ USB_DEVICE_EVENT_RESPONSE USB_Test_DeviceEventCallBack
 			USB_DEVICE_EVENT_DATA_ENDPOINT_WRITE_COMPLETE *eventData = pData;
 			if(eventData->status == USB_DEVICE_RESULT_OK)
 			{
-//                SYS_CONSOLE_PRINT("USB Rx %d\r\n", eventData->length);
+                //SYS_CONSOLE_PRINT("USB Rx %d %d\r\n", eventData->length, usbData.epDataWritePending);
                 if(usbData.epDataWritePending >= eventData->length)
                     usbData.epDataWritePending -= eventData->length;				
                 else

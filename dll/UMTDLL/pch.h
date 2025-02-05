@@ -20,6 +20,7 @@
 #include <chrono>
 #include <thread>
 #include <regex>
+#include <cstring>
 
 
 

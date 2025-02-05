@@ -450,7 +450,7 @@ void cmdPinGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         
         bool pin_state = *((volatile uint32_t *)((volatile char *)(commandsData.pin_map[pinNum].gpio_reg) + 0x20)) & commandsData.pin_map[pinNum].gpio_mask ;
         
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", pin_state);   
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", 1, pin_state);   
     }
     else
     {
@@ -579,7 +579,7 @@ void cmdAdcGet(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         {
             uint16_t adcCnt = ADCHS_ChannelResultGet(commandsData.pin_map[adcpin].adc_channel);
             
-			(*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", adcCnt);	
+			(*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", 1, adcCnt);	
             
         }
 		else
@@ -875,13 +875,12 @@ void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     size_t rLen = uartFuncHandler->U_Read(tmpBuf, (readBytes > 128)?128:readBytes);    
     tmpBuf[rLen] = 0;
             
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM VALUE); 
-    
+    (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE, rLen); 
 
     for(uint8_t idx = 0; idx < rLen; idx++) {
         (*pCmdIO->pCmdApi->putc_t)(cmdIoParam, tmpBuf[idx] );   
     }
-
+    
 	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM DONE);
     
 }
@@ -913,7 +912,6 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncPtr;
     
     /*Is raw?*/
-    (*pCmdIO->pCmdApi->msg)(cmdIoParam, VALUE);
     if(atoi(argv[2]))
     {
         for(uint32_t idx = 0; idx < strlen(argv[3]); idx+=2)
@@ -1044,7 +1042,7 @@ void cmdTapDevId(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     if(gUmtCxt.devList[atoi(argv[1])].devType == UMT_DEV_TMOD)
     {   
 
-        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", gUmtCxt.devList[atoi(argv[1])].devId );  
+        (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", 9, gUmtCxt.devList[atoi(argv[1])].devId );  
     }
     else
     {
@@ -1154,7 +1152,7 @@ void cmdTapTmodRd(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
             
     uint32_t icdReg = TMOD_TAP_ICDREG(devId, atoi(argv[2]), 0, ICDREG_OP_RD);
             
-    (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%d", icdReg );  
+    (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE "%04X", 4, icdReg );  
 
     (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM DONE); 
 

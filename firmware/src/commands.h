@@ -48,7 +48,7 @@ extern "C" {
 // *****************************************************************************
 #define DONE        "<DONE!>"
 #define HANDLE		"<IDX>"
-#define VALUE		"<VAL>"
+#define VALUE		"<VAL:%d>"
 #define ERROR		"<ERR>%d"    
 #define INFO		"<INFO>"    
 #define RSVD		"*** RESERVED ***"

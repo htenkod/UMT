@@ -162,6 +162,20 @@ void convertHexToReadable(const CHAR* hexString, CHAR* output, size_t outputSize
     output[outputIndex] = '\0';
 }
 
+bool searchInRawBuffer(const char* buffer, size_t bufferSize, const char* target, size_t* index) {
+    size_t targetLen = strlen(target);
+
+    // Search manually in the full buffer
+    for (size_t i = 0; i <= bufferSize - targetLen; i++) {
+        if (memcmp(buffer + i, target, targetLen) == 0) {
+            *index = i;
+            return true; // Found the target string
+        }
+    }
+    *index = bufferSize;
+    return false; // Not found
+}
+
 BOOL ReadDeviceSerialNumber(_Inout_ PDEVICE_DATA_t DeviceData)
 {
     if (DeviceData->WinusbHandle == INVALID_HANDLE_VALUE)
@@ -201,44 +215,48 @@ BOOL ReadFromBulkEndpoint(WINUSB_INTERFACE_HANDLE hDeviceHandle, UCHAR* pID, ULO
     
     ULONG cbRead = 0;
     ULONG respLen = 0;
+    ULONG exprespLen = 0;
+    size_t flagindex = 0;
 
     memset(szBuffer, 0, cbSize);
 
-    do {
+    do{
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         bResult = WinUsb_ReadPipe(hDeviceHandle, *pID, ((UCHAR*)szBuffer + cbRead), cbSize, &cbRead, 0);
 
+        if (!bResult || cbRead == 0) break;
+
         respLen += cbRead;
-       
-        if (respLen < 3) continue;
-    } while (szBuffer[respLen - 1] != '>' && szBuffer[respLen - 2] != '\n' && szBuffer[respLen - 3] != '\r');
 
-    
-    const char* targetstr = "*** ";
+        if (respLen >= cbSize) break;
+    } while (searchInRawBuffer(szBuffer, cbSize, "DONE!", &flagindex) == FALSE);
 
-    szBuffer[respLen - 1] = '\0';
+      // Null-terminate safely
+    if (respLen < cbSize) {
+        szBuffer[respLen] = '\0';
+    }
+    else {
+        szBuffer[cbSize - 1] = '\0';  // Prevent out-of-bounds write
+    }
 
-    char* found = strstr(szBuffer, targetstr);
-
+    // Locate "<" in buffer
+    char* found = strstr(szBuffer, "<");
     if (found != nullptr) {
         size_t newLen = strlen(found) + 1;
         memmove(szBuffer, found, newLen);
+        szBuffer[newLen - 1] = '\0';  // Ensure null termination
     }
     else {
         return -1;
     }
 
-    char* newlinepos = strstr(szBuffer, "\r\n>\r\n");
-
-    if (newlinepos != nullptr) {
-        *newlinepos = '\0';
-    }
-    else {
-        return -1;
+    // Null-terminate after "DONE!>"
+    char* newlinepos = &szBuffer[flagindex] + strlen("DONE!>");
+    if (*newlinepos != '\0') {
+        *newlinepos = '\0';  // Correctly null-terminate
     }
 
     *pcbRead = respLen;
-
 
     return bResult;
 }
@@ -512,18 +530,19 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_GetDeviceInfo(UINT32 devIdx, DEVICE_DATA_t 
 }
 
 
-static HRESULT UMT_CheckStatus(CHAR *response)
+static HRESULT UMT_CheckStatus(CHAR *response, size_t respsize)
 {
-    if (strstr(response, SUCCUSS))
+    size_t index = 0;
+
+    if (searchInRawBuffer(response, respsize, "DONE!", &index) == TRUE)
     {
         return S_OK;
     }
-    else if (strstr(response, FAILURE))
+    else 
     {
         return -1;
     }
 
-    return -2;
 }
 
 
@@ -550,7 +569,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_SetGPIO(DEVICE_DATA_t* UMT_Handle, UCHAR pi
 
     }    
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 }
 
@@ -577,7 +596,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_GetGPIO(DEVICE_DATA_t* UMT_Handle, UCHAR pi
 
     }
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 }
 
@@ -610,13 +629,22 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
             return -1;
     }
 
-    if (S_OK == UMT_CheckStatus(localBuf)){
+    if (S_OK == UMT_CheckStatus(localBuf, sizeof(localBuf))){
 
-        const char* targetstr = "S ***";
+        const char* targetstr = ">";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
         if (positionPtr == nullptr) {
+            return -1;
+        }
+
+        char* positionPtr2 = strstr(localBuf, "\r\n<");
+
+        if (positionPtr2 != nullptr) {
+            *positionPtr2 = '\0';
+        }
+        else {
             return -1;
         }
 
@@ -626,7 +654,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
         
     }
     else {
-        return UMT_CheckStatus(localBuf);
+        return UMT_CheckStatus(localBuf, sizeof(localBuf));
     }
     
 }
@@ -657,13 +685,24 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
     }
 
-    if (S_OK == UMT_CheckStatus(localBuf)) {
+    if (S_OK == UMT_CheckStatus(localBuf, sizeof(localBuf))) {
 
-        const char* targetstr = "S ***";
+        const char* targetstr = ">";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
         if (positionPtr == nullptr) {
+            return -1;
+        }
+
+        //char* positionPtr2 = strstr(localBuf, "\r\n<");
+        size_t  positionPtr2 = 0;
+        
+
+        if (searchInRawBuffer(localBuf, sizeof(localBuf), "\r\n<", &positionPtr2) == TRUE) {
+            localBuf[positionPtr2] = '\0';
+        }
+        else {
             return -1;
         }
 
@@ -680,9 +719,10 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
         else {
             strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
         }
+        return S_OK;
     }
     
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 }
 
@@ -708,7 +748,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT3
 
     }
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 }
 
@@ -736,7 +776,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Up(DEVICE_DATA_t* UMT_Handle, UCHAR adc
 
     }
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 }
 
@@ -762,13 +802,22 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tck
 
     }
 
-    if (S_OK == UMT_CheckStatus(localBuf)) {
+    if (S_OK == UMT_CheckStatus(localBuf, sizeof(localBuf))) {
 
-        const char* targetstr = "S ***";
+        const char* targetstr = ">";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
         if (positionPtr == nullptr) {
+            return -1;
+        }
+
+        char* positionPtr2 = strstr(localBuf, "\r\n<");
+
+        if (positionPtr2 != nullptr) {
+            *positionPtr2 = '\0';
+        }
+        else {
             return -1;
         }
 
@@ -778,7 +827,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle, UCHAR tck
 
     }
     else {
-        return UMT_CheckStatus(localBuf);
+        return UMT_CheckStatus(localBuf, sizeof(localBuf));
     }
 
 }
@@ -805,9 +854,9 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32
 
     }
 
-    if (S_OK == UMT_CheckStatus(localBuf)) {
+    if (S_OK == UMT_CheckStatus(localBuf, sizeof(localBuf))) {
 
-        const char* targetstr = "S ***";
+        const char* targetstr = ">";
 
         const char* positionPtr = strstr(localBuf, targetstr);
 
@@ -815,15 +864,24 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
         }
 
+        char* positionPtr2 = strstr(localBuf, "\r\n<");
+
+        if (positionPtr2 != nullptr) {
+            *positionPtr2 = '\0';
+        }
+        else {
+            return -1;
+        }
+
         size_t offset = (positionPtr - localBuf) + strlen(targetstr);
 
         strcpy_s(devID, strlen(localBuf), (localBuf + offset));
 
-        return UMT_CheckStatus(localBuf);
+        return S_OK;
 
     }
     else {
-        return UMT_CheckStatus(localBuf);
+        return UMT_CheckStatus(localBuf, sizeof(localBuf));
     }
 
 }
@@ -850,7 +908,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Flash(DEVICE_DATA_t* UMT_Handle, UINT32
 
     }
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 
 
 }
@@ -894,10 +952,10 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR tx
     }
     else
     {
-        return UMT_CheckStatus(localBuf);
+        return UMT_CheckStatus(localBuf, sizeof(localBuf));
     }    
 
-    return UMT_CheckStatus(localBuf);
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
 }
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Reset(DEVICE_DATA_t* UMT_Handle)

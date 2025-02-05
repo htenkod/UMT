@@ -28,8 +28,9 @@ typedef struct _DEVICE_DATA {
 #define UMT_SITES_MAX	10
 
 
-#define SUCCUSS	"SUCCESS"
+#define SUCCESS	"SUCCESS"
 #define FAILURE	"FAIL"
+#define DONE "DONE!"
 #define RESET ""
 
 typedef enum {
