@@ -958,6 +958,97 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_ADC_Get(DEVICE_DATA_t* UMT_Handle, UCHAR tx
     return UMT_CheckStatus(localBuf, sizeof(localBuf));
 }
 
+UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, UCHAR* wrBuff)
+{
+    const char* cmdFmt = "taptmodwr %d %s %s\r\n";
+
+    ULONG cbSent = 0;
+    ULONG cbRead = 0;
+    CHAR localBuf[512];
+
+    sprintf_s(localBuf, 512, cmdFmt, idx, addr, wrBuff);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return -1;
+
+    ///* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+
+        if (!ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf, &cbRead))
+            return -1;
+
+    }
+
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
+
+}
+
+UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, CHAR* rdBuff, UINT32 hex, UINT16 numOfbytes)
+{
+    const char* cmdFmt = "taptmodrd %d %s\r\n";
+
+    ULONG cbSent = 0;
+    ULONG cbRead = 0;
+    CHAR localBuf[512];
+    CHAR tmpBuf[256];
+
+    if (numOfbytes > 128) {
+        numOfbytes = 128;
+    }
+
+    sprintf_s(localBuf, 512, cmdFmt, idx, addr);
+
+    if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
+        return -1;
+
+    /* Sent complete command bytes */
+    if (cbSent == (ULONG)strlen(localBuf))
+    {
+
+        if (!ReadFromBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkInPipe, sizeof(localBuf), localBuf, &cbRead))
+            return -1;
+    }
+
+    if (S_OK == UMT_CheckStatus(localBuf, sizeof(localBuf))) {
+
+        const char* targetstr = ">";
+
+        const char* positionPtr = strstr(localBuf, targetstr);
+
+        if (positionPtr == nullptr) {
+            return -1;
+        }
+
+        size_t  positionPtr2 = 0;
+
+        if (searchInRawBuffer(localBuf, sizeof(localBuf), "\r\n<", &positionPtr2) == TRUE) {
+            localBuf[positionPtr2] = '\0';
+        }
+        else {
+            return -1;
+        }
+
+        size_t offset = (positionPtr - localBuf) + strlen(targetstr);
+
+        const CHAR* inputstart = localBuf + offset;
+
+
+        if (hex == 1) {
+            convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
+
+            strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
+        }
+        else {
+            strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
+        }
+        return S_OK;
+    }
+
+    return UMT_CheckStatus(localBuf, sizeof(localBuf));
+
+}
+
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Reset(DEVICE_DATA_t* UMT_Handle)
 {
     const char* cmdFmt = "reset\r\n";
