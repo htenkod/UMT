@@ -1008,7 +1008,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Write(DEVICE_DATA_t* UMT_Handle, UINT3
 
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, CHAR* rdBuff, UINT32 hexread, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, CHAR* rdBuff, UINT16 numOfbytes)
 {
     const char* cmdFmt = "taptmodrd %d %s\r\n";
 
@@ -1060,15 +1060,8 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32
 
         const CHAR* inputstart = localBuf + offset;
 
+        strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
 
-        if (hexread == 1) {
-            decimalToHex(inputstart, tmpBuf, sizeof(tmpBuf));
-
-            strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
-        }
-        else {
-            strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
-        }
         return S_OK;
     }
 
