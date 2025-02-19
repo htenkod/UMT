@@ -162,6 +162,25 @@ void convertHexToReadable(const CHAR* hexString, CHAR* output, size_t outputSize
     output[outputIndex] = '\0';
 }
 
+void hexToDecimal(const UCHAR* input, UCHAR* output, size_t size) {
+    // Convert UCHAR* to std::string
+    std::string hexStr(reinterpret_cast<const char*>(input));
+
+    // Convert hex string to decimal integer
+    unsigned long long decimalValue = std::stoull(hexStr, nullptr, 16);
+
+    // Convert decimal integer to decimal string (store in UCHAR*)
+    snprintf(reinterpret_cast<char*>(output), size, "%llu", decimalValue);
+}
+
+void decimalToHex(const CHAR* decimalStr, CHAR* hexStr, size_t size) {
+    // Convert decimal string to integer
+    unsigned long long decimalValue = std::strtoull(decimalStr, nullptr, 10);
+
+    // Convert integer to hex string and store in hexStr
+    snprintf(hexStr, size, "%llX", decimalValue);
+}
+
 bool searchInRawBuffer(const char* buffer, size_t bufferSize, const char* target, size_t* index) {
     size_t targetLen = strlen(target);
 
@@ -965,8 +984,13 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Write(DEVICE_DATA_t* UMT_Handle, UINT3
     ULONG cbSent = 0;
     ULONG cbRead = 0;
     CHAR localBuf[512];
+    UCHAR addrHex[20] = {};
+    UCHAR wrBuffHex[20] = {};
 
-    sprintf_s(localBuf, 512, cmdFmt, idx, addr, wrBuff);
+    hexToDecimal(addr, addrHex, sizeof(addrHex));
+    hexToDecimal(wrBuff, wrBuffHex, sizeof(wrBuffHex));
+
+    sprintf_s(localBuf, 512, cmdFmt, idx, addrHex, wrBuffHex);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return -1;
@@ -984,7 +1008,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Write(DEVICE_DATA_t* UMT_Handle, UINT3
 
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, CHAR* rdBuff, UINT32 hex, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, CHAR* rdBuff, UINT32 hexread, UINT16 numOfbytes)
 {
     const char* cmdFmt = "taptmodrd %d %s\r\n";
 
@@ -992,12 +1016,15 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32
     ULONG cbRead = 0;
     CHAR localBuf[512];
     CHAR tmpBuf[256];
+    UCHAR addrHex[20];
 
     if (numOfbytes > 128) {
         numOfbytes = 128;
     }
 
-    sprintf_s(localBuf, 512, cmdFmt, idx, addr);
+    hexToDecimal(addr, addrHex, sizeof(addrHex));
+
+    sprintf_s(localBuf, 512, cmdFmt, idx, addrHex);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return -1;
@@ -1034,8 +1061,8 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_TMOD_Read(DEVICE_DATA_t* UMT_Handle, UINT32
         const CHAR* inputstart = localBuf + offset;
 
 
-        if (hex == 1) {
-            convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
+        if (hexread == 1) {
+            decimalToHex(inputstart, tmpBuf, sizeof(tmpBuf));
 
             strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
         }
