@@ -73,6 +73,14 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UINT32 hex, UCHAR* wrBuff);
 
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Up(DEVICE_DATA_t* UMT_Handle, UCHAR sclPin, UCHAR sdaPin, UINT32 speed);
+
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 addr, UINT32 hex, UINT16 numOfbytes);
+
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, UINT16 numOfbytes, UCHAR* wrBuff);
+
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Down(DEVICE_DATA_t* UMT_Handle, UCHAR adcPin);
+
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_Up(DEVICE_DATA_t* UMT_Handle,UCHAR tckPin, UCHAR tmsPin,UCHAR tdoPin, UCHAR tdiPin, UCHAR pgcPin,UCHAR pgdPin,UCHAR mclrPin);
 
 UMTDLL_DECLDIR HRESULT __stdcall UMT_Tap_DevId(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* devID);
