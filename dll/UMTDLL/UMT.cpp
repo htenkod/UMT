@@ -141,27 +141,6 @@ static HRESULT RetrieveDevicePath(
     return hr;
 }
 
-//void convertHexToReadable(const CHAR* hexString, CHAR* output, size_t outputSize) {
-//    size_t outputIndex = 0;
-//
-//    for (size_t i = 0; hexString[i] != '\0'; ++i) {
-//        // Convert each character to its hex value
-//        unsigned char value = static_cast<unsigned char>(hexString[i]);
-//
-//        // Use sprintf_s for safe formatted output
-//        int written = sprintf_s(output + outputIndex, outputSize - outputIndex, "%02X", value);
-//        if (written < 0) {
-//            std::cerr << "Error writing to output buffer" << std::endl;
-//            return;
-//        }
-//
-//        outputIndex += written;
-//    }
-//
-//    // Null-terminate the output string
-//    output[outputIndex] = '\0';
-//}
-
 void convertHexToReadable(const CHAR hexData[], size_t hexDataLength, CHAR* output, size_t outputSize) {
     size_t outputIndex = 0;
 
@@ -283,7 +262,7 @@ BOOL ReadFromBulkEndpoint(WINUSB_INTERFACE_HANDLE hDeviceHandle, UCHAR* pID, ULO
     // Locate "<" in buffer
     char* found = strstr(szBuffer, "<");
     if (found != nullptr) {
-        size_t newLen = strlen(found) + 1;
+        size_t newLen = respLen - (found - szBuffer); //strlen(found) + 1;
         memmove(szBuffer, found, newLen);
         szBuffer[newLen - 1] = '\0';  // Ensure null termination
     }
@@ -707,10 +686,10 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
     ULONG cbSent = 0;
     ULONG cbRead = 0;
     CHAR localBuf[512];
-    CHAR tmpBuf[256];
+    CHAR tmpBuf[539];
 
-    if (numOfbytes > 128) {
-        numOfbytes = 128;
+    if (numOfbytes > 512) {
+        numOfbytes = 512;
     }
 
     sprintf_s(localBuf, 512, cmdFmt, idx, numOfbytes);
@@ -734,20 +713,20 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
 
         const char* numberstr = localBuf + positionDataLen + strlen("VAL:");
 
-        size_t DataLen = static_cast<size_t>(atoi(numberstr));
-
         const char* targetstr = ">";
 
-        const char* positionPtr = strstr(localBuf, targetstr);
+        char* positionPtr = strstr(localBuf, targetstr);
 
         if (positionPtr == nullptr) {
             return -1;
         }
 
-        //char* positionPtr2 = strstr(localBuf, "\r\n<");
-        size_t  positionPtr2 = 0;
-        
+        size_t DataLen = static_cast<size_t>(atoi(numberstr));
 
+        *positionPtr = 0;
+        const char *offset = positionPtr + strlen(targetstr);
+
+        size_t  positionPtr2 = 0;
         if (searchInRawBuffer(localBuf, sizeof(localBuf), "\r\n<", &positionPtr2) == TRUE) {
             localBuf[positionPtr2] = '\0';
         }
@@ -755,20 +734,15 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
         }
 
-        size_t offset = (positionPtr - localBuf) + strlen(targetstr);
+        if(DataLen){
+            if (hex == 1) {
+                convertHexToReadable(offset, DataLen, tmpBuf, sizeof(tmpBuf));
 
-        //const CHAR * inputstart = localBuf + offset;
-
-
-        if (hex == 1) {
-            //convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
-            convertHexToReadable(localBuf + offset, DataLen, tmpBuf, sizeof(tmpBuf));
-
-            strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
-        }
-        else {
-            //strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
-            strcpy_s(rdBuff, strlen(localBuf + offset) + 1, localBuf + offset);
+                strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
+            }
+            else {
+                strcpy_s(rdBuff, strlen(offset) + 1, offset);
+            }
         }
         return S_OK;
     }

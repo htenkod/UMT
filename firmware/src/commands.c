@@ -850,7 +850,7 @@ void cmdUartDown(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 {
     //	static int printBuffPtr = 0;
-    uint8_t tmpBuf[128];
+    uint8_t tmpBuf[512];
     
     const void* cmdIoParam = pCmdIO->cmdIoParam;
         
@@ -872,12 +872,12 @@ void cmdUartRead(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
     
     UART_FUNC_Handler_t *uartFuncHandler = (UART_FUNC_Handler_t *)gUmtCxt.devList[uartIdx].devFuncPtr;
     
-    size_t rLen = uartFuncHandler->U_Read(tmpBuf, (readBytes > 128)?128:readBytes);    
+    size_t rLen = uartFuncHandler->U_Read(tmpBuf, (readBytes > 512)?512:readBytes);    
     tmpBuf[rLen] = 0;
             
     (*pCmdIO->pCmdApi->print)(cmdIoParam, LINE_TERM VALUE, rLen); 
 
-    for(uint8_t idx = 0; idx < rLen; idx++) {
+    for(uint16_t idx = 0; idx < rLen; idx++) {
         (*pCmdIO->pCmdApi->putc_t)(cmdIoParam, tmpBuf[idx] );   
     }
     
