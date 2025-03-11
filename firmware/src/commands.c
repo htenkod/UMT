@@ -922,8 +922,13 @@ void cmdUartWrite(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
         }        
     }
     else
-    {
-        uartFuncHandler->U_Write((uint8_t*)argv[3], strlen(argv[3]));
+    {       
+        for(uint32_t idx = 3; idx < argc; idx++)
+        {
+            uartFuncHandler->U_Write((uint8_t*)argv[idx], strlen(argv[idx]));
+            uartFuncHandler->U_Write((uint8_t*)" ", 1);
+        }
+        uartFuncHandler->U_Write((uint8_t*)"\r\n", 2);
     }
     
 	(*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM DONE);
