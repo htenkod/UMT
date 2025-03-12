@@ -82,7 +82,7 @@ void I2C2_CallBack (uintptr_t contextHandle)
     /* In case of write this would be zero*/
     size_t rLen = i2c2Obj.readCount;
     
-    (pCmdIo->pCmdApi->msg)(pCmdIo->cmdIoParam, LINE_TERM VALUE); 
+    (pCmdIo->pCmdApi->print)(pCmdIo->cmdIoParam, LINE_TERM VALUE, rLen); 
     
     for(uint8_t idx = 0; idx < rLen; idx++) {
         (pCmdIo->pCmdApi->putc_t)(pCmdIo->cmdIoParam, i2c2Obj.readBuffer[idx] );   

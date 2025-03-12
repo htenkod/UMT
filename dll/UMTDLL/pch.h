@@ -13,6 +13,14 @@
 #include "SetupAPI.h"
 #include "winusb.h"
 #include "UMT.h"
+#include <cstdlib>
+#include <Windows.h>
+#include <string>
+#include <iostream>
+#include <chrono>
+#include <thread>
+#include <regex>
+#include <cstring>
 
 
 

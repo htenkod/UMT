@@ -377,6 +377,12 @@ void FS_Tasks ( void )
                             CORETIMER_DelayUs(100);
                             *((volatile uint32_t *)((char *)mclrPin->gpio_reg + SET)) = mclrPin->gpio_mask;    
 
+                            if(fsData.sysCmdDev)
+                            {
+                                (fsData.sysCmdDev->pCmdApi->print)(fsData.sysCmdDev->cmdIoParam, LINE_TERM ERROR, 0);
+                                (fsData.sysCmdDev->pCmdApi->msg)(fsData.sysCmdDev->cmdIoParam,  LINE_TERM DONE); 
+                            }
+                            
                             /* The test was successful. */
                             fsData.state = FS_CLOSE_FILE;
                         }
