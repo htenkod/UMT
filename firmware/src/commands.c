@@ -27,8 +27,6 @@
 // *****************************************************************************
 // *****************************************************************************
 #include "config/default/definitions.h"
-#include "commands.h"
-
 
 
 // *****************************************************************************
@@ -56,7 +54,7 @@ UMT_CXT_t gUmtCxt;
 UART_CXT_t gUartCxt = {.uartList = {NULL, &UART1_Handler, NULL, &UART3_Handler, &UART4_Handler, &UART5_Handler, &UART6_Handler}};
 
 
-I2C_CXT_t gI2cCxt = {.i2cList = {NULL, &I2C1_Handler, &I2C2_Handler}};
+I2C_CXT_t gI2cCxt = {.i2cList = {NULL, &I2C1_Handler, &I2C2_Handler, &I2C3_Handler}};
 
 
 void Word2ByteSteam(uint32_t word, int8_t *bs)
@@ -238,9 +236,9 @@ COMMANDS_DATA commandsData = {
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB5_MASK, 0, 0},		// AN45/RB5                             //101
                         {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF3_MASK, 0, 0}, 			// RF3                                  //102
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB4_MASK, 0, 0},		// AN4/RB4                              //103
-                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF2_MASK, 3, 0}, 			// RF2                                  //104
+                        {0, GPIO | I2C_SDA, 0, _PORTF_START_ADDR_, _PORTF_RF2_MASK, 3, 0}, 			// RF2                                  //104
 						{0, GPIO | AN, 0, _PORTB_START_ADDR_, _PORTB_RB3_MASK, 0, 0},		// AN3/RB3                              //105
-                        {0, GPIO, 0, _PORTF_START_ADDR_, _PORTF_RF8_MASK, 3, 0}, 			// RF8                                  //106
+                        {0, GPIO | I2C_SCK, 0, _PORTF_START_ADDR_, _PORTF_RF8_MASK, 3, 0}, 			// RF8                                  //106
 						{0, GPIO | AN | U_RX, 0, _PORTB_START_ADDR_, _PORTB_RB2_MASK, 0, 0},		// AN3/RB2                      //107
                         {0, GPIO, 0, _PORTH_START_ADDR_, _PORTH_RH9_MASK, 0, 0}, 			// RH9                                  //108
 						{0, GPIO, 0, _PORTA_START_ADDR_, _PORTA_RA9_MASK, 0, 0},			// VREF-/RA9							//109

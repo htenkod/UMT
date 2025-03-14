@@ -501,7 +501,7 @@ bool I2C3_TransferSetup(I2C_TRANSFER_SETUP* setup, uint32_t srcClkFreq );
 
 void I2C3_TransferAbort( void );
 
-
+extern I2C_FUNC_Handler_t I2C3_Handler;
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 }

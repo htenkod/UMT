@@ -60,8 +60,8 @@
 // *****************************************************************************
 #define NOP asm(" NOP")
 #define DONE        "\r\n<DONE!>"
-#define VALUE		"<VAL>"
-#define ERROR		"<ERR> %d"
+#define VALUE		"<VAL:%d>"
+#define ERROR		"<ERR>%d"
 
 volatile static I2C_OBJ i2c2Obj;
 

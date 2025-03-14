@@ -209,7 +209,7 @@ typedef struct
 
 typedef struct 
 {
-    I2C_FUNC_Handler_t *i2cList[3];    
+    I2C_FUNC_Handler_t *i2cList[4];    
 }I2C_CXT_t;
 
 
