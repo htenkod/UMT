@@ -829,7 +829,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Up(DEVICE_DATA_t* UMT_Handle, UCHAR scl
 
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 addr, UINT32 hex, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR addr, CHAR* rdBuff, UINT16 numOfbytes)
 {
     const char* cmdFmt = "i2crd %d %d %d\r\n";
 
@@ -889,16 +889,11 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 
         //const CHAR * inputstart = localBuf + offset;
 
 
-        if (hex == 1) {
-            //convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
-            convertHexToReadable(localBuf + offset, DataLen, tmpBuf, sizeof(tmpBuf));
+        //convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
+        convertHexToReadable(localBuf + offset, DataLen, tmpBuf, sizeof(tmpBuf));
 
-            strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
-        }
-        else {
-            //strcpy_s(rdBuff, strlen(inputstart) + 1, inputstart);
-            strcpy_s(rdBuff, strlen(localBuf + offset) + 1, localBuf + offset);
-        }
+        strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
+        
         return S_OK;
     }
 
@@ -906,9 +901,9 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 
 
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR* addr, UINT16 numOfbytes, UCHAR* wrBuff)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Write(DEVICE_DATA_t* UMT_Handle, UINT32 idx, UCHAR addr, UINT16 numOfbytes, UCHAR* wrBuff)
 {
-    const char* cmdFmt = "i2cwr %d %s %d %s\r\n";
+    const char* cmdFmt = "i2cwr %d %d %d %s\r\n";
 
     ULONG cbSent = 0;
     ULONG cbRead = 0;
