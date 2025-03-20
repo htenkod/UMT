@@ -679,14 +679,13 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
     
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 hex, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 rdBuffSz, UINT32 hex, UINT16 numOfbytes)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
     ULONG cbSent = 0;
     ULONG cbRead = 0;
     CHAR localBuf[512];
-    CHAR tmpBuf[539];
 
     if (numOfbytes > 512) {
         numOfbytes = 512;
@@ -734,9 +733,23 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
         }
 
+        // Calculate expected output size
+        size_t outputSize = (DataLen * 2) + 1;
+        if (rdBuffSz < outputSize) {
+            strcpy_s(rdBuff, rdBuffSz, "Input buffer too small for output.");
+            return -1;
+        }
+
+        char* tmpBuf = (char*)malloc(outputSize);
+        if (tmpBuf == nullptr) {
+            strcpy_s(rdBuff, rdBuffSz, "Memory allocation failed.");
+            return -1;
+        }
+        memset(tmpBuf, 0, outputSize);
+
         if(DataLen){
             if (hex == 1) {
-                convertHexToReadable(offset, DataLen, tmpBuf, sizeof(tmpBuf));
+                convertHexToReadable(offset, DataLen, tmpBuf, outputSize);
 
                 strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
             }
@@ -744,7 +757,6 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
                 strcpy_s(rdBuff, strlen(offset) + 1, offset);
             }
         }
-        return S_OK;
     }
     
     return UMT_CheckStatus(localBuf, sizeof(localBuf));
