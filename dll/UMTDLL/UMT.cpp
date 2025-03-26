@@ -863,20 +863,20 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 
 
         const char* numberstr = localBuf + positionDataLen + strlen("VAL:");
 
-        size_t DataLen = static_cast<size_t>(atoi(numberstr));
-
         const char* targetstr = ">";
 
-        const char* positionPtr = strstr(localBuf, targetstr);
+        char* positionPtr = strstr(localBuf, targetstr);
 
         if (positionPtr == nullptr) {
             return -1;
         }
 
-        //char* positionPtr2 = strstr(localBuf, "\r\n<");
+        size_t DataLen = static_cast<size_t>(atoi(numberstr));
+
+        *positionPtr = 0;
+        const char* offset = positionPtr + strlen(targetstr);
+
         size_t  positionPtr2 = 0;
-
-
         if (searchInRawBuffer(localBuf, sizeof(localBuf), "\r\n<", &positionPtr2) == TRUE) {
             localBuf[positionPtr2] = '\0';
         }
@@ -884,16 +884,10 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_I2C_Read(DEVICE_DATA_t* UMT_Handle, UINT32 
             return -1;
         }
 
-        size_t offset = (positionPtr - localBuf) + strlen(targetstr);
-
-        //const CHAR * inputstart = localBuf + offset;
-
-
-        //convertHexToReadable(inputstart, tmpBuf, sizeof(tmpBuf));
-        convertHexToReadable(localBuf + offset, DataLen, tmpBuf, sizeof(tmpBuf));
-
-        strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
-        
+        if (DataLen) {            
+             memcpy_s(rdBuff, numOfbytes, offset, DataLen);
+            
+        }
         return S_OK;
     }
 

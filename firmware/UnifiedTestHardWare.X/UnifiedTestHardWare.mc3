@@ -18,11 +18,23 @@
          <string>class com.microchip.mcc.harmony.HarmonyModule</string>
       </entry>
       <entry>
+         <string>atecc608</string>
+         <string>class com.microchip.mcc.harmony.HarmonyModule</string>
+      </entry>
+      <entry>
+         <string>atecc608_0</string>
+         <string>class com.microchip.mcc.harmony.HarmonyModule</string>
+      </entry>
+      <entry>
          <string>core</string>
          <string>class com.microchip.mcc.harmony.HarmonyModule</string>
       </entry>
       <entry>
          <string>core_timer</string>
+         <string>class com.microchip.mcc.harmony.HarmonyModule</string>
+      </entry>
+      <entry>
+         <string>cryptoauthlib</string>
          <string>class com.microchip.mcc.harmony.HarmonyModule</string>
       </entry>
       <entry>
@@ -10486,6 +10498,126 @@
 </value>
       </entry>
       <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608&gt;
+  &lt;atecc608 dnOrder=&quot;0&quot;/&gt;
+&lt;/atecc608&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608" name="#&amp;__MCC_Group_Parrent_id"/>
+         <value>__ROOTVIEW</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot;&gt;
+    &lt;Attachments dnOrder=&quot;0&quot;&gt;
+      &lt;MultiCapability dnOrder=&quot;0&quot; id=&quot;ATECC608_DEP_PLIB_I2C&quot;&gt;
+        &lt;TargetAttachments dnOrder=&quot;0&quot;&gt;
+          &lt;TargetAttachment dnOrder=&quot;0&quot; targetAttachmentID=&quot;I2C3_I2C&quot; targetComponentID=&quot;i2c3&quot;/&gt;
+        &lt;/TargetAttachments&gt;
+      &lt;/MultiCapability&gt;
+    &lt;/Attachments&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="#&amp;__MCC_Group_Parrent_id"/>
+         <value>atecc608</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="HAL_INTERFACE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;HAL_INTERFACE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;atecc608_0&quot; value=&quot;I2C3&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="I2C_ADDR"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;I2C_ADDR&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="INTERFACE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;INTERFACE&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;readOnly&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+    &lt;Values dnOrder=&quot;1&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;atecc608_0&quot; value=&quot;0&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="NAME"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;NAME&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="PART_TYPE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;PART_TYPE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="RECEIVE_RETRY"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;RECEIVE_RETRY&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="SPI_CS_PIN"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;SPI_CS_PIN&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="SWIBB_CRYPTO_PIN"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;SWIBB_CRYPTO_PIN&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="atecc608_0" name="WAKEUP_DELAY"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;atecc608_0&gt;
+  &lt;atecc608_0 dnOrder=&quot;0&quot; id=&quot;WAKEUP_DELAY&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/atecc608_0&gt;
+&lt;/atecc608_0&gt;
+</value>
+      </entry>
+      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="!@#harmonyUserData"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;UserData&gt;
   &lt;UserData dnOrder=&quot;0&quot;&gt;
@@ -10499,31 +10631,33 @@
         &lt;ElementPosition dnOrder=&quot;1&quot; id=&quot;FreeRTOS&quot; x=&quot;500&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;2&quot; id=&quot;HarmonyCore&quot; x=&quot;663&quot; y=&quot;17&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;3&quot; id=&quot;adchs&quot; x=&quot;840&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;core&quot; x=&quot;238&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;core_timer&quot; x=&quot;162&quot; y=&quot;66&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;dfp&quot; x=&quot;20&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;drv_memory&quot; x=&quot;721&quot; y=&quot;353&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;drv_sst26&quot; x=&quot;573&quot; y=&quot;371&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;9&quot; id=&quot;drv_usbhs_v1&quot; x=&quot;34&quot; y=&quot;165&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;10&quot; id=&quot;i2c1&quot; x=&quot;43&quot; y=&quot;303&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;11&quot; id=&quot;i2c2&quot; x=&quot;180&quot; y=&quot;303&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;12&quot; id=&quot;i2c3&quot; x=&quot;312&quot; y=&quot;302&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;13&quot; id=&quot;sqi1&quot; x=&quot;427&quot; y=&quot;393&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;14&quot; id=&quot;sys_command&quot; x=&quot;470&quot; y=&quot;546&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;15&quot; id=&quot;sys_console&quot; x=&quot;268&quot; y=&quot;488&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;16&quot; id=&quot;sys_fs&quot; x=&quot;880&quot; y=&quot;391&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;17&quot; id=&quot;sys_time&quot; x=&quot;339&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;18&quot; id=&quot;tmr2&quot; x=&quot;704&quot; y=&quot;186&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;19&quot; id=&quot;tmr5&quot; x=&quot;850&quot; y=&quot;100&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;20&quot; id=&quot;uart1&quot; x=&quot;76&quot; y=&quot;470&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;21&quot; id=&quot;uart2&quot; x=&quot;74&quot; y=&quot;552&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;22&quot; id=&quot;uart3&quot; x=&quot;1000&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;23&quot; id=&quot;uart4&quot; x=&quot;1160&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;24&quot; id=&quot;uart5&quot; x=&quot;1010&quot; y=&quot;100&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;25&quot; id=&quot;uart6&quot; x=&quot;1171&quot; y=&quot;100&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;26&quot; id=&quot;usb_device&quot; x=&quot;238&quot; y=&quot;163&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;27&quot; id=&quot;usb_device_msd&quot; x=&quot;881&quot; y=&quot;511&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;28&quot; id=&quot;usb_device_vendor&quot; x=&quot;415&quot; y=&quot;162&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;atecc608&quot; x=&quot;472&quot; y=&quot;256&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;core&quot; x=&quot;238&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;core_timer&quot; x=&quot;162&quot; y=&quot;66&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;cryptoauthlib&quot; x=&quot;870&quot; y=&quot;180&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;dfp&quot; x=&quot;20&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;9&quot; id=&quot;drv_memory&quot; x=&quot;721&quot; y=&quot;353&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;10&quot; id=&quot;drv_sst26&quot; x=&quot;573&quot; y=&quot;371&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;11&quot; id=&quot;drv_usbhs_v1&quot; x=&quot;34&quot; y=&quot;165&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;12&quot; id=&quot;i2c1&quot; x=&quot;43&quot; y=&quot;303&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;13&quot; id=&quot;i2c2&quot; x=&quot;180&quot; y=&quot;303&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;14&quot; id=&quot;i2c3&quot; x=&quot;312&quot; y=&quot;302&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;15&quot; id=&quot;sqi1&quot; x=&quot;427&quot; y=&quot;393&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;16&quot; id=&quot;sys_command&quot; x=&quot;470&quot; y=&quot;546&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;17&quot; id=&quot;sys_console&quot; x=&quot;268&quot; y=&quot;488&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;18&quot; id=&quot;sys_fs&quot; x=&quot;880&quot; y=&quot;391&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;19&quot; id=&quot;sys_time&quot; x=&quot;339&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;20&quot; id=&quot;tmr2&quot; x=&quot;704&quot; y=&quot;186&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;21&quot; id=&quot;tmr5&quot; x=&quot;850&quot; y=&quot;100&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;22&quot; id=&quot;uart1&quot; x=&quot;76&quot; y=&quot;470&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;23&quot; id=&quot;uart2&quot; x=&quot;74&quot; y=&quot;552&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;24&quot; id=&quot;uart3&quot; x=&quot;1000&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;25&quot; id=&quot;uart4&quot; x=&quot;1160&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;26&quot; id=&quot;uart5&quot; x=&quot;1010&quot; y=&quot;100&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;27&quot; id=&quot;uart6&quot; x=&quot;1171&quot; y=&quot;100&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;28&quot; id=&quot;usb_device&quot; x=&quot;238&quot; y=&quot;163&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;29&quot; id=&quot;usb_device_msd&quot; x=&quot;881&quot; y=&quot;511&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;30&quot; id=&quot;usb_device_vendor&quot; x=&quot;415&quot; y=&quot;162&quot;/&gt;
       &lt;/ElementPositions&gt;
     &lt;/ComponentGraph&gt;
   &lt;/UserData&gt;
@@ -16335,6 +16469,1661 @@
 </value>
       </entry>
       <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot;/&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="#&amp;__MCC_Group_Parrent_id"/>
+         <value>__ROOTVIEW</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_DEBUG_PRINT"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_DEBUG_PRINT&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_HEAP"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_HEAP&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_JWT"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_JWT&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_MULTIPART_BUF"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_MULTIPART_BUF&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_POLLING"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_POLLING&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_PREPROCESSOR_WARNING"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_PREPROCESSOR_WARNING&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_RTOS"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_RTOS&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;cryptoauthlib&quot; value=&quot;true&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_TA10x_AES_AUTH"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_TA10x_AES_AUTH&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;cryptoauthlib&quot; value=&quot;false&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_TA10x_FCE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_TA10x_FCE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;cryptoauthlib&quot; value=&quot;false&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_ENABLE_WOLFCRYPTO"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_ENABLE_WOLFCRYPTO&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;cryptoauthlib&quot; value=&quot;false&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_100"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_100&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_101"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_101&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_102"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_102&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_103"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_103&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_104"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_104&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_105"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_105&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_106"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_106&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_107"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_107&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_108"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_108&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_109"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_109&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_110"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_110&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_111"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_111&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_112"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_112&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_113"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_113&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_114"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_114&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_117"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_117&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_118"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_118&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_119"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_119&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_39"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_39&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_45"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_45&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_46"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_46&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_47"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_47&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_48"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_48&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_49"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_49&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_50"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_50&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_51"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_51&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_52"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_52&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_53"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_53&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_54"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_54&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_55"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_55&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_56"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_56&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_57"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_57&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_58"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_58&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_59"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_59&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_60"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_60&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_61"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_61&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_62"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_62&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_63"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_63&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_64"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_64&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_65"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_65&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_66"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_66&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_67"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_67&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_68"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_68&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_69"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_69&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_70"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_70&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_71"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_71&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_72"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_72&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_73"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_73&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_74"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_74&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_75"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_75&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_76"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_76&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_77"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_77&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_78"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_78&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_79"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_79&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_80"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_80&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_81"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_81&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_82"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_82&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_83"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_83&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_84"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_84&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_85"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_85&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_86"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_86&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_87"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_87&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_88"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_88&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_89"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_89&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_90"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_90&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_91"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_91&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_92"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_92&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_93"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_93&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_94"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_94&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_95"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_95&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_96"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_96&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_97"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_97&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_98"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_98&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_99"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_99&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_FREERTOS"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_FREERTOS&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_FILE_SRC_HAL_I2C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_FILE_SRC_HAL_I2C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_MAX_PACKET_SIZE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_MAX_PACKET_SIZE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_POLL_INIT_TIME"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_POLL_INIT_TIME&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_POLL_PERIOD"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_POLL_PERIOD&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="CAL_POLL_TIMEOUT"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;CAL_POLL_TIMEOUT&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_aes"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_aes&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_aes_ecb"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_aes_ecb&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_aes_gcm"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_aes_gcm&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_aes_gfm"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_aes_gfm&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_checkmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_checkmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_counter"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_counter&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_cbc"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_cbc&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_cbc_decrypt"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_cbc_decrypt&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_cbc_encrypt"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_cbc_encrypt&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_cbcmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_cbcmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_ccm"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_ccm&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_ccm_rand_iv"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_ccm_rand_iv&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_cmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_cmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_ctr"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_ctr&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_crypto_aes_ctr_rand_iv"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_crypto_aes_ctr_rand_iv&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_delete"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_delete&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_derivekey"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_derivekey&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_ecdh"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_ecdh&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_ecdh_enc"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_ecdh_enc&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_gendig"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_gendig&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_genkey"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_genkey&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_genkey_mac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_genkey_mac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_hmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_hmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_hw_aes"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_hw_aes&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_info"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_info&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_kdf"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_kdf&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_lock"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_lock&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_mac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_mac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_nonce"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_nonce&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_privwrite"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_privwrite&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_random"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_random&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_read"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_read&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_read_enc"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_read_enc&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_secureboot"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_secureboot&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_secureboot_mac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_secureboot_mac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_selftest"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_selftest&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sha"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sha&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sha_context"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sha_context&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sha_hmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sha_hmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sign"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sign&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sign_internal"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sign_internal&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_pbkdf2_sha2"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_pbkdf2_sha2&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_rand"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_rand&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sha"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sha&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sha1"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sha1&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sha2"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sha2&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sha2_hmac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sha2_hmac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sha2_hmac_ctr"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sha2_hmac_ctr&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_sign"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_sign&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_sw_verify"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_sw_verify&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_updateextra"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_updateextra&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_verify"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_verify&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_verify_extern"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_verify_extern&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_verify_mac"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_verify_mac&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_verify_stored"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_verify_stored&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_verify_validate"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_verify_validate&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_write"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_write&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="cryptoauthlib" name="cal_write_enc"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;cryptoauthlib&gt;
+  &lt;cryptoauthlib dnOrder=&quot;0&quot; id=&quot;cal_write_enc&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/cryptoauthlib&gt;
+&lt;/cryptoauthlib&gt;
+</value>
+      </entry>
+      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="dfp" name="#&amp;__MCC_Group_Parrent_id"/>
          <value>__ROOTVIEW</value>
       </entry>
@@ -17678,6 +19467,26 @@
     &lt;Values dnOrder=&quot;0&quot;/&gt;
   &lt;/i2c2&gt;
 &lt;/i2c2&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="i2c3" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;i2c3&gt;
+  &lt;i2c3 dnOrder=&quot;0&quot;&gt;
+    &lt;Attachments dnOrder=&quot;0&quot;&gt;
+      &lt;DirectCapability dnOrder=&quot;0&quot; id=&quot;I2C3_I2C&quot;&gt;
+        &lt;Attributes dnOrder=&quot;0&quot;&gt;
+          &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;atecc608_0&lt;/Value&gt;
+          &lt;/String&gt;
+          &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;ATECC608_DEP_PLIB_I2C&lt;/Value&gt;
+          &lt;/String&gt;
+        &lt;/Attributes&gt;
+      &lt;/DirectCapability&gt;
+    &lt;/Attachments&gt;
+  &lt;/i2c3&gt;
+&lt;/i2c3&gt;
 </value>
       </entry>
       <entry>
@@ -23827,7 +25636,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\definitions.h</file>
-         <hash>b926816087cc97a3b8c2a80a4db89bef502ac37c8914a5c745d59b2ba843bed2</hash>
+         <hash>72930a96e01a470305c7ee12a0be2c2be49bab402622d48a7f807ae09bdbd458</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
@@ -24027,7 +25836,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\initialization.c</file>
-         <hash>fe6ad2c55419df143526d7fd6cf0c770349423c5abb7cd3256e0e2d0a86f2410</hash>
+         <hash>76450d06e7c8e519e295fb523597f8397cd1d45908db3072dd08aad9e4746cca</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
@@ -24040,6 +25849,434 @@
       <entry>
          <file>..\src\config\default\interrupts_a.S</file>
          <hash>df442e2de8ca572bff6a90df74b39c29304e2834465e39a7bca7a79415a9f627</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_basic.c</file>
+         <hash>1a92ff1eff9b46d2c39c15076b2e1b06ac09b8a389fdcf3ee37dea4a0200f889</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_basic.h</file>
+         <hash>ff6901a433feee6d2261935cce4ffe8d13b9c9b8fd3ee1a30332e4e71a0ad78e</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_cfgs.c</file>
+         <hash>aa67b93096a3d786c10d0b661ccecef3b06029e667a76d3667841edd065231f8</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_cfgs.h</file>
+         <hash>6e482117c2728541f4bf9787897ae27d6a1f1860d6d184e7d85a4470e94da3e9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_compiler.h</file>
+         <hash>4346c86166047df26ccbf927ce5b35af952080c5b946c10e299db482aa211688</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_config.h</file>
+         <hash>7f3f4a1e6b85f17b6a605c9877a32616de828010dd0023a52c744dc632f19289</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_config_check.h</file>
+         <hash>b82a2a52cb4a47a4c8a44322f15c80a7cf79a200afa19bfe6a0be0a428c7af51</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_debug.c</file>
+         <hash>788a7ba71258e981a0e210330efdc9d217b02edbc0506838f84e2f4e6ae0c3a9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_debug.h</file>
+         <hash>23a0ce23d39560842fce8c7ee682597744df8876c17707c9fecffa74e05089de</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_device.c</file>
+         <hash>3467cb514aad358ce725d11982e0076f1e5be8e6ba23f6c69cec338c7f2408e8</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_device.h</file>
+         <hash>73e94fcba9d7070eb4ed7f4ea098756a5a2142ba2fffd79c9244abc793346756</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_devtypes.h</file>
+         <hash>c72f47144b006c73bdef6bdc751415fac1f44b60ee2b7506400446f6b5256edc</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_helpers.c</file>
+         <hash>ab593ee83c2b0f823a8c2df3bd54d1e767fcedc2b40a34479a0dd0e48cec5a33</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_helpers.h</file>
+         <hash>314c02699202976b697bb060a3a32d97509462c008f627ffa1d3f28966a0a6d9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_iface.c</file>
+         <hash>518cab2fca5269e69323a9e9556307e22dee84f4cc2f971ebc0912dcbce2ff4a</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_iface.h</file>
+         <hash>471b8623e8aa0facd05ab5679fa93d7deaaa4104bf7b59f4fee6c15c8f75da54</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_platform.h</file>
+         <hash>740a07d8ee7edc6eda180474bc9d60b3a4fb11afbdddfd9ebfa26cb64278989d</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_status.h</file>
+         <hash>63c9129875c2a148883cf9bba5ee6766cc40b585cb7eff8b3ec7503a5355f5eb</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atca_version.h</file>
+         <hash>3384870cca5d0db10a29854f0996cc21bf9572155f2e2086719c124f101b5420</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert.h</file>
+         <hash>f5cf03eb1dc1a2a2bb2e554407ec4efd7242421e812d0f92a046af40cda1b57e</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_check_config.h</file>
+         <hash>89a71685fc9a2165d5e3c1a4804751b89422cdba2d1b96a33d02e4694af114e8</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_client.c</file>
+         <hash>15ce9d6c7d2fa254c63c27698bfe32c9c7c3b65163f5fb26c175b1f40abf9c55</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_client.h</file>
+         <hash>bd9d25ce5f05393fc56856b6158dab6cf21b2a42e7c21f237fd8e52957ac924b</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_date.c</file>
+         <hash>e88a3c78148277d04fd311ff1baea5185750fd1411e96f854901552d1961472f</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_date.h</file>
+         <hash>cc436d378bfd748eac356448e78ced8a5fbe1d669eb15d29ff1b58e3bc75ecb8</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_def.c</file>
+         <hash>071c3960e553bdf718deb9c1df78e778bb03c098c3813bf3f59e6525fe677dfa</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_def.h</file>
+         <hash>10fe1bdb3efc61029f7e81a1fba393a3bd34e27c045ef7671c2ca9c7aaafb2d6</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_der.c</file>
+         <hash>2ccb7a4014ff2f25d70ddabae89d4b459eef9cd43c946366efc70f69f11b18ae</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_der.h</file>
+         <hash>26e739d4476582bdb13e10f2c540e2412d834c4c719970b9027cf4fa97ba6bf0</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_host_hw.c</file>
+         <hash>c9896a8b0ea6f8dca4435c9c16c4253da6f6e356a4ebe3d213ddc5a3b2601c22</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_host_hw.h</file>
+         <hash>2ed95e40df007df994226cae1d7e6a727e639d741c78d5d9b3d456d619abce5b</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_host_sw.c</file>
+         <hash>2af2032de201a8353b065305972470826afdbba2ab031ac19fd9911d223f3c6d</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_host_sw.h</file>
+         <hash>9e6e3c7b9551150f19578e379d2b2b201473755832de60fdc22f42844a163e24</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_pem.c</file>
+         <hash>5113ca75a23201f70b544f6acbea15f7c0f4cbf8c317709c5f80a63b25087f12</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\atcacert\atcacert_pem.h</file>
+         <hash>2625b1781e9b4c164c9b3a71263e5af64650dc8a55d8cf5acd2f63829ec4fbaf</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\cal_buffer.c</file>
+         <hash>a8d7d1a9a19e36e0cd59aecab2dcd646eae8a625674dc2f2d57d3c59c3ee8a2f</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\cal_buffer.h</file>
+         <hash>0ab87218a08f533b6c553af3db3c10a6d59ab59a30247b3f9025211235bada4c</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\cal_internal.h</file>
+         <hash>b50da1827d6ab6714ed881b0aeebe4cd876550f7d204b01c9041d6d9fe034199</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_aes.c</file>
+         <hash>02a7372d0b550c4b869cf6048bc599ed8126b83794cbef5549a68c235d2983ee</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_aes_gcm.c</file>
+         <hash>706a00b92012c1c413290cc617728663ea5d1b9d22014236aa54f5f3990fdd5f</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_aes_gcm.h</file>
+         <hash>066b41d4729ef3f29f7c67aab9a28d83c75339f1933c0fa6acc5ef8a47793bdf</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_basic.c</file>
+         <hash>8b524220c4ef6237a01b6e63724681feef12120810f53f6937c8f789312319cb</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_basic.h</file>
+         <hash>c4035d754031a081c7b709492a471508ad042cf6672516e9d8a036855d7b13f6</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_checkmac.c</file>
+         <hash>607d17dc5723845980e3339d5ccee110adcbfe2654623bee5723b886b830c55b</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_command.c</file>
+         <hash>2e14bba208958cce14118a453e26eb0de8261e3da7d11970c941029800c2b4c5</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_command.h</file>
+         <hash>090c87c4b325017908ee36293b9583d56a7f3133dd765252151b7c3f898a8716</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_config_check.h</file>
+         <hash>c2aa3b21004ef03e03282c0e8e258de003f225666318668dcfb6edaba1135caa</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_counter.c</file>
+         <hash>34af419572057537cdd6f459089781111f7dccb1448f2c7fc3b6ec746019cf30</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_delete.c</file>
+         <hash>0dc3219dcb6201a1829c9ec8aa111c7a4204279fccb9477780153535713e961e</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_derivekey.c</file>
+         <hash>12429e7a4fa915494ee85bc72cc35436b67c19bb0bff5c5472badf2c637da209</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_device.h</file>
+         <hash>69c13dbeac141a1def1f0305ca3c44a2d2389b58c359ef256ba70e0371d9764f</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_ecdh.c</file>
+         <hash>3ef13296c3c6c243cfd60255a24bcc8b97d9e47f839e36bdadc14603b9fdbb8e</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_execution.c</file>
+         <hash>24c26e1d8e06ae522124a56fa3fb55b66c27394badb11a7feb2aeaad2059310d</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_execution.h</file>
+         <hash>2f50196f281b4fa3093bd665da8b07878ca6b3111c4b947b9e5d8ac29c2d5394</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_gendig.c</file>
+         <hash>851f30ff84e747fede62497aa69a10ebcd4afeda866d1368a81056ecfcf19d11</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_genkey.c</file>
+         <hash>952adb9ec597e9dea8bc457fdecfd4862cbf51b682e671b12aace57b3f36c774</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_helpers.c</file>
+         <hash>9aedd57b43aa746057ae4d1ed8443bbdc84bc62411fe93da6986c39376b099be</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_hmac.c</file>
+         <hash>5f3c5a7b1a97e5feb066e6f410a80070f8387c7a8637650403ae9749e43adae4</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_info.c</file>
+         <hash>9742bd5cf0681ba90c6426d6ac365c09aa66a437074e92b53735be5525ade7b4</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_kdf.c</file>
+         <hash>c822afac61c51f480b9241ad83a8a64adb5e6f291a70b74334cd71702995f3b6</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_lock.c</file>
+         <hash>8d99d9b2a31c098c706f4b7c9237e383775e2c6bb384b0873d2d7e14d4d3d0f5</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_mac.c</file>
+         <hash>e8990ef743bdad3436f6a0616737f70132ab1c72ecca4128c91a9f2b03a83ec1</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_nonce.c</file>
+         <hash>9ab6b6eca10558774c558e2926fd9f9f276fe1f9498aa725bfdfd5b60c3178d2</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_privwrite.c</file>
+         <hash>aa1ce3ae3cd1c04abe9d0def8ac4c21ee650e7fdce5fa4b139221f2a492018dc</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_random.c</file>
+         <hash>559c47923c28bb044ab1dd605bb17593e974991e663c40e4a67a13e73a87fe90</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_read.c</file>
+         <hash>9e8b896fc7c785c1ac2be72027618505345451eec27885cff22cbaea50d56350</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_secureboot.c</file>
+         <hash>6d81904adea14009ea38dd6f57828f2071c19d2b370f115a8e07a175ad1ed6aa</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_selftest.c</file>
+         <hash>eb5f8759f66aac13455e1f782ed1985c65c0a324e7c68b22f48305f7c0637a6f</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_sha.c</file>
+         <hash>e8a51f77b75d3bb947a9afe155bac628dc9ee566320696573e80ee985889549c</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_sign.c</file>
+         <hash>874998f5bb37fbdbabd6f31e79cd06dede315fbd6f72173d66669782bd8f313b</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_updateextra.c</file>
+         <hash>aa978213bb4eb62d16095a9972e45ce920062ce620ed7ad6a5a67e1613fa2513</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_verify.c</file>
+         <hash>6ae37e65533d5426e1c1b7808ec088a9c0de02eec2129788d8bf34b1ea021cf2</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\calib\calib_write.c</file>
+         <hash>95ccc3f2df0281170a4e5bdb7f757114e73ddc71cf6b2a149588d2788a5682df</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes.h</file>
+         <hash>d1ea30731a8f2161675d6a30177130315ae42313e3c902b806c0ccefdc961945</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes_cbc.c</file>
+         <hash>54fb1f0d1306ea7709cfd632042836915ab413bb981e86574831e98b943f1297</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes_cbcmac.c</file>
+         <hash>e055a8b98b6cacdb0be0b95124f1f23d78d763e26e5cca0bf3c3e0e0b8e609c9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes_ccm.c</file>
+         <hash>d67489c8547af8805afa7c7e646e885dafe730665ae003456c386e1517c3161c</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes_cmac.c</file>
+         <hash>7267bae25bea2d70766a3229c1f8a8af56f6aaa18d02311fddf6d4d3cb1e3ce7</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_hw_aes_ctr.c</file>
+         <hash>6073958d9cc6a66b1ccc4419f957b4adb05dabc97da417a11ac4260cb43e0555</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_pad.c</file>
+         <hash>8c59e1290964ecc5f7292f25ec4e6317cb5a5a33fecd27003847044420aaadba</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_pbkdf2.c</file>
+         <hash>5b6a0d4832ab2acec4f6cba4eccf23e7e9f59a8a553461cca07312a7903951e2</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw.h</file>
+         <hash>ed27dd8752af42d44fad89d6569310f83d691a4e6d6d466dc3f2151b1d9e0666</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw_aes_gcm.c</file>
+         <hash>af7b8ba98b76953a7b4fcce58fe468b0a217cf9171789ff27064523a57a3dcf6</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw_sha1.c</file>
+         <hash>a0fb3c3a643db8a78545f18adf5a3f487b4aa34b6cee11c523a13ef29dc949c6</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw_sha1.h</file>
+         <hash>d0b9a078037ad20658119910aaa7a0ec7a62acf6a5cced01032dbf61addccd32</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw_sha2.c</file>
+         <hash>ef3519ea28d0f9fd38a8b65c416142eaa907c66a8207949fce4ef9754ffd8249</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\atca_crypto_sw_sha2.h</file>
+         <hash>b8bb61680d10039c297e78c744140aacad6d16426afaa28afdc358be1f80b4ab</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\crypto_hw_config_check.h</file>
+         <hash>c69135e7fb7e5bb58a4798c3924ebed32203d00dc9a79e2302f3fae69e629a55</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\crypto_sw_config_check.h</file>
+         <hash>bd030be2e3878eaf2d9a3d77ac0c91d3571497636a3e8abd8a7be66189396198</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\hashes\sha1_routines.c</file>
+         <hash>9fb6e15e153c065be65424ae442a65ce73f750ef4772e4e9412a27bbf43f1a44</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\hashes\sha1_routines.h</file>
+         <hash>137021bbf1f5524ec603c82c83b918ad9a7f64cd6fb933477b7cbd2949554557</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\hashes\sha2_routines.c</file>
+         <hash>7c461e3e7df5ca30ccce35c454468bd8199a8e7c98ea8971bcb83bceed866037</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\crypto\hashes\sha2_routines.h</file>
+         <hash>8c318d84c680536e86cfde387928b7aaa72752aebf4acdc38d15852b14102b29</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\cryptoauthlib.h</file>
+         <hash>6c0aca11800cc3cdb3472211fcdd4ac627704c6f0a02de61b9c84377c29f7983</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\ATECC608_0.c</file>
+         <hash>b9718d7f9108b5f515863ec2b4ef792e44b11532d23ee58a4aa77a9868b89a74</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\atca_hal.c</file>
+         <hash>9de02ed95ca952961c642de0ccd6a315ebc7d1523170572aa8e5ef54b99c2ac1</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\atca_hal.h</file>
+         <hash>fe3f324c93367275ef79631b179cf97ad4553eb52661911086100ac1bb91ba13</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\hal_freertos.c</file>
+         <hash>7a324d3f1232277cdef9d9a5a6417fb638e303289a584b6403f47eac265f1572</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\hal_gpio_harmony.c</file>
+         <hash>dacfd82faee7bec695459f8364b6ec65e7a7caf5e046a3f6c973975878430c0e</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\hal_harmony_init.c</file>
+         <hash>8e87a6567ae81509580ccf69e84b24d20dd98adc17dabf91253308343d657c06</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\hal_i2c_harmony.c</file>
+         <hash>336f1d18acf1462af638d06b1aa8056f2f2c52e68b81c3888f8b2d395d28fdaf</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\hal\hal_pic32_delay.c</file>
+         <hash>000f74e66167a47ee55a94574118419f649e5b8650c290edfabb95ef1d48f51d</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\host\atca_host.c</file>
+         <hash>6d52c94ed9f68f981424935eb7b1af05407fb836774190a2e9d3528e98312bbd</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\host\atca_host.h</file>
+         <hash>cbfa30747eda40a5129ddf6fbf8d981c8b31b0a9c92d2ab613b9b4132175bb24</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\host\atca_host_config_check.h</file>
+         <hash>50ad9946874fb50f12d9292978d19004928dd253d8a236f8275999122e92fcf3</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\jwt\atca_jwt.c</file>
+         <hash>71d6317e18eab3b9141b4bdfb757a75ece0f248af5fdd8272ddbe332efbe76f9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\library\cryptoauthlib\jwt\atca_jwt.h</file>
+         <hash>ad9eda3bb34f8541abf291e320e2c6e715c2456b7ec1cc0895565f150a278234</hash>
       </entry>
       <entry>
          <file>..\src\config\default\osal\osal.h</file>

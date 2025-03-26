@@ -12,4 +12,15 @@
     <LocalDebuggerWorkingDirectory>.\x64\Debug</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommand>C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>C:\Users\C21415\work\ECC\zy026.lp\CPI_ECC_TF\CPI_ECC_TF.sln</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommand>C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>C:\Users\C21415\work\ECC\zy026.lp\CPI_ECC_TF\CPI_ECC_TF.sln</LocalDebuggerCommandArguments>
+  </PropertyGroup>
 </Project>

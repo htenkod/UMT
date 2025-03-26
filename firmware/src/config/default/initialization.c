@@ -46,7 +46,7 @@
 #include "configuration.h"
 #include "definitions.h"
 #include "device.h"
-
+#include "library/cryptoauthlib/cryptoauthlib.h"
 
 // ****************************************************************************
 // ****************************************************************************
@@ -455,6 +455,9 @@ void SYS_Initialize ( void* data )
     /*** File System Service Initialization Code ***/
     (void) SYS_FS_Initialize( (const void *) sysFSInit );
 
+    extern ATCAIfaceCfg atecc608_0_init_data;
+    
+    atcab_init(&atecc608_0_init_data);
 
     /* MISRAC 2012 deviation block end */
     COMMANDS_Initialize();

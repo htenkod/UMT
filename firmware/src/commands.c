@@ -27,7 +27,7 @@
 // *****************************************************************************
 // *****************************************************************************
 #include "config/default/definitions.h"
-
+#include "library/cryptoauthlib/cryptoauthlib.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -1161,6 +1161,64 @@ void cmdTapTmodRd(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
 
 }
 
+void cmdEccFunctions(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char **argv)
+{
+    const void* cmdIoParam = pCmdIO->cmdIoParam;
+        
+    //requires both pin# and value
+    if(argc != 3)
+    {
+        (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM "Usage:- ecccmd <cmdType> <args>");
+        return;
+    }
+    
+    uint32_t cmdType = atoi(argv[1]);
+    
+    switch(cmdType)
+    {
+        case 1:
+        {
+        	/*Initialize the ECC */
+			/* Loop through and get the right addres */
+            uint8_t serialNumber[10];
+		    extern ATCAIfaceCfg atecc608_0_init_data;
+            for(uint8_t i = 0x60; i < 128; i++)
+            {
+                
+                ifacecfg_set_address(&atecc608_0_init_data, i<<1, 0);
+                                                
+                ATCA_STATUS ret = atcab_read_serial_number(serialNumber);
+                        
+                SYS_CONSOLE_PRINT("Address = 0x%X %d\r\n", i<<1, ret);
+                        
+                
+                if(ret == 0)
+                {
+	                serialNumber[10] = '\0';
+                    if(atcab_read_serial_number(serialNumber) == 0)
+                    SYS_CONSOLE_PRINT("ECC Device Address = 0x%X %s\r\n", i<<1, serialNumber);
+                    break;
+                }
+            }
+        }
+        break;
+        
+        case 2:
+        {
+//            atca_execute_command();
+        }
+        break;
+            
+            
+        
+        default:
+            break;
+    }
+    
+    
+    (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM DONE);         
+}
+
 static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
 {
     /* GPIO Commands */
@@ -1190,6 +1248,9 @@ static const SYS_CMD_DESCRIPTOR    moduleCmdsTbl[]=
     {"taperase",   cmdTapErase,   ": Triggers device flash erase\r\nExample:- taperase <idx>\r\n"},   
     {"taptmodwr",   cmdTapTmodWr,   ": Write to a given address in TMOD\r\nExample:- taptmodwr <idx> <addr> <val>\r\n"},   
     {"taptmodrd",   cmdTapTmodRd,   ": Read from a given address in TMOD\r\nExample:- taptmodrd <idx> <addr>\r\n"},   
+    
+    /* ECC Commands */
+    {"ecccmd",   cmdEccFunctions,   ": Issue ECC commands ecccmd <cmdType> <args>\r\n"},   
     
     
 };
