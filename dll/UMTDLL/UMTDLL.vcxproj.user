@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>C:\Program Files\Microsoft Office\root\Office16\excel.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>C:\Repos\GateWay\UMT_API_Debugger.xlsm</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>C:\Repos\TProt\UMT_API_Debugger.xlsm</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>.\x64\Debug</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>

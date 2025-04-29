@@ -1092,7 +1092,7 @@ static void ParseCmdBuffer(SYS_CMD_IO_DCPT* pCmdIO)
         }
 
         // command not found
-        (*pCmdIO->devNode.pCmdApi->msg)(cmdIoParam, " *** Command Processor: unknown command. ***\r\n");
+        (*pCmdIO->devNode.pCmdApi->msg)(cmdIoParam, " *** Command Processor: unknown command. ***<DONE!>\r\n");
     }
 }
 

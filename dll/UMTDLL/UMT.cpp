@@ -679,7 +679,7 @@ UMTDLL_DECLDIR HRESULT __stdcall __stdcall UMT_UART_Up(DEVICE_DATA_t* UMT_Handle
     
 }
 
-UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 rdBuffSz, UINT32 hex, UINT16 numOfbytes)
+UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32 idx, CHAR* rdBuff, UINT32 rdBuffSz, UINT32 hex, size_t* DataLen, UINT16 numOfbytes)
 {
     const char* cmdFmt = "uartrd %d %d\r\n";
 
@@ -691,7 +691,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
         numOfbytes = 512;
     }
 
-    sprintf_s(localBuf, 512, cmdFmt, idx, numOfbytes);
+    sprintf_s(localBuf, sizeof(localBuf), cmdFmt, idx, numOfbytes);
 
     if (!WriteToBulkEndpoint(UMT_Handle->WinusbHandle, &UMT_Handle->BulkOutPipe, (PUCHAR)&localBuf, (ULONG)strlen(localBuf), &cbSent))
         return -1;
@@ -720,7 +720,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
             return -1;
         }
 
-        size_t DataLen = static_cast<size_t>(atoi(numberstr));
+        *DataLen = static_cast<size_t>(atoi(numberstr));
 
         *positionPtr = 0;
         const char *offset = positionPtr + strlen(targetstr);
@@ -734,7 +734,14 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
         }
 
         // Calculate expected output size
-        size_t outputSize = (DataLen * 2) + 1;
+        size_t outputSize;
+        if(hex == 1) {
+            outputSize = (*DataLen * 2) + 1;
+        }
+        else {
+            outputSize = *DataLen + 1;
+        }
+
         if (rdBuffSz < outputSize) {
             strcpy_s(rdBuff, rdBuffSz, "Input buffer too small for output.");
             return -1;
@@ -749,7 +756,7 @@ UMTDLL_DECLDIR HRESULT __stdcall UMT_UART_Read(DEVICE_DATA_t* UMT_Handle, UINT32
 
         if(DataLen){
             if (hex == 1) {
-                convertHexToReadable(offset, DataLen, tmpBuf, outputSize);
+                convertHexToReadable(offset, *DataLen, tmpBuf, outputSize);
 
                 strcpy_s(rdBuff, strlen(tmpBuf) + 1, tmpBuf);
             }
